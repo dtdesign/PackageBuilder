@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="info.dtcms.pb" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/package.xsd">
+	<packageinformation>
+		<packagename languagecode="de">PackageBuilder</packagename>
+		<packagename languagecode="de-informal">PackageBuilder</packagename>
+		<packagename languagecode="en">PackageBuilder</packagename>
+		<packagedescription languagecode="de">Automatische Paketerzeugung mit Subversion-Integration</packagedescription>
+		<packagedescription languagecode="de-informal">Automatische Paketerzeugung mit Subversion-Integration</packagedescription>
+		<packagedescription languagecode="en">Automatic package-building with Subversion-integration</packagedescription>
+		<version>2.0.0 Alpha 11</version> <!-- Codename Prometheus -->
+		<isunique>0</isunique>
+		<standalone>1</standalone>
+		<date>2010-02-18</date>
+	</packageinformation>
+
+	<authorinformation>
+		<author>Alexander Ebert</author>
+		<authorurl>http://www.deltateam-cms.info</authorurl>
+	</authorinformation>
+
+	<requiredpackages>
+		<!-- basics -->
+		<requiredpackage minversion="1.1.1 pl 2">com.woltlab.wcf</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.image</requiredpackage>
+
+		<!-- page system -->
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.data.page.headerMenu</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.system.style</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.page</requiredpackage>
+
+		<!-- additional packages -->
+		<requiredpackage minversion="1.0.0 Beta 4" file="requirements/info.dtcms.svn.tar.gz">info.dtcms.svn</requiredpackage>
+	</requiredpackages>
+
+	<instructions type="install">
+		<acpmenu>acpmenu.xml</acpmenu>
+		<acptemplates>acptemplates.tar</acptemplates>
+		<files>files.tar</files>
+		<groupoptions>groupoptions.xml</groupoptions>
+		<languages languagecode="de">languages/de.xml</languages>
+		<options>options.xml</options>
+		<pagemenu>pagemenu.xml</pagemenu>
+		<sql>install.sql</sql>
+		<templates>templates.tar</templates>
+	</instructions>
+
+	<instructions type="update" fromversion="2.0.0 Alpha 5">
+		<acpmenu>acpmenu.xml</acpmenu>
+		<acptemplates>acptemplates.tar</acptemplates>
+		<files>files.tar</files>
+		<languages languagecode="de">languages/de.xml</languages>
+		<sql>update_a6.sql</sql>
+		<templates>templates.tar</templates>
+	</instructions>
+
+	<instructions type="update" fromversion="2.0.0 Alpha 6">
+		<acpmenu>acpmenu.xml</acpmenu>
+		<acptemplates>acptemplates.tar</acptemplates>
+		<files>files.tar</files>
+		<groupoptions>groupoptions.xml</groupoptions>
+		<languages languagecode="de">languages/de.xml</languages>
+		<sql>update_a6.sql</sql>
+		<templates>templates.tar</templates>
+	</instructions>
+
+	<instructions type="update" fromversion="2.0.0 Alpha 10">
+		<acpmenu>acpmenu.xml</acpmenu>
+		<acptemplates>acptemplates.tar</acptemplates>
+		<files>files.tar</files>
+		<languages languagecode="de">languages/de.xml</languages>
+		<groupoptions>groupoptions.xml</groupoptions>
+	</instructions>
+</package>

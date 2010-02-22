@@ -1,0 +1,53 @@
+@charset "UTF-8";
+/**
+ * "Yet Another Multicolumn Layout" - (X)HTML/CSS framework
+ * (en) central stylesheet
+ * (de) zentrales Stylesheet
+ *
+ * @creator       YAML Builder V1.2 (http://builder.yaml.de)
+ * @file          pb.css
+ * @-yaml-minver  3.1
+ *
+ */
+
+/* import core styles | Basis-Stylesheets einbinden */
+@import url(yaml/core/base.css);
+
+/* import screen layout | Screen-Layout einbinden */
+@import url(yaml/navigation/nav_shinybuttons.css);
+@import url(yaml/screen/basemod.css);
+@import url(yaml/screen/content.css);
+@import url(yaml/screen/content_default.css);
+@import url(yaml/screen/forms.css);
+
+/* import print layout | Druck-Layout einbinden */
+@import url(yaml/print/print_draft.css);
+
+/* source go positioning */
+td.sourceGo {
+	text-align: center;
+}
+
+td.sourceGo img {
+	border: 0;
+}
+
+/* Ability to scroll in existing archives */
+div#existingArchivesScroll {
+	max-height: 300px;
+	overflow: auto;
+}
+
+/* avoids eye cancer */
+optgroup {
+	background-color: rgb(102,102,102);
+}
+
+optgroup option {
+	background-color: rgb(255,255,255);
+}
+
+#topnav a img {
+	border: 0;
+	vertical-align: bottom;
+}

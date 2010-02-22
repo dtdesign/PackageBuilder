@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE import SYSTEM "DTD/import.dtd">
+
+<data>
+	<import>
+		<acpmenuitem name="pb.acp.menu.link.content.source">
+			<parent>wcf.acp.menu.link.content</parent>
+			<permissions>admin.source.canEditSources</permissions>
+		</acpmenuitem>
+
+		<acpmenuitem name="pb.acp.menu.link.content.source.list">
+			<icon>icon/sourceM.png</icon>
+			<link>index.php?page=SourceList</link>
+			<parent>pb.acp.menu.link.content.source</parent>
+			<permissions>admin.source.canViewSources</permissions>
+			<showorder>1</showorder>
+		</acpmenuitem>
+
+		<acpmenuitem name="pb.acp.menu.link.content.source.add">
+			<link>index.php?form=SourceAdd</link>
+			<parent>pb.acp.menu.link.content.source</parent>
+			<permissions>admin.source.canAddSources</permissions>
+			<showorder>2</showorder>
+		</acpmenuitem>
+	</import>
+</data>

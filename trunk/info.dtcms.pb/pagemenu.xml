@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE package SYSTEM "DTD/package.dtd">
+
+<data>
+	<import>
+		<pagemenuitem name="pb.header.menu.index">
+			<position>header</position>
+			<link>index.php?page=Index</link>
+			<showorder>1</showorder>
+		</pagemenuitem>
+	</import>
+</data>

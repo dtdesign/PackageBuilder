@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language languagecode="de" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
+	<category name="pb.acp">
+		<item name="pb.acp.jumpToPage"><![CDATA[PackageBuilder aufrufen]]></item>
+	</category>
+
+	<category name="pb.acp.content">
+		<item name="pb.acp.content.source.listsources"><![CDATA[Paketquellen auflisten]]></item>
+		<item name="pb.acp.content.source.add"><![CDATA[Paketquelle hinzufügen]]></item>
+		<item name="pb.acp.content.source.add.success"><![CDATA[Paketquelle erfolgreich angelegt]]></item>
+		<item name="pb.acp.content.source.edit"><![CDATA[Paketquelle bearbeiten]]></item>
+		<item name="pb.acp.content.source.edit.success"><![CDATA[Paketquelle erfolgreich bearbeitet]]></item>
+		<item name="pb.acp.content.source.data"><![CDATA[Daten]]></item>
+		<item name="pb.acp.content.source.name"><![CDATA[Bezeichnung]]></item>
+		<item name="pb.acp.content.source.name.description"><![CDATA[]]></item>
+		<item name="pb.acp.content.source.sourceDirectory"><![CDATA[Datenverzeichnis]]></item>
+		<item name="pb.acp.content.source.sourceDirectory.description"><![CDATA[Geben Sie das Zielverzeichnis an in der alle Daten gespeichert werden, temporäre Verzeichnise des Betriebssystems sind nicht zulässig.]]></item>
+		<item name="pb.acp.content.source.buildDirectory"><![CDATA[Buildverzeichnis]]></item>
+		<item name="pb.acp.content.source.buildDirectory.description"><![CDATA[Geben Sie das Zielverzeichnis an in der alle erzeugten Archive gespeichert werden. Dieses Verzeichnis sollte sich unterhalb von "{PB_DIR}" befinden, sonst sind die erzeugten Archive nicht von außen erreichbar.]]></item>
+		<item name="pb.acp.content.source.subversion"><![CDATA[Subversion]]></item>
+		<item name="pb.acp.content.source.useSubversion"><![CDATA[Subversion für diese Paketquelle aktivieren]]></item>
+		<item name="pb.acp.content.source.useSubversion.description"><![CDATA[Aktiviert die Subversion-Integration für diese Paketquelle.]]></item>
+		<item name="pb.acp.content.source.trustServerCert"><![CDATA[Serverzertifikat automatisch vertrauen]]></item>
+		<item name="pb.acp.content.source.trustServerCert.description"><![CDATA[Deaktiviert die Prüfung von SSL-Zertifikaten, dies stellt potentiell ein Sicherheitsrisiko dar. Aktivieren Sie diese Option nur, wenn Sie dem Server vertrauen.]]></item>
+		<item name="pb.acp.content.source.url"><![CDATA[Repository]]></item>
+		<item name="pb.acp.content.source.url.description"><![CDATA[Geben Sie die vollständige URL zum Subversion-Repository an: http://example.net/svn/myRepository.]]></item>
+		<item name="pb.acp.content.source.username"><![CDATA[Benutzername]]></item>
+		<item name="pb.acp.content.source.username.description"><![CDATA[Optional, wird benötigt, wenn das Repository eine Authentifizierung verlangt.]]></item>
+		<item name="pb.acp.content.source.password"><![CDATA[Kennwort]]></item>
+		<item name="pb.acp.content.source.password.description"><![CDATA[Optional, wird benötigt, wenn das Repository eine Authentifizierung verlangt.]]></item>
+		<item name="pb.acp.content.source.list"><![CDATA[Paketquellen]]></item>
+	</category>
+
+	<category name="pb.acp.index">
+		<item name="pb.acp.index.title"><![CDATA[PackageBuilder]]></item>
+		<item name="pb.acp.index.system"><![CDATA[System]]></item>
+		<item name="pb.acp.index.system.status"><![CDATA[Systemkonfiguration]]></item>
+		<item name="pb.acp.index.system.status.working"><![CDATA[Alle erforderlichen Systemkomponenten sind vorhanden.]]></item>
+		<item name="pb.acp.index.system.status.disabledFunctions"><![CDATA[Die aktuelle Systemkonfiguration verhindert den Einsatz des PackageBuilder. Unten stehende Funktionen müssen für den PackageBuilder zugänglich sein.]]></item>
+		<item name="pb.acp.index.system.status.function.filesystem"><![CDATA[Dateisystem]]></item>
+		<item name="pb.acp.index.system.status.function.filesystem.copy"><![CDATA[Kopiert erzeugte Archive, etwa im Falle von "requiredpackage" bzw. "optionalpackage".]]></item>
+		<item name="pb.acp.index.system.status.function.system"><![CDATA[Systemfunktionen]]></item>
+		<item name="pb.acp.index.system.status.function.system.escapeshellcmd"><![CDATA[Sichert Benutzereingaben ab, bevor diese an die Eingabezeile übergeben werden, wird nur für Subversion benötigt.]]></item>
+		<item name="pb.acp.index.system.status.function.system.exec"><![CDATA[Führt Befehle auf der Eingabezeile aus und wertet die Rückgabe aus, wird nur für Subversion benötigt.]]></item>
+	</category>
+
+	<category name="pb.acp.menu">
+		<item name="pb.acp.menu.link.content.source"><![CDATA[Paketquellen]]></item>
+		<item name="pb.acp.menu.link.content.source.list"><![CDATA[Paketquellen auflisten]]></item>
+		<item name="pb.acp.menu.link.content.source.add"><![CDATA[Paketquelle hinzufügen]]></item>
+	</category>
+
+	<category name="pb.build">
+		<item name="pb.build.existingArchives"><![CDATA[Bereits erzeugte Archive (<a href="index.php?action=DeleteArchive&amp;sourceID={$source.sourceID}" onclick="return confirm('Möchten Sie wirklich alle Archive löschen?')">Alle Archive löschen</a>)]]></item>
+		<item name="pb.build.filename"><![CDATA[Archivname]]></item>
+		<item name="pb.build.packageName"><![CDATA[Paketname]]></item>
+		<item name="pb.build.packageVersion"><![CDATA[Paketversion]]></item>
+		<item name="pb.build.action"><![CDATA[Aktion]]></item>
+		<item name="pb.build.action.delete"><![CDATA[Archiv entfernen]]></item>
+		<item name="pb.build.title"><![CDATA[Paketauswahl]]></item>
+		<item name="pb.build.packageSelection"><![CDATA[Paketauswahl]]></item>
+		<item name="pb.build.selectDirectories"><![CDATA[Bitte wählen Sie passende Quellverzeichnise für die unten angegebenen Pakete aus.]]></item>
+		<item name="pb.build.saveSelection"><![CDATA[Auswahl speichern]]></item>
+		<item name="pb.build.continue"><![CDATA[Es werden keine weiteren Angaben benötigt, Sie können mit der Paketerzeugung fortfahren.]]></item>
+	</category>
+
+	<category name="pb.header.menu">
+		<item name="pb.header.menu.index"><![CDATA[Paketquellen]]></item>
+	</category>
+
+	<category name="pb.header.userMenu">
+		<item name="pb.header.userMenu.acp"><![CDATA[Administration]]></item>
+	</category>
+
+	<category name="pb.global">
+		<item name="pb.global.action"><![CDATA[Aktion]]></item>
+		<item name="pb.global.copyright"><![CDATA[PackageBuilder {PACKAGE_VERSION}, entwickelt von <a href="http://www.deltateam-cms.info">Alexander Ebert IT-Dienstleistungen</a>]]></item>
+	</category>
+
+	<category name="pb.index">
+		<item name="pb.index.title"><![CDATA[Paketquellen]]></item>
+	</category>
+
+	<category name="pb.source">
+		<item name="pb.source.go"><![CDATA[Paketquelle aufrufen]]></item>
+		<item name="pb.source.view.title"><![CDATA[Quelle "{$source.name}"]]></item>
+		<item name="pb.source.name"><![CDATA[Quelle]]></item>
+		<item name="pb.source.sourceDirectory"><![CDATA[Verzeichnis]]></item>
+		<item name="pb.source.useSubversion"><![CDATA[Subversion]]></item>
+		<item name="pb.source.useSubversion.0"><![CDATA[Inaktiv]]></item>
+		<item name="pb.source.useSubversion.1"><![CDATA[Aktiv]]></item>
+		<item name="pb.source.revision"><![CDATA[Revision]]></item>
+		<item name="pb.source.revision.description"><![CDATA[¹ Aktuell geladene Revision / Verfügbare Revision]]></item>
+		<item name="pb.source.view"><![CDATA[Allgemeine Informationen]]></item>
+		<item name="pb.source.view.subversion"><![CDATA[Subversion]]></item>
+		<item name="pb.source.buildOptions"><![CDATA[Buildeinstellungen]]></item>
+		<item name="pb.source.currentDirectory"><![CDATA[Aktuell ausgewähltes Verzeichnis]]></item>
+		<item name="pb.source.changeBuildOptions"><![CDATA[Einstellungen ändern]]></item>
+		<item name="pb.source.directories"><![CDATA[Verfügbare Verzeichnise]]></item>
+		<item name="pb.source.viewSubversion"><![CDATA[Subversionprotokoll]]></item>
+		<item name="pb.source.buildPackage"><![CDATA[Paketerzeugung]]></item>
+		<item name="pb.source.buildPackage.option"><![CDATA[Eigenschaft]]></item>
+		<item name="pb.source.buildPackage.optionValue"><![CDATA[Wert]]></item>
+		<item name="pb.source.buildDirectory"><![CDATA[Buildverzeichnis]]></item>
+		<item name="pb.source.availableRevision"><![CDATA[Veraltete Revision, aktuell: {$source.availableRevision}]]></item>
+		<item name="pb.source.build"><![CDATA[Paket bauen]]></item>
+		<item name="pb.source.filename"><![CDATA[Archivname]]></item>
+		<item name="pb.source.filename.packageName"><![CDATA[Paketbezeichner.tar.gz]]></item>
+		<item name="pb.source.filename.packageName_packageVersion"><![CDATA[Paketbezeichner_Paketversion.tar.gz]]></item>
+		<item name="pb.source.rebuildPackageData"><![CDATA[Informationen über verfügbare Pakete aktualisieren]]></item>
+	</category>
+
+	<category name="pb.source.error">
+		<item name="pb.source.error.selectDirectory"><![CDATA[Bitte wählen Sie zuerst ein Quellverzeichnis aus.]]></item>
+	</category>
+
+	<category name="pb.subversion">
+		<item name="pb.subversion.checkout"><![CDATA[Auschecken]]></item>
+	</category>
+
+	<category name="wcf.acp.group">
+		<item name="wcf.acp.group.option.category.user.source"><![CDATA[Paketquellen]]></item>
+		<item name="wcf.acp.group.option.category.user.source.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.category.user.source.general"><![CDATA[Allgemein]]></item>
+		<item name="wcf.acp.group.option.category.user.source.general.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.user.source.general.canViewSources"><![CDATA[Kann die Übersicht der Paketquellen aufrufen]]></item>
+		<item name="wcf.acp.group.option.user.source.general.canViewSources.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Übersicht der Paketquellen aufrufen.]]></item>
+		<item name="wcf.acp.group.option.category.admin.source"><![CDATA[Paketquellen]]></item>
+		<item name="wcf.acp.group.option.category.admin.source.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.admin.source.canViewSources"><![CDATA[Kann die Paketquellen sehen]]></item>
+		<item name="wcf.acp.group.option.admin.source.canViewSources.description"><![CDATA[Mitglieder dieser Benutzergruppe können die Paketquellen sehen.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canAddSources"><![CDATA[Kann Paketquellen hinzufügen]]></item>
+		<item name="wcf.acp.group.option.admin.source.canAddSources.description"><![CDATA[Mitglieder dieser Benutzergruppe können Paketquellen hinzufügen.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canEditSources"><![CDATA[Kann Paketquellen bearbeiten]]></item>
+		<item name="wcf.acp.group.option.admin.source.canEditSources.description"><![CDATA[Mitglieder dieser Benutzergruppe können Paketquellen bearbeiten.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canDeleteSources"><![CDATA[Kann Paketquellen löschen]]></item>
+		<item name="wcf.acp.group.option.admin.source.canDeleteSources.description"><![CDATA[Mitglieder dieser Benutzergruppe können Paketquellen löschen.]]></item>
+	</category>
+
+	<category name="wcf.acp.option">
+		<item name="wcf.acp.option.show_style_chooser"><![CDATA[Stil-Auswahl anzeigen]]></item>
+		<item name="wcf.acp.option.show_style_chooser.description"><![CDATA[Soll im Fußteil der Seite eine Liste aller Stile zur Auswahl angezeigt werden?]]></item>
+	</category>
+</language>
