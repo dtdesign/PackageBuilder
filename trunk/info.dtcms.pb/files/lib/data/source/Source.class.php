@@ -1,18 +1,30 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/data/DatabaseObject.class.php');
+require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 
 /**
- * Represents a source database row
+ * Represents a source database row.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
  * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	info.dtcms.pb
  * @subpackage	data.source
- * @category	PackageBuilder
+ * @category 	PackageBuilder
  */
 class Source extends DatabaseObject {
+	/**
+	 * Holds all available SCM
+	 *
+	 * @var	array
+	 */
+	protected static $availableSCM = array(
+		'git',
+		'none',
+		'subversion'
+	);
+
 	/**
 	 * Creates a new Source object.
 	 *
@@ -30,7 +42,7 @@ class Source extends DatabaseObject {
 	/**
 	 * Reads source from database.
 	 *
-	 * @param	integer	$sourceID	if of a source
+	 * @param	integer	$sourceID	id of a source
 	 */
 	private function getSource($sourceID) {
 		$sql = "SELECT	*
@@ -39,6 +51,33 @@ class Source extends DatabaseObject {
 		$row = WCF::getDB()->getFirstRow($sql);
 
 		parent::__construct($row);
+	}
+
+	/**
+	 * Returns all available SCM
+	 *
+	 * @return	string	Valid SCMs
+	 */
+	public static function getAvailableSCM() {
+		return self::$availableSCM;
+	}
+
+	/**
+	 * Validates a given SCM, if it is not available or unknown will return 'none' instead
+	 *
+	 * @param	string	$scm	Source Code Management
+	 * @return	string	Valid SCM
+	 */
+	public static function validateSCM($scm) {
+		$scm = StringUtil::toLowerCase($scm);
+
+		// return lower case SCM
+		if (in_array($scm, self::$availableSCM)) {
+			return $scm;
+		}
+
+		// scm unknown, change to none
+		return 'none';
 	}
 }
 ?>
