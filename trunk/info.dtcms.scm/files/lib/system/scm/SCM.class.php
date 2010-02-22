@@ -14,10 +14,11 @@ interface SCM {
 	 * Checkout or clone a repository
 	 *
 	 * @param	string	$url		Repository url
+	 * @param	string	$directory	Target directory
 	 * @param	array	$loginDetails	Login details if repository does not allow anonymous access
 	 * @param	array	$options	Additional options
 	 */
-	public static function checkout($url, $loginDetails = array(), $options = array());
+	public static function checkout($url, $directory, $loginDetails = array(), $options = array());
 
 	/**
 	 * Returns latest repository revision identifier
