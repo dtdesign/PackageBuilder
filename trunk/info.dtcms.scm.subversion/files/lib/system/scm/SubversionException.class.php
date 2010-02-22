@@ -1,14 +1,18 @@
 <?php
 /**
- * @package		info.dtcms.svn
- * @author		Alexander Ebert
- * @copyright	2009 Alexander Ebert IT-Dienstleistungen
- * @license		GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
- * @subpackage	system.subversion
+ * Removes critical data from subversion exceptions
+ *
+ * @author	Alexander Ebert
+ * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	info.dtcms.scm.subversion
+ * @subpackage	system.scm
+ * @category 	PackageBuilder
  */
 class SubversionException extends SystemException {
 	/**
-	 * Removes data from stack trace.
+	 * Removes critical data from stack trace.
+	 *
 	 * @see Exception::getTraceAsString()
 	 */
 	public function __getTraceAsString() {
