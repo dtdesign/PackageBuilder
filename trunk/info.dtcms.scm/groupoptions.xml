@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/groupoptions.xsd">
+	<import>
+		<categories>
+			<category name="admin.system.scm">
+				<parent>admin.system</parent>
+			</category>
+		</categories>
+
+		<options>
+			<option name="admin.system.scm.canEdit">
+				<categoryname>admin.system.scm</categoryname>
+				<defaultvalue>0</defaultvalue>
+				<optiontype>boolean</optiontype>
+			</option>
+		</options>
+	</import>
+</data>
