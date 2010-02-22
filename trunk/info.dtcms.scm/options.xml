@@ -5,10 +5,6 @@
 			<category name="scm">
 				<permissions>admin.system.scm.canEdit</permissions>
 			</category>
-
-			<category name="scm.general">
-				<parent>scm</parent>
-			</category>
 		</categories>
 	</import>
 </data>
