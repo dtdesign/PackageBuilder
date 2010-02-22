@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/options.xsd">
+	<import>
+		<categories>
+			<category name="scm.subversion">
+				<parent>scm</parent>
+			</category>
+		</categories>
+		<options>
+			<option name="subversion_path">
+				<categoryname>scm.subversion</categoryname>
+				<optiontype>text</optiontype>
+				<defaultvalue></defaultvalue>
+			</option>
+
+			<option name="subversion_temporary_directory">
+				<categoryname>scm.subversion</categoryname>
+				<optiontype>text</optiontype>
+				<defaultvalue></defaultvalue>
+			</option>
+		</options>
+	</import>
+</data>
