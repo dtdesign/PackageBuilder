@@ -2,15 +2,18 @@
 // pb imports
 require_once(PB_DIR.'lib/data/source/Source.class.php');
 
+// wcf imports
+require_once(WCF_DIR.'lib/util/FileUtil.class.php');
+
 /**
- * Provides functions to edit a source
+ * Provides methods to create and edit a source.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2009 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
+ * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	info.dtcms.pb
  * @subpackage	data.source
- * @category	PackageBuilder
+ * @category 	PackageBuilder
  */
 class SourceEditor extends Source {
 	/**
@@ -26,29 +29,34 @@ class SourceEditor extends Source {
 	}
 
 	/**
-	 * Creates a new source
+	 * Creates a new source.
 	 *
 	 * @param 	string	$name			The name of the source
 	 * @param	string	$sourceDirectory	Source directory used for files
 	 * @param	string	$buildDirectory		Build directory contains all archives
-	 * @param	boolean	$useSubversion		Toggle use of subversion
+	 * @param	string	$scm			Defines used SCM, may be 'git', 'none' and 'subversion'
 	 * @param	string	$url			URL for accessing subversion
 	 * @param	string	$username		Username neccessary if subversion repository is protected
 	 * @param	string	$password		Password neccessary if subversion repository is protected
-	 * @param	integer	$revision		Currently used revision
 	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
 	 * @return 	SourceEditor
 	 */
-	public static function create($name, $sourceDirectory, $buildDirectory, $useSubversion = false, $url = null, $username = null, $password = null, $revision = 0, $trustServerCert = false) {
+	public static function create($name, $sourceDirectory, $buildDirectory, $scm, $url = '', $username = '', $password = '', $trustServerCert = false) {
+		// handle dir seperators
+		$sourceDirectory = FileUtil::unifyDirSeperator($sourceDirectory);
+		$buildDirectory = FileUtil::unifyDirSeperator($buildDirectory);
+
+		// validate SCM
+		$scm = Source::validateSCM($scm);
+
 		// save data
 		$sourceID = self::insert($name, array(
 			'sourceDirectory' => $sourceDirectory,
 			'buildDirectory' => $buildDirectory,
-			'useSubversion' => $useSubversion,
+			'scm' => $scm,
 			'url' => $url,
 			'username' => $username,
 			'password' => $password,
-			'revision' => $revision,
 			'trustServerCert' => $trustServerCert
 		));
 
@@ -98,24 +106,24 @@ class SourceEditor extends Source {
 	 * @param 	string	$name			The name of the source
 	 * @param	string	$sourceDirectory	Source directory used for files
 	 * @param	string	$buildDirectory		Build directory contains all archives
-	 * @param	boolean	$useSubversion		Toggle use of subversion
+	 * @param	string	$scm			Defines used SCM, may be 'git', 'none' and 'subversion'
 	 * @param	string	$url			URL for accessing subversion
 	 * @param	string	$username		Username neccessary if subversion repository is protected
 	 * @param	string	$password		Password neccessary if subversion repository is protected
-	 * @param	integer	$revision		Currently used revision
+	 * @param	string	$revision		Currently used revision
 	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
 	 * @return	SourceEditor
 	 */
-	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $useSubversion = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null) {
+	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $scm = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null) {
 		$fields = array();
 		if ($name !== null) $fields['name'] = $name;
 		if ($sourceDirectory !== null) $fields['sourceDirectory'] = $sourceDirectory;
 		if ($buildDirectory !== null) $fields['buildDirectory'] = $buildDirectory;
-		if ($useSubversion !== null) $fields['useSubversion'] = intval($useSubversion);
+		if ($scm !== null) $fields['scm'] = Source::validateSCM($scm);
 		if ($url !== null) $fields['url'] = $url;
 		if ($username !== null) $fields['username'] = $username;
 		if ($password !== null) $fields['password'] = $password;
-		if ($revision !== null) $fields['revision'] = intval($revision);
+		if ($revision !== null) $fields['revision'] = $revision;
 		if ($trustServerCert !== null) $fields['trustServerCert'] = intval($trustServerCert);
 
 		self::updateData($fields);
@@ -137,7 +145,7 @@ class SourceEditor extends Source {
 
 		if (!empty($updates)) {
 			$sql = "UPDATE	pb".PB_N."_sources
-				SET		".$updates."
+				SET	".$updates."
 				WHERE	sourceID = ".$this->sourceID;
 			WCF::getDB()->sendQuery($sql);
 		}
@@ -147,7 +155,23 @@ class SourceEditor extends Source {
 	 * Deletes this source.
 	 */
 	public function delete() {
+		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
+			WHERE	sourceID = ".$this->sourceID;
+		WCF::getDB()->sendQuery($sql);
+
+		// remove cached packages
+		$sql = "DELETE	FROM pb".PB_N."_sources_packages
+			WHERE	sourceID = ".$this->sourceID;
+		WCF::getDB()->sendQuery($sql);
+
+		// remove cached reference data
+		$sql = "DELETE	FROM pb".PB_N."_referenced_packages
+			WHERE	sourceID = ".$this->sourceID;
+		WCF::getDB()->sendQuery($sql);
+
+		// remove package pre-selections
+		$sql = "DELETE	FROM pb".PB_N."_selected_packages
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
 	}
