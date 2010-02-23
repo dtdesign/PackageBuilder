@@ -16,22 +16,22 @@
 <div class="mainHeadline">
 	<img src="{@RELATIVE_PB_DIR}icon/sourceListL.png" alt="" />
 	<div class="headlineContainer">
-		<h2>{lang}pb.acp.content.source.list{/lang}</h2>
+		<h2>{lang}pb.acp.source.list{/lang}</h2>
 	</div>
 </div>
 
 {if $deletedSourceID}
-	<p class="success">{lang}pb.acp.content.source.delete.success{/lang}</p>
+	<p class="success">{lang}pb.acp.source.delete.success{/lang}</p>
 {/if}
 
 {if $successfulSorting}
-	<p class="success">{lang}pb.acp.content.source.sort.success{/lang}</p>
+	<p class="success">{lang}pb.acp.source.sort.success{/lang}</p>
 {/if}
 
 {if $this->user->getPermission('admin.source.canAddSources')}
 	<div class="contentHeader">
 		<div class="largeButtons">
-			<ul><li><a href="index.php?form=SourceAdd&amp;packageID={@PACKAGE_ID}{@SID_ARG_2ND}" title="{lang}pb.acp.content.source.add{/lang}"><img src="{@RELATIVE_PB_DIR}icon/sourceAddM.png" alt="" /> <span>{lang}pb.acp.content.source.add{/lang}</span></a></li></ul>
+			<ul><li><a href="index.php?form=SourceAdd&amp;packageID={@PACKAGE_ID}{@SID_ARG_2ND}" title="{lang}pb.acp.source.add{/lang}"><img src="{@RELATIVE_PB_DIR}icon/sourceAddM.png" alt="" /> <span>{lang}pb.acp.source.add{/lang}</span></a></li></ul>
 		</div>
 	</div>
 {/if}
@@ -47,14 +47,14 @@
 						<li id="item_{@$source->sourceID}" class="deletable">
 							<div class="buttons">
 								{if $this->user->getPermission('admin.source.canEditSources')}
-									<a href="index.php?form=SourceEdit&amp;sourceID={@$source->sourceID}&amp;packageID={@PACKAGE_ID}{@SID_ARG_2ND}"><img src="{@RELATIVE_WCF_DIR}icon/editS.png" alt="" title="{lang}pb.acp.content.source.edit{/lang}" /></a>
+									<a href="index.php?form=SourceEdit&amp;sourceID={@$source->sourceID}&amp;packageID={@PACKAGE_ID}{@SID_ARG_2ND}"><img src="{@RELATIVE_WCF_DIR}icon/editS.png" alt="" title="{lang}pb.acp.source.edit{/lang}" /></a>
 								{else}
-									<img src="{@RELATIVE_WCF_DIR}icon/editDisabledS.png" alt="" title="{lang}pb.acp.content.source.edit{/lang}" />
+									<img src="{@RELATIVE_WCF_DIR}icon/editDisabledS.png" alt="" title="{lang}pb.acp.source.edit{/lang}" />
 								{/if}
 								{if $this->user->getPermission('admin.source.canDeleteSources')}
-									<a href="index.php?action=SourceDelete&amp;sourceID={@$source->sourceID}&amp;packageID={@PACKAGE_ID}{@SID_ARG_2ND}" title="{lang}pb.acp.content.source.delete{/lang}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="" longdesc="{lang}pb.acp.content.source.delete.sure{/lang}"  /></a>
+									<a href="index.php?action=SourceDelete&amp;sourceID={@$source->sourceID}&amp;packageID={@PACKAGE_ID}{@SID_ARG_2ND}" title="{lang}pb.acp.source.delete{/lang}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="" longdesc="{lang}pb.acp.source.delete.sure{/lang}"  /></a>
 								{else}
-									<img src="{@RELATIVE_WCF_DIR}icon/deleteDisabledS.png" alt="" title="{lang}pb.acp.content.source.delete{/lang}" />
+									<img src="{@RELATIVE_WCF_DIR}icon/deleteDisabledS.png" alt="" title="{lang}pb.acp.source.delete{/lang}" />
 								{/if}
 							</div>
 
@@ -87,7 +87,7 @@
 {else}
 	<div class="border content">
 		<div class="container-1">
-			<p>{lang}pb.acp.content.source.count.noEntries{/lang}</p>
+			<p>{lang}pb.acp.source.count.noEntries{/lang}</p>
 		</div>
 	</div>
 {/if}
