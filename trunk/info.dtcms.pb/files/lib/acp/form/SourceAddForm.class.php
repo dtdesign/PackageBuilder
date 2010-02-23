@@ -26,7 +26,7 @@ class SourceAddForm extends ACPForm {
 	public $name = '';
 	public $sourceDirectory = '';
 	public $buildDirectory = '';
-	public $useSubversion = 0;
+	public $scm = '';
 	public $url = '';
 	public $username = '';
 	public $password = '';
@@ -41,6 +41,7 @@ class SourceAddForm extends ACPForm {
 		if (isset($_POST['name'])) $this->name = StringUtil::trim($_POST['name']);
 		if (isset($_POST['sourceDirectory'])) $this->sourceDirectory = StringUtil::trim($_POST['sourceDirectory']);
 		if (isset($_POST['buildDirectory'])) $this->buildDirectory = StringUtil::trim($_POST['buildDirectory']);
+		if (isset($_POST['scm'])) $this->scm = StringUtil::trim($_POST['scm']);
 		if (isset($_POST['useSubversion'])) $this->useSubversion = intval($_POST['useSubversion']);
 		if (isset($_POST['url'])) $this->url = StringUtil::trim($_POST['url']);
 		if (isset($_POST['username'])) $this->username = StringUtil::trim($_POST['username']);
@@ -58,19 +59,21 @@ class SourceAddForm extends ACPForm {
 		if (empty($this->sourceDirectory)) throw new UserInputException('sourceDirectory');
 		if (empty($this->buildDirectory)) throw new UserInputException('buildDirectory');
 
-		// validate subversion
-		$this->validateSubversion();
+		// validate SCM
+		$this->validateSCM();
 	}
 
 	/**
-	 * Resets subversion-related input fields if subversion is disabled
+	 * Validates SCM and resets input fields if unused
 	 */
-	protected function validateSubversion() {
-		if ($this->useSubversion) return;
+	protected function validateSCM() {
+		$this->scm = Source::validateSCM($this->scm);
 
-		// reset input if subversion was disabled
-		$this->username = $this->password = '';
-		$this->trustServerCert = 0;
+		// reset input if no SCm is active
+		if ($this->scm == 'none') {
+			$this->username = $this->password = '';
+			$this->trustServerCert = 0;
+		}
 	}
 
 	/**
@@ -79,23 +82,14 @@ class SourceAddForm extends ACPForm {
 	public function assignVariables() {
 		parent::assignVariables();
 
-		if (empty($this->sourceDirectory)) {
-			$this->sourceDirectory = PB_DIR.'repository/';
-			$this->sourceDirectory = $this->sourceDirectory.sha1($this->sourceDirectory.':'.time());
-			$this->sourceDirectory = FileUtil::unifyDirSeperator($this->sourceDirectory);
-		}
-
-		if (empty($this->buildDirectory)) {
-			$this->buildDirectory = PB_DIR.'build/';
-			$this->buildDirectory = $this->buildDirectory.sha1($this->buildDirectory.':'.time());
-			$this->buildDirectory = FileUtil::unifyDirSeperator($this->buildDirectory);
-		}
+		if (empty($this->sourceDirectory)) $this->sourceDirectory = Source::getRandomDirectory('repository');
+		if (empty($this->buildDirectory)) $this->buildDirectory = Source::getRandomDirectory('build');
 
 		WCF::getTPL()->assign(array(
 			'name' => $this->name,
 			'sourceDirectory' => $this->sourceDirectory,
 			'buildDirectory' => $this->buildDirectory,
-			'useSubversion' => $this->useSubversion,
+			'scm' => $this->scm,
 			'url' => $this->url,
 			'username' => $this->username,
 			'trustServerCert' => $this->trustServerCert
@@ -108,6 +102,7 @@ class SourceAddForm extends ACPForm {
 	public function save() {
 		parent::save();
 
+		// append trailing slashes
 		if (substr($this->sourceDirectory, -1) != '/') {
 			$this->sourceDirectory .= '/';
 		}
@@ -119,11 +114,17 @@ class SourceAddForm extends ACPForm {
 		$this->sourceDirectory = FileUtil::unifyDirSeperator($this->sourceDirectory);
 		$this->buildDirectory = FileUtil::unifyDirSeperator($this->buildDirectory);
 
-		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->useSubversion, $this->url, $this->username, $this->password, $this->trustServerCert);
+		// create source
+		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert);
+
+		// call saved event
 		$this->saved();
 
-		$this->name = $this->sourceDirectory = $this->buildDirectory = $this->url = $this->username = $this->password = '';
-		$this->useSubversion = $this->trustServerCert = 0;
+		// reset values
+		$this->sourceDirectory = Source::getRandomDirectory('repository');
+		$this->buildDirectory = Source::getRandomDirectory('build');
+		$this->name = $this->scm = $this->url = $this->username = $this->password = '';
+		$this->trustServerCert = 0;
 
 		WCF::getTPL()->assign('success', true);
 	}
