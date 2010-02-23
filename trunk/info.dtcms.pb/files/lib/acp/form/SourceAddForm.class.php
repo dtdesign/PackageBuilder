@@ -26,7 +26,7 @@ class SourceAddForm extends ACPForm {
 	public $name = '';
 	public $sourceDirectory = '';
 	public $buildDirectory = '';
-	public $scm = '';
+	public $scm = 'none';
 	public $url = '';
 	public $username = '';
 	public $password = '';
