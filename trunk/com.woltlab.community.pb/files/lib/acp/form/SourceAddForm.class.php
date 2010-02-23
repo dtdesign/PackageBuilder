@@ -7,14 +7,14 @@ require_once(WCF_DIR.'lib/acp/form/ACPForm.class.php');
 require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 
 /**
- * A form to create new sources
+ * A form to create new sources.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
  * @subpackage	acp.form
- * @category	PackageBuilder
+ * @category 	PackageBuilder
  */
 class SourceAddForm extends ACPForm {
 	public $neededPermissions ='admin.source.canAddSources';

@@ -3,14 +3,14 @@
 require_once(WCF_DIR.'lib/system/event/EventListener.class.php');
 
 /**
- * Provides css style information for UserLoginForm
+ * Provides css style information for UserLoginForm.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2010 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
- * @subpackage	lib.system.event.listener
- * @category	PackageBuilder
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	event.listener
+ * @category 	PackageBuilder
  */
 class UserLoginFormListener implements EventListener {
 	/**

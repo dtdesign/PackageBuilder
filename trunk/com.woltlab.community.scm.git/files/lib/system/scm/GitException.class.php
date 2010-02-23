@@ -3,9 +3,9 @@
  * Removes critical data from git exceptions
  *
  * @author	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
+ * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @package	info.dtcms.scm.git
+ * @package	com.woltlab.community.scm.git
  * @subpackage	system.git
  * @category 	PackageBuilder
  */

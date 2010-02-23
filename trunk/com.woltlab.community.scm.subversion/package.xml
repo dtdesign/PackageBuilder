@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package name="info.dtcms.scm.subversion" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/package.xsd">
+<package name="com.woltlab.community.scm.subversion" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/package.xsd">
 	<packageinformation>
 		<packagename language="de"><![CDATA[Subversion]]></packagename>
 		<packagename language="de-informal"><![CDATA[Subversion]]></packagename>
@@ -11,17 +11,13 @@
 		<isunique>1</isunique>
 		<standalone>0</standalone>
 		<date>2010-02-22</date>
-		<plugin>info.dtcms.scm</plugin>
+		<plugin>com.woltlab.community.scm</plugin>
 	</packageinformation>
 
 	<authorinformation>
-		<author><![CDATA[Alexander Ebert]]></author>
-		<authorurl><![CDATA[http://www.deltateam-cms.info]]></authorurl>
+		<author><![CDATA[WoltLab Community]]></author>
+		<authorurl><![CDATA[http://community.woltlab.com]]></authorurl>
 	</authorinformation>
-
-	<excludepackages>
-		<excludepackage>info.dtcms.svn</excludepackage> <!-- no longer compatible -->
-	</excludepackages>
 
 	<instructions type="install">
 		<files>files.tar</files>

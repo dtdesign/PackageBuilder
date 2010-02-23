@@ -8,9 +8,9 @@ require_once(WCF_DIR.'lib/util/FileUtil.class.php');
  * Provides subversion access
  *
  * @author	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
+ * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @package	info.dtcms.scm.subversion
+ * @package	com.woltlab.community.scm.subversion
  * @subpackage	system.scm
  * @category 	PackageBuilder
  */

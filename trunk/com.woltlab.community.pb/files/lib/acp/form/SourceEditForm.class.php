@@ -5,12 +5,12 @@ require_once(PB_DIR.'lib/acp/form/SourceAddForm.class.php');
 /**
  * A form to edit sources.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
  * @subpackage	acp.form
- * @category	PackageBuilder
+ * @category 	PackageBuilder
  */
 class SourceEditForm extends SourceAddForm {
 	public $neededPermissions ='admin.source.canEditSources';

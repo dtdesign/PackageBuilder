@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package name="info.dtcms.pb" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/package.xsd">
+<package name="com.woltlab.community.pb" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/package.xsd">
 	<packageinformation>
 		<packagename languagecode="de"><![CDATA[PackageBuilder]]></packagename>
 		<packagename languagecode="de-informal"><![CDATA[PackageBuilder]]></packagename>
@@ -14,8 +14,8 @@
 	</packageinformation>
 
 	<authorinformation>
-		<author><![CDATA[Alexander Ebert]]></author>
-		<authorurl><![CDATA[http://www.deltateam-cms.info]]></authorurl>
+		<author><![CDATA[WoltLab Community]]></author>
+		<authorurl><![CDATA[http://community.woltlab.com]]></authorurl>
 	</authorinformation>
 
 	<requiredpackages>
@@ -29,10 +29,14 @@
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.page</requiredpackage>
 
 		<!-- additional packages -->
-		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/info.dtcms.scm.tar.gz">info.dtcms.scm</requiredpackage>
-		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/info.dtcms.scm.git.tar.gz">info.dtcms.scm.git</requiredpackage>
-		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/info.dtcms.scm.subversion.tar.gz">info.dtcms.scm.subversion</requiredpackage>
+		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.tar.gz">com.woltlab.community.scm</requiredpackage>
+		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.git.tar.gz">com.woltlab.community.scm.git</requiredpackage>
+		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.subversion.tar.gz">com.woltlab.community.scm.subversion</requiredpackage>
 	</requiredpackages>
+
+	<excludepackages>
+		<excludepackage>info.dtcms.svn</excludepackage> <!-- no longer compatible -->
+	</excludepackages>
 
 	<instructions type="install">
 		<acpmenu>acpmenu.xml</acpmenu>

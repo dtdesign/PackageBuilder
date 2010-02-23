@@ -3,9 +3,9 @@
  * General API for source code management
  *
  * @author	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
+ * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @package	info.dtcms.scm
+ * @package	com.woltlab.community.scm
  * @subpackage	system.scm
  * @category 	PackageBuilder
  */

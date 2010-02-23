@@ -3,14 +3,14 @@
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 
 /**
- * Basic statistics and information about PackageBuilder.
+ * Basic statistics and information about this installation of PackageBuilder.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2009 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
  * @subpackage	lib.acp.page
- * @category	PackageBuilder
+ * @category 	PackageBuilder
  */
 class IndexPage extends AbstractPage {
 	/**

@@ -3,14 +3,14 @@
 require_once(WCF_DIR.'lib/system/cache/CacheBuilder.class.php');
 
 /**
- * Caches packages within a specific source
+ * Caches packages within a specific source.
  *
  * @author	Alexander Ebert
- * @copyright	2009 Alexander Ebert IT-Dienstleistungen
+ * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @package	info.dtcms.pb
- * @subpackage	system.cache
- * @category	PackageBuilder
+ * @package	com.woltlab.community.pb
+ * @subpackage	cache
+ * @category 	PackageBuilder
  */
 class CacheBuilderPackages implements CacheBuilder {
 	/**

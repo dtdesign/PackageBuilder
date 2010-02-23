@@ -8,14 +8,14 @@ require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
 require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 
 /**
- * Sets preferred packages for creating archives.
+ * Sets preferred packages for archive creation.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2010 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
- * @subpackage	lib.form
- * @category	PackageBuilder
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	form
+ * @category 	PackageBuilder
  */
 class PreferredPackageForm extends AbstractForm {
 	public $templateName = 'preferredPackage';

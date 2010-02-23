@@ -8,10 +8,10 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 /**
  * Shows a list of all sources.
  *
- * @author 	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
- * @license	Lesser GNU Public License
- * @package	info.dtcms.pb
+ * @author	Alexander Ebert
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
  * @subpackage	acp.page
  * @category 	PackageBuilder
  */

@@ -9,9 +9,9 @@ require_once(WCF_DIR.'lib/util/FileUtil.class.php');
  * Provides methods to create and edit a source.
  *
  * @author	Alexander Ebert
- * @copyright	2009-2010 Alexander Ebert IT-Dienstleistungen
+ * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @package	info.dtcms.pb
+ * @package	com.woltlab.community.pb
  * @subpackage	data.source
  * @category 	PackageBuilder
  */

@@ -5,7 +5,17 @@ require_once(WCF_DIR.'lib/page/util/menu/UserCPMenuContainer.class.php');
 require_once(WCF_DIR.'lib/page/util/menu/UserProfileMenuContainer.class.php');
 require_once(WCF_DIR.'lib/system/style/StyleManager.class.php');
 
-class PBCore extends WCF {	
+/**
+ * PackageBuilder Core implementation.
+ *
+ * @author	Alexander Ebert
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	system
+ * @category 	PackageBuilder
+ */
+class PBCore extends WCF {
 	protected static $pageMenuObj = null;
 	protected static $userCPMenuObj = null;
 	protected static $userProfileMenuObj = null;
@@ -13,22 +23,22 @@ class PBCore extends WCF {
 		'page' => array('Captcha', 'LegalNotice'),
 		'form' => array('UserLogin'),
 		'action' => array('UserLogout'));
-	
+
 	/**
 	 * @see WCF::initTPL()
 	 */
 	protected function initTPL() {
 		// init style to get template pack id
 		$this->initStyle();
-		
+
 		global $packageDirs;
 		require_once(WCF_DIR.'lib/system/template/StructuredTemplate.class.php');
 		self::$tplObj = new StructuredTemplate(self::getStyle()->templatePackID, self::getLanguage()->getLanguageID(), ArrayUtil::appendSuffix($packageDirs, 'templates/'));
 		$this->assignDefaultTemplateVariables();
-		
+
 		// init cronjobs
 		$this->initCronjobs();
-		
+
 		// check offline mode
 		if (OFFLINE && !self::getUser()->getPermission('user.board.canViewBoardOffline')) {
 			$showOfflineError = true;
@@ -40,30 +50,30 @@ class PBCore extends WCF {
 							break 2;
 						}
 					}
-					
+
 					break;
 				}
 			}
-			
+
 			if ($showOfflineError) {
 				self::getTPL()->display('offline');
 				exit;
 			}
 		}
-		
+
 		// user ban
 		if (self::getUser()->banned && (!isset($_REQUEST['page']) || $_REQUEST['page'] != 'LegalNotice')) {
 			throw new NamedUserException(WCF::getLanguage()->getDynamicVariable('wcf.user.banned'));
 		}
 	}
-	
+
 	/**
 	 * Initialises the cronjobs.
 	 */
 	protected function initCronjobs() {
 		self::getTPL()->assign('executeCronjobs', WCF::getCache()->get('cronjobs-'.PACKAGE_ID, 'nextExec') < TIME_NOW);
 	}
-	
+
 	/**
 	 * @see WCF::loadDefaultCacheResources()
 	 */
@@ -71,12 +81,12 @@ class PBCore extends WCF {
 		parent::loadDefaultCacheResources();
 		$this->loadDefaultPBCacheResources();
 	}
-	
+
 	/**
 	 * Loads default cache resources of burning board.
 	 * Can be called statically from other applications or plugins.
 	 */
-	public static function loadDefaultPBCacheResources() {		
+	public static function loadDefaultPBCacheResources() {
 		WCF::getCache()->addResource('cronjobs-'.PACKAGE_ID, WCF_DIR.'cache/cache.cronjobs-'.PACKAGE_ID.'.php', WCF_DIR.'lib/system/cache/CacheBuilderCronjobs.class.php');
 		WCF::getCache()->addResource('help-'.PACKAGE_ID, WCF_DIR.'cache/cache.help-'.PACKAGE_ID.'.php', WCF_DIR.'lib/system/cache/CacheBuilderHelp.class.php');
 	}
@@ -89,7 +99,7 @@ class PBCore extends WCF {
 		self::$pageMenuObj = new PageMenu();
 		if (PageMenu::getActiveMenuItem() == '') PageMenu::setActiveMenuItem('wbb.header.menu.board');
 	}
-	
+
 	/**
 	 * Initialises the user cp menu.
 	 */
@@ -97,7 +107,7 @@ class PBCore extends WCF {
 		require_once(WCF_DIR.'lib/page/util/menu/UserCPMenu.class.php');
 		self::$userCPMenuObj = UserCPMenu::getInstance();
 	}
-	
+
 	/**
 	 * Initialises the user profile menu.
 	 */
@@ -105,14 +115,14 @@ class PBCore extends WCF {
 		require_once(WCF_DIR.'lib/page/util/menu/UserProfileMenu.class.php');
 		self::$userProfileMenuObj = UserProfileMenu::getInstance();
 	}
-	
+
 	/**
 	 * @see WCF::getOptionsFilename()
 	 */
 	protected function getOptionsFilename() {
 		return PB_DIR.'options.inc.php';
 	}
-	
+
 	/**
 	 * Initialises the style system.
 	 */
@@ -120,19 +130,19 @@ class PBCore extends WCF {
 		if (isset($_GET['styleID'])) {
 			self::getSession()->setStyleID(intval($_GET['styleID']));
 		}
-		
+
 		StyleManager::changeStyle(self::getSession()->getStyleID());
 	}
-	
+
 	/**
 	 * Returns the active style object.
-	 * 
+	 *
 	 * @return	ActiveStyle
 	 */
 	public static final function getStyle() {
 		return StyleManager::getStyle();
 	}
-	
+
 	/**
 	 * @see PageMenuContainer::getPageMenu()
 	 */
@@ -140,10 +150,10 @@ class PBCore extends WCF {
 		if (self::$pageMenuObj === null) {
 			self::initPageMenu();
 		}
-		
+
 		return self::$pageMenuObj;
 	}
-	
+
 	/**
 	 * @see PageMenuContainer::getPageMenu()
 	 * @deprecated
@@ -151,7 +161,7 @@ class PBCore extends WCF {
 	public static final function getHeaderMenu() {
 		return self::getPageMenu();
 	}
-	
+
 	/**
 	 * @see UserCPMenuContainer::getUserCPMenu()
 	 */
@@ -159,10 +169,10 @@ class PBCore extends WCF {
 		if (self::$userCPMenuObj === null) {
 			self::initUserCPMenu();
 		}
-		
+
 		return self::$userCPMenuObj;
 	}
-	
+
 	/**
 	 * @see UserProfileMenuContainer::getUserProfileMenu()
 	 */
@@ -170,10 +180,10 @@ class PBCore extends WCF {
 		if (self::$userProfileMenuObj === null) {
 			self::initUserProfileMenu();
 		}
-		
+
 		return self::$userProfileMenuObj;
 	}
-	
+
 	/**
 	 * @see WCF::initSession()
 	 */
@@ -184,7 +194,7 @@ class PBCore extends WCF {
 		self::$sessionObj = $factory->get();
 		self::$userObj = self::getSession()->getUser();
 	}
-	
+
 	/**
 	 * @see	WCF::assignDefaultTemplateVariables()
 	 */

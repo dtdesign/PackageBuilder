@@ -7,14 +7,14 @@ require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 
 /**
- * Providing methods for packages
+ * Providing methods for packages.
  *
- * @package	info.dtcms.pb
  * @author	Alexander Ebert
- * @copyright	2009 Alexander Ebert IT-Dienstleistungen
- * @license	GNU Lesser Public License <http://www.gnu.org/licenses/lgpl.html>
- * @subpackage	lib.system
- * @category	PackageBuilder
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	system
+ * @category 	PackageBuilder
  */
 class PackageHelper {
 	/**
