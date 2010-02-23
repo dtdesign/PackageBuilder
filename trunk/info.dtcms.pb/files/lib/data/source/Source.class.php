@@ -1,6 +1,7 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/data/DatabaseObject.class.php');
+require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 
 /**
@@ -78,6 +79,19 @@ class Source extends DatabaseObject {
 
 		// scm unknown, change to none
 		return 'none';
+	}
+
+	/**
+	 * Returns a random directory
+	 *
+	 * @param	string	$directory	Directory to include
+	 * @return	Random directory
+	 */
+	public static function getRandomDirectory($directory) {
+		$directory = PB_DIR.$directory.'/'.StringUtil::getRandomID().'/';
+		$directory = FileUtil::unifyDirSeperator($directory);
+
+		return $directory;
 	}
 }
 ?>
