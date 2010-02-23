@@ -54,6 +54,7 @@
 	<instructions type="install">
 		<acpmenu>acpmenu.xml</acpmenu>
 		<acptemplates>acptemplates.tar</acptemplates>
+		<eventlistener>eventlistener.xml</eventlistener>
 		<files>files.tar</files>
 		<groupoptions>groupoptions.xml</groupoptions>
 		<languages languagecode="de">languages/de.xml</languages>
