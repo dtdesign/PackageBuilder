@@ -49,5 +49,15 @@ class IndexPage extends AbstractPage {
 				'sources' => $this->sources
 		));
 	}
+
+	/**
+	 * @see	Page::show()
+	 */
+	public function show() {
+		// validate general permission
+		if (!WCF::getUser()->getPermission('user.source.general.canViewSources')) throw new PermissionDeniedException();
+
+		parent::show();
+	}
 }
 ?>
