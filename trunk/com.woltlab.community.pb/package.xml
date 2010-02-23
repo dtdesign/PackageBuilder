@@ -21,12 +21,25 @@
 	<requiredpackages>
 		<!-- basics -->
 		<requiredpackage minversion="1.1.1 pl 2">com.woltlab.wcf</requiredpackage>
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.data.cronjobs</requiredpackage>
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.image</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.image.captcha</requiredpackage>
+		<requiredpackage minversion="1.0.1">com.woltlab.wcf.imageViewer</requiredpackage>
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.data.help</requiredpackage>
 
 		<!-- page system -->
 		<requiredpackage minversion="1.1.1">com.woltlab.wcf.data.page.headerMenu</requiredpackage>
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.system.style</requiredpackage>
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.page</requiredpackage>
+
+		<!-- message system -->
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.message</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.message.bbcode</requiredpackage>
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.form.message.wysiwyg</requiredpackage>
+
+		<!-- user system -->
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.form.user</requiredpackage>
+		<requiredpackage minversion="1.1.1 pl 1">com.woltlab.wcf.page.user.profile</requiredpackage>
 
 		<!-- additional packages -->
 		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.tar.gz">com.woltlab.community.scm</requiredpackage>
