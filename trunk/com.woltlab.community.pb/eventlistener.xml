@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/eventlistener.xsd">
 	<import>
+		<!-- include WCF stylesheets -->
 		<eventlistener>
 			<environment><![CDATA[user]]></environment>
 			<eventclassname><![CDATA[UserLoginForm]]></eventclassname>
@@ -8,5 +9,32 @@
 			<inherit>0</inherit>
 			<listenerclassfile><![CDATA[lib/system/event/listener/UserLoginFormListener.class.php]]></listenerclassfile>
 		</eventlistener>
+		<!-- /include WCF stylesheets -->
+
+		<!-- disable form or page -->
+		<eventlistener>
+			<environment><![CDATA[user]]></environment>
+			<eventclassname><![CDATA[MemberListPage]]></eventclassname>
+			<eventname><![CDATA[readParameters]]></eventname>
+			<inherit>0</inherit>
+			<listenerclassfile><![CDATA[lib/system/event/listener/DisabledPageListener.class.php]]></listenerclassfile>
+		</eventlistener>
+
+		<eventlistener>
+			<environment><![CDATA[user]]></environment>
+			<eventclassname><![CDATA[MemberSearch]]></eventclassname>
+			<eventname><![CDATA[readParameters]]></eventname>
+			<inherit>0</inherit>
+			<listenerclassfile><![CDATA[lib/system/event/listener/DisabledPageListener.class.php]]></listenerclassfile>
+		</eventlistener>
+
+		<eventlistener>
+			<environment><![CDATA[user]]></environment>
+			<eventclassname><![CDATA[TeamPage]]></eventclassname>
+			<eventname><![CDATA[readParameters]]></eventname>
+			<inherit>0</inherit>
+			<listenerclassfile><![CDATA[lib/system/event/listener/DisabledPageListener.class.php]]></listenerclassfile>
+		</eventlistener>
+		<!-- /disable form or page -->
 	</import>
 </data>
