@@ -1,7 +1,7 @@
 = PackageBuilder -- README =
 
 Builds and creates packages for WoltLab Community Framework
-Copyright (C) 2009-2010 Alexander Ebert IT-Dienstleistungen <http://www.deltateam-cms.info/>
+Copyright (C) 2009-2010 Woltlab Community <http://community.woltlab.com/>
 
   PackageBuilder is free software; you can redistribute it and/or
   modify it under the terms of the GNU Library General Public
@@ -20,4 +20,4 @@ Copyright (C) 2009-2010 Alexander Ebert IT-Dienstleistungen <http://www.deltatea
 
 Comments are welcome.
 
-	- dtdesign <dtdesign@mywgl.org>
+	- dtdesign <alexander.ebert@deltateam-cms.info>
