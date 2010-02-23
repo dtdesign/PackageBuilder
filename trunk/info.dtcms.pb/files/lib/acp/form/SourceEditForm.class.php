@@ -48,7 +48,7 @@ class SourceEditForm extends SourceAddForm {
 		$this->name = $this->source->name;
 		$this->sourceDirectory = $this->source->sourceDirectory;
 		$this->buildDirectory = $this->source->buildDirectory;
-		$this->useSubversion = $this->source->useSubversion;
+		$this->scm = $this->source->scm;
 		$this->url = $this->source->url;
 		$this->username = $this->source->username;
 		$this->password = $this->source->password;
@@ -65,7 +65,7 @@ class SourceEditForm extends SourceAddForm {
   			$this->name,
   			$this->sourceDirectory,
   			$this->buildDirectory,
-  			$this->useSubversion,
+  			$this->scm,
   			$this->url,
   			$this->username,
   			$this->password,
