@@ -26,6 +26,7 @@ class SourceAddForm extends ACPForm {
 	public $name = '';
 	public $sourceDirectory = '';
 	public $buildDirectory = '';
+	public $position = '';
 	public $scm = 'none';
 	public $url = '';
 	public $username = '';
@@ -41,6 +42,7 @@ class SourceAddForm extends ACPForm {
 		if (isset($_POST['name'])) $this->name = StringUtil::trim($_POST['name']);
 		if (isset($_POST['sourceDirectory'])) $this->sourceDirectory = StringUtil::trim($_POST['sourceDirectory']);
 		if (isset($_POST['buildDirectory'])) $this->buildDirectory = StringUtil::trim($_POST['buildDirectory']);
+		if (isset($_POST['position'])) $this->position = intval($_POST['position']);
 		if (isset($_POST['scm'])) $this->scm = StringUtil::trim($_POST['scm']);
 		if (isset($_POST['useSubversion'])) $this->useSubversion = intval($_POST['useSubversion']);
 		if (isset($_POST['url'])) $this->url = StringUtil::trim($_POST['url']);
@@ -55,12 +57,35 @@ class SourceAddForm extends ACPForm {
 	public function validate() {
 		parent::validate();
 
-		if (empty($this->name)) throw new UserInputException('name');
-		if (empty($this->sourceDirectory)) throw new UserInputException('sourceDirectory');
-		if (empty($this->buildDirectory)) throw new UserInputException('buildDirectory');
+		if (empty($this->name)) throw new UserInputException('name', 'empty');
+
+		// validate directories
+		$this->validateDirectory($this->sourceDirectory, 'sourceDirectory');
+		$this->validateDirectory($this->buildDirectory, 'buildDirectory');
 
 		// validate SCM
 		$this->validateSCM();
+	}
+
+	/**
+	 * Validates a given directory and tries to create it
+	 *
+	 * @param	string	$directory	Target directory
+	 * @param	stromg	$fieldName	Input fieldname, required for exception handling
+	 */
+	protected function validateDirectory($directory, $fieldName) {
+		if (empty($directory)) throw new UserInputException($fieldName, 'empty');
+
+		// create directory
+		@mkdir($directory, 0770);
+
+		// verify previously created directory
+		if (!is_dir($directory) || !is_writeable($directory)) {
+			// try to cleanu
+			@rmdir($$directory);
+
+			throw new UserInputException($fieldName, 'invalid');
+		}
 	}
 
 	/**
@@ -69,10 +94,16 @@ class SourceAddForm extends ACPForm {
 	protected function validateSCM() {
 		$this->scm = Source::validateSCM($this->scm);
 
-		// reset input if no SCm is active
-		if ($this->scm == 'none') {
-			$this->username = $this->password = '';
-			$this->trustServerCert = 0;
+		switch ($this->scm) {
+			case 'none':
+				// reset input if no SCm is active
+				$this->username = $this->password = '';
+				$this->trustServerCert = 0;
+			break;
+
+			default:
+				if (empty($this->url)) throw new UserInputException('url', 'empty');
+			break;
 		}
 	}
 
@@ -89,6 +120,7 @@ class SourceAddForm extends ACPForm {
 			'name' => $this->name,
 			'sourceDirectory' => $this->sourceDirectory,
 			'buildDirectory' => $this->buildDirectory,
+			'position' => $this->position,
 			'scm' => $this->scm,
 			'url' => $this->url,
 			'username' => $this->username,
@@ -102,17 +134,11 @@ class SourceAddForm extends ACPForm {
 	public function save() {
 		parent::save();
 
-		// append trailing slashes
-		if (substr($this->sourceDirectory, -1) != '/') {
-			$this->sourceDirectory .= '/';
-		}
-
-		if (substr($this->buildDirectory, -1) != '/') {
-			$this->buildDirectory .= '/';
-		}
-
 		$this->sourceDirectory = FileUtil::unifyDirSeperator($this->sourceDirectory);
+		$this->sourceDirectory = FileUtil::addTrailingSlash($this->sourceDirectory);
+
 		$this->buildDirectory = FileUtil::unifyDirSeperator($this->buildDirectory);
+		$this->buildDirectory = FileUtil::addTrailingSlash($this->buildDirectory);
 
 		// create source
 		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert);

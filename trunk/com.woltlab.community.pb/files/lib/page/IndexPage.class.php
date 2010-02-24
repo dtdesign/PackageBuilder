@@ -14,7 +14,7 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
  */
 class IndexPage extends AbstractPage {
 	public $templateName = 'index';
-	public $neededPermissions = 'user.source.general.canViewSources';
+
 	// data
 	public $sources = array();
 
@@ -48,6 +48,16 @@ class IndexPage extends AbstractPage {
 				'allowSpidersToIndexThisPage' => false,
 				'sources' => $this->sources
 		));
+	}
+
+	/**
+	 * @see	Page::show()
+	 */
+	public function show() {
+		// validate general permission
+		if (!WCF::getUser()->getPermission('user.source.general.canViewSources')) throw new PermissionDeniedException();
+
+		parent::show();
 	}
 }
 ?>

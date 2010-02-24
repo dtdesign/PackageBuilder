@@ -18,6 +18,7 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 class SourceListPage extends AbstractPage {
 	// system
 	public $templateName = 'sourceList';
+
 	public $deletedSourceID = 0;
 	public $sources = array();
 	public $successfulSorting = 0;
@@ -58,8 +59,7 @@ class SourceListPage extends AbstractPage {
 		if (!WCF::getUser()->getPermission('admin.source.canViewSources')) {
 			throw new PermissionDeniedException();
 		}
-		WCFACP::getMenu()->setActiveMenuItem('pb.acp.menu.link.content.source.list');
+
 		parent::show();
 	}
 }
-?>

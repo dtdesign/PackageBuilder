@@ -39,9 +39,10 @@ class SourceEditor extends Source {
 	 * @param	string	$username		Username neccessary if subversion repository is protected
 	 * @param	string	$password		Password neccessary if subversion repository is protected
 	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
+	 * @param	integer	$position		Position used to order sources
 	 * @return 	SourceEditor
 	 */
-	public static function create($name, $sourceDirectory, $buildDirectory, $scm, $url = '', $username = '', $password = '', $trustServerCert = false) {
+	public static function create($name, $sourceDirectory, $buildDirectory, $scm, $url, $username, $password, $trustServerCert, $position) {
 		// handle dir seperators
 		$sourceDirectory = FileUtil::unifyDirSeperator($sourceDirectory);
 		$buildDirectory = FileUtil::unifyDirSeperator($buildDirectory);
@@ -60,20 +61,40 @@ class SourceEditor extends Source {
 			'trustServerCert' => $trustServerCert
 		));
 
-		// create sourceDirectory
-		if (!empty($sourceDirectory) && !is_dir($sourceDirectory)) {
-			@mkdir($sourceDirectory, 0770);
-		}
-
-		// create buildDirectory
-		if (!empty($buildDirectory) && !is_dir($buildDirectory)) {
-			@mkdir($buildDirectory, 0770);
-		}
-
 		// get source
 		$source = new SourceEditor($sourceID, null);
 
+		// set position
+		$source->setPosition($position);
+
 		return $source;
+	}
+
+	/**
+	 * Sets new position
+	 *
+	 * @param	integer	$position	New position
+	 */
+	public function setPosition($position = null) {
+		if ($position !== null) {
+			$sql = "UPDATE	pb".PB_N."_sources
+				SET	position = position + 1
+				WHERE 	position >= ".$position;
+			WCF::getDB()->sendQuery($sql);
+		}
+
+		// get final position
+		$sql = "SELECT 	IFNULL(MAX(position), 0) + 1 AS position
+			FROM	pb".PB_N."_sources";
+		if ($position) $sql .= " WHERE position <= ".$position;
+		$row = WCF::getDB()->getFirstRow($sql);
+		$position = $row['position'];
+
+		// save position
+		$sql = "UPDATE	pb".WBB_N."_sources
+			SET	position = ".$position."
+			WHERE	sourceID = ".$this->sourceID;
+		WCF::getDB()->sendQuery($sql);
 	}
 
 	/**
@@ -112,9 +133,10 @@ class SourceEditor extends Source {
 	 * @param	string	$password		Password neccessary if subversion repository is protected
 	 * @param	string	$revision		Currently used revision
 	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
+	 * @param	integer	$position		Position used to order sources
 	 * @return	SourceEditor
 	 */
-	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $scm = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null) {
+	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $scm = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null, $position = null) {
 		$fields = array();
 		if ($name !== null) $fields['name'] = $name;
 		if ($sourceDirectory !== null) $fields['sourceDirectory'] = $sourceDirectory;
@@ -125,6 +147,7 @@ class SourceEditor extends Source {
 		if ($password !== null) $fields['password'] = $password;
 		if ($revision !== null) $fields['revision'] = $revision;
 		if ($trustServerCert !== null) $fields['trustServerCert'] = intval($trustServerCert);
+		if ($position !== null) $fields['position'] = intval($position);
 
 		self::updateData($fields);
 	}
