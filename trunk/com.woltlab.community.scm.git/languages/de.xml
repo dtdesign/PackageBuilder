@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language languagecode="de" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
+	<category name="wcf.acp.option">
+		<item name="wcf.acp.option.category.scm.git"><![CDATA[Git]]></item>
+		<item name="wcf.acp.option.category.scm.git.description"><![CDATA[]]></item>
+		<item name="wcf.acp.option.git_path"><![CDATA[Git-Executable]]></item>
+		<item name="wcf.acp.option.git_path.description"><![CDATA[Bitte geben Sie hier den vollen Pfad zu der Git-Executable an, z.B. /usr/bin/git]]></item>
+	</category>
+</language>
