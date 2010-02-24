@@ -31,7 +31,7 @@
 				break;
 		}
 	}
-	onloadEvents.push(function() { setSCM({@$scm}); });
+	onloadEvents.push(function() { setSCM('{@$scm}'); });
 	//]]>
 </script>
 

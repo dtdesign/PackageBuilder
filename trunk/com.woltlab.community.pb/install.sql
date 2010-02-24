@@ -4,7 +4,6 @@ CREATE TABLE pb1_1_sources (
 	sourceDirectory TEXT NOT NULL ,
 	buildDirectory TEXT NOT NULL,
 	scm ENUM('git','none','subversion') NOT NULL,
-	useSubversion TINYINT( 1 ) NOT NULL ,
 	url TEXT NULL ,
 	username VARCHAR( 80 ) NULL default '',
 	revision VARCHAR(40) NOT NULL default '',
