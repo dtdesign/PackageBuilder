@@ -22,6 +22,7 @@ require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 class PackageBuilder {
 	private $archive = null;
 	private $excludeFiles = array('.', '..');
+	private $ignoreDoFiles;
 	private $filename = '';
 	private $location = '';
 	private $package = array();
@@ -34,8 +35,9 @@ class PackageBuilder {
 	 * @param	array	$package		required and optional packages
 	 * @param	string	$directory		source directory
 	 * @param	mixed	$excludeFiles		files to exclude while packing archive
+	 * @param	bool	$ignoreDotFiles		should files beginning with a dot be ignored
 	 */
-	public function __construct($source, PackageReader $package, $directory, $excludeFiles = array()) {
+	public function __construct($source, PackageReader $package, $directory, $excludeFiles = array(), $ignoreDotFiles = true) {
 		// read source
 		$this->source = ($source instanceof Source) ? $source : new Source($source);
 
@@ -44,7 +46,7 @@ class PackageBuilder {
 		if (!isset($this->package['name'])) {
 			throw new SystemException('Missing package name in "'.$directory.'", package.xml is not valid');
 		}
-
+		$this->ignoreDotFiles = $ignoreDotFiles;
 		// add additional directories whitch should be excluded
 		if (!empty($excludeFiles)) {
 			if (!is_array($excludeFiles)) {
@@ -163,7 +165,7 @@ class PackageBuilder {
 		while (($file = readdir($dh)) !== false) {
 			// skip directories
 			if (in_array($file, $this->excludeFiles)) continue;
-
+			if ($this->ignoreDotFiles && substr($file, 0,1) == '.') continue;
 			// handle files
 			if (!is_dir($directory.$file)) {
 				// add file
