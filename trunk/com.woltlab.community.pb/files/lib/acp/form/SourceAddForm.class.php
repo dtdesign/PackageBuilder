@@ -81,8 +81,8 @@ class SourceAddForm extends ACPForm {
 
 		// verify previously created directory
 		if (!is_dir($directory) || !is_writeable($directory)) {
-			// try to cleanu
-			@rmdir($$directory);
+			// try to cleanup
+			@rmdir($directory);
 
 			throw new UserInputException($fieldName, 'invalid');
 		}
