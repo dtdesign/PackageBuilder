@@ -96,7 +96,7 @@ class SourceAddForm extends ACPForm {
 
 		switch ($this->scm) {
 			case 'none':
-				// reset input if no SCm is active
+				// reset input if no SCM is active
 				$this->username = $this->password = '';
 				$this->trustServerCert = 0;
 			break;

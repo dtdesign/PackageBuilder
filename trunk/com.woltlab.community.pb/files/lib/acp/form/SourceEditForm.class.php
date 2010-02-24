@@ -91,15 +91,5 @@ class SourceEditForm extends SourceAddForm {
 			'sourceID' => $this->source->sourceID
 		));
 	}
-
-	/**
-	 * @see Page::show()
-	 */
-	public function show() {
-		// check master password
-		WCFACP::checkMasterPassword();
-
-		parent::show();
-	}
 }
 ?>
