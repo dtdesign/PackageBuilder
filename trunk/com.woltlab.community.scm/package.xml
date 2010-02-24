@@ -27,5 +27,6 @@
 		<files>files.tar</files>
 		<groupoptions>groupoptions.xml</groupoptions>
 		<options>options.xml</options>
+		<languages languagecode="de">languages/de.xml</languages>
 	</instructions>
 </package>

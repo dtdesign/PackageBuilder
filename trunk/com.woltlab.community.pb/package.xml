@@ -57,7 +57,6 @@
 		<eventlistener>eventlistener.xml</eventlistener>
 		<files>files.tar</files>
 		<groupoptions>groupoptions.xml</groupoptions>
-		<languages languagecode="de">languages/de.xml</languages>
 		<options>options.xml</options>
 		<pagemenu>pagemenu.xml</pagemenu>
 		<sql>install.sql</sql>
