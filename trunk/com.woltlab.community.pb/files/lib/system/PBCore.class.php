@@ -97,7 +97,6 @@ class PBCore extends WCF {
 	protected static function initPageMenu() {
 		require_once(WCF_DIR.'lib/page/util/menu/PageMenu.class.php');
 		self::$pageMenuObj = new PageMenu();
-		if (PageMenu::getActiveMenuItem() == '') PageMenu::setActiveMenuItem('wbb.header.menu.board');
 	}
 
 	/**
