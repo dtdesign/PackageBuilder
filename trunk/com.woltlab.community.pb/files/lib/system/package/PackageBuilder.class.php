@@ -21,7 +21,7 @@ require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
  */
 class PackageBuilder {
 	private $archive = null;
-	private $excludeDirectories = array('.', '..');
+	private $excludeFiles = array('.', '..');
 	private $filename = '';
 	private $location = '';
 	private $package = array();
@@ -33,9 +33,9 @@ class PackageBuilder {
 	 * @param	integer	$source			id or instance of a source
 	 * @param	array	$package		required and optional packages
 	 * @param	string	$directory		source directory
-	 * @param	mixed	$excludeDirectories	directories to exclude while packing archive
+	 * @param	mixed	$excludeFiles		files to exclude while packing archive
 	 */
-	public function __construct($source, PackageReader $package, $directory, $excludeDirectories = array()) {
+	public function __construct($source, PackageReader $package, $directory, $excludeFiles = array()) {
 		// read source
 		$this->source = ($source instanceof Source) ? $source : new Source($source);
 
@@ -46,12 +46,12 @@ class PackageBuilder {
 		}
 
 		// add additional directories whitch should be excluded
-		if (!empty($excludeDirectories)) {
-			if (!is_array($excludeDirectories)) {
-				$excludeDirectories = array($excludeDirectories);
+		if (!empty($excludeFiles)) {
+			if (!is_array($excludeFiles)) {
+				$excludeFiles = array($excludeFiles);
 			}
 
-			$this->excludeDirectories = array_merge($this->excludeDirectories, $excludeDirectories);
+			$this->excludeFiles = array_merge($this->excludeFiles, $excludeFiles);
 		}
 
 		// check requirements
@@ -162,7 +162,7 @@ class PackageBuilder {
 
 		while (($file = readdir($dh)) !== false) {
 			// skip directories
-			if (in_array($file, $this->excludeDirectories)) continue;
+			if (in_array($file, $this->excludeFiles)) continue;
 
 			// handle files
 			if (!is_dir($directory.$file)) {

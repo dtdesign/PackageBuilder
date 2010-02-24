@@ -125,7 +125,7 @@ class BuildPackageAction extends AbstractAction {
 		$pr = new PackageReader($this->source->sourceID, $this->directory);
 
 		// build package
-		$pkg = new PackageBuilder($this->source->sourceID, $pr, $this->directory, '.svn');
+		$pkg = new PackageBuilder($this->source->sourceID, $pr, $this->directory, array('.svn', '.git'));
 
 		// clear previously created archives
 		PackageHelper::clearTemporaryFiles();
