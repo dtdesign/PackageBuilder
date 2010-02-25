@@ -2,10 +2,6 @@
 // pb imports
 require_once(PB_DIR.'lib/data/source/Source.class.php');
 
-// wcf imports
-require_once(WCF_DIR.'lib/util/StringUtil.class.php');
-require_once(WCF_DIR.'lib/util/XML.class.php');
-
 /**
  * Reads package informations.
  *
