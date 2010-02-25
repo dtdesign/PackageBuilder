@@ -1,6 +1,6 @@
 {include file="documentHeader"}
 <head>
-	<title>{lang}pb.source.view.title{/lang} - {PAGE_TITLE}</title>
+	<title>{*{lang}pb.source.view.title{/lang}*} - {PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
 	<link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
@@ -75,7 +75,7 @@
 		<div class="type-text">
 			<label for="buildDirectory">{lang}pb.source.buildDirectory{/lang}</label>
 
-			<input type="text" name="buildDirectory" value="{$source.buildDirectory}" />
+			<input type="text" name="buildDirectory" value="{$source->buildDirectory}" />
 		</div>
 
 		<div class="type-select">
@@ -95,13 +95,13 @@
 		</div>
 
 		<div class="type-button">
-			<input type="hidden" name="sourceID" value="{$source.sourceID}" />
+			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			<input type="submit" value="{lang}pb.source.changeBuildOptions{/lang}" />
 		</div>
 	</fieldset>
 </form>
 
-<form method="post" action="index.php?form=PreferredPackage&amp;sourceID={$source.sourceID}" class="yform">
+<form method="post" action="index.php?form=PreferredPackage&amp;sourceID={$source->sourceID}" class="yform">
 	<fieldset>
 		<legend>
 			{lang}pb.source.buildPackage{/lang}
@@ -130,7 +130,7 @@
 						{lang}pb.source.currentDirectory{/lang}
 					</td>
 					<td>
-						{$source.sourceDirectory}{$currentDirectory}
+						{$source->sourceDirectory}{$currentDirectory}
 					</td>
 				</tr>
 				<tr>
@@ -141,18 +141,16 @@
 						{$source.buildDirectory}{$currentDirectory}
 					</td>
 				</tr>
+				{if $source->scm != 'none'}
 				<tr>
 					<td>
 						{lang}pb.source.revision{/lang}
 					</td>
 					<td>
-						{if $source.useSubversion}
-							{$source.revision}{if $source.availableRevision > $source.revision} <strong>({lang}pb.source.availableRevision{/lang})</strong>{/if}
-						{else}
-							- - -
-						{/if}
+						{$source->revision}{if $source->availableRevision > $source->revision} <strong>({lang}pb.source.availableRevision{/lang})</strong>{/if}
 					</td>
 				</tr>
+				{/if}
 			</tbody>
 		</table>
 
@@ -163,15 +161,17 @@
 	</fieldset>
 </form>
 
-<form method="post" action="index.php?action=SubversionCheckout&amp;sourceID={$source.sourceID}" class="yform">
+<form method="post" action="index.php?action=SubversionCheckout&amp;sourceID={$source->sourceID}" class="yform">
 	<fieldset>
 		<legend>{lang}pb.source.viewSubversion{/lang}</legend>
 
+		{*
 		{if $source.message}
 			<div id="subversion">
 				<pre>{@$source.message}</pre>
 			</div>
 		{/if}
+		*}
 
 		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />

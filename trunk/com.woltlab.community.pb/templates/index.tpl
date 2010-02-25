@@ -29,7 +29,7 @@
 				{lang}pb.source.sourceDirectory{/lang}
 			</th>
 			<th scope="col">
-				{lang}pb.source.useSubversion{/lang}
+				{lang}pb.source.scm{/lang}
 			</th>
 			<th scope="col">
 				{lang}pb.source.revision{/lang} ¹
@@ -51,17 +51,17 @@
 				{$source.sourceDirectory}
 			</td>
 			<td>
-				{lang}pb.source.useSubversion.{$source.useSubversion}{/lang}
+				{lang}pb.source.scm.{$source.scm}{/lang}
 			</td>
 			<td>
-				{if $source.useSubversion}
-					{if $source.availableRevision > $source.revision}
-						<strong class="red">{$source.revision} / {$source.availableRevision}</strong>
-					{else}
-						{$source.revision} / {$source.availableRevision}
-					{/if}
+				{if $source.scm == 'none'}
+					{lang}pb.source.scm.disabled{/lang}
 				{else}
-					- - -
+					{if $source.availableRevision != $source.revision}
+						<strong class="red">{lang}pb.source.scm.higherRevisionAvailable{/lang}</strong>
+					{else}
+						{$source.revision}
+					{/if}
 				{/if}
 			</td>
 			<td class="sourceGo">
