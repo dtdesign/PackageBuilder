@@ -26,12 +26,14 @@
 	<instructions type="install">
 		<files>files.tar</files>
 		<groupoptions>groupoptions.xml</groupoptions>
+		<languages languagecode="de">languages/de.xml</languages>
 		<options>options.xml</options>
 		<packageinstallationplugins>pip.tar</packageinstallationplugins>
-		<languages languagecode="de">languages/de.xml</languages>
+		<sql>install.sql</sql>
 	</instructions>
 
 	<instructions type="update" fromversion="1.0.0 Alpha 1">
 		<packageinstallationplugins>pip.tar</packageinstallationplugins>
+		<sql>install.sql</sql>
 	</instructions>
 </package>
