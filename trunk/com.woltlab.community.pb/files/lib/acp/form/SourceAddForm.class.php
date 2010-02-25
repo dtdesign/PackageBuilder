@@ -141,7 +141,7 @@ class SourceAddForm extends ACPForm {
 		$this->buildDirectory = FileUtil::addTrailingSlash($this->buildDirectory);
 
 		// create source
-		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert);
+		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert, $this->position);
 
 		// call saved event
 		$this->saved();
