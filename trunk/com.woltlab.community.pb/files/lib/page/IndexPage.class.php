@@ -15,7 +15,7 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 class IndexPage extends AbstractPage {
 	public $templateName = 'index';
 	public $neededPermissions = 'user.source.general.canViewSources';
-	
+
 	// data
 	public $sources = array();
 
@@ -28,12 +28,16 @@ class IndexPage extends AbstractPage {
 		$result = WCF::getDB()->sendQuery($sql);
 
 		while ($row = WCF::getDB()->fetchArray($result)) {
+			/*
 			// fetch available revision if subversion is used
 			if ($row['useSubversion']) {
 				require_once(WCF_DIR.'lib/system/subversion/Subversion.class.php');
 				$availableRevision = Subversion::getHeadRevision($row['url'], $row['username'], $row['password']);
 				$row['availableRevision'] = $availableRevision;
 			}
+			*/
+
+			$row['availableRevision'] = '(disabled)';
 
 			$this->sources[] = $row;
 		}

@@ -41,28 +41,26 @@ class SourceViewPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		// read database entry
-		$sql = "SELECT		source.*, svn.message
-			FROM		pb".PB_N."_sources source
-			LEFT JOIN	pb".PB_N."_subversion svn
-			ON			(source.sourceID = svn.sourceID)
-			WHERE		source.sourceID = ".$this->sourceID;
-		$this->source = WCF::getDB()->getFirstRow($sql);
+		$this->source = new Source($this->sourceID);
 
+		if (!$this->source->sourceID) throw new IllegalLinkException();
+
+		/*
 		// fetch available revision if subversion is used
 		if ($this->source['useSubversion']) {
 			require_once(WCF_DIR.'lib/system/subversion/Subversion.class.php');
 			$availableRevision = Subversion::getHeadRevision($this->source['url'], $this->source['username'], $this->source['password']);
 			$this->source['availableRevision'] = $availableRevision;
 		}
+		*/
 
 		// read cache
 		WCF::getCache()->addResource(
-			'packages-'.$this->source['sourceID'],
-			PB_DIR.'cache/cache.packages-'.$this->source['sourceID'].'.php',
+			'packages-'.$this->source->sourceID,
+			PB_DIR.'cache/cache.packages-'.$this->source->sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
-		$packages = WCF::getCache()->get('packages-'.$this->source['sourceID']);
+		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID);
 
 		// handle packages
 		foreach ($packages as $package) {
@@ -74,10 +72,10 @@ class SourceViewPage extends AbstractPage {
 		}
 
 		// set current sourceDirectory
-		$currentDirectory = WCF::getSession()->getVar('source'.$this->source['sourceID']);
+		$currentDirectory = WCF::getSession()->getVar('source'.$this->source->sourceID);
 
 		// set current filename
-		$currentFilename = WCF::getSession()->getVar('filename'.$this->source['sourceID']);
+		$currentFilename = WCF::getSession()->getVar('filename'.$this->source->sourceID);
 
 		if ($currentDirectory !== null) {
 			$this->currentDirectory = $currentDirectory;
@@ -88,13 +86,13 @@ class SourceViewPage extends AbstractPage {
 		}
 
 		// read current builds
-		if (is_dir($this->source['buildDirectory'])) {
-			if ($dh = opendir($this->source['buildDirectory'])) {
+		if (is_dir($this->source->buildDirectory)) {
+			if ($dh = opendir($this->source->buildDirectory)) {
 				while (($file = readdir($dh)) !== false) {
 					if (strrpos($file, '.tar.gz') !== false) {
-						$package = new PackageReader($this->source['sourceID'], $this->source['buildDirectory'].$file, true);
+						$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
 						$data = $package->getPackageData();
-						$link = str_replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source['buildDirectory']);
+						$link = str_replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
 
 						$this->builds[] = array(
 							'link' => $link.$file,
@@ -119,7 +117,7 @@ class SourceViewPage extends AbstractPage {
 	private function readDirectories($directory, $maxDimension) {
 		// scan current dir for package.xml
 		if (file_exists($directory.'/package.xml')) {
-			$directory = str_replace($this->source['sourceDirectory'], '', $directory);;
+			$directory = str_replace($this->source->sourceDirectory, '', $directory);;
 			$this->directories[$directory] = $directory;
 		}
 		else if ($maxDimension) {
@@ -192,7 +190,7 @@ class SourceViewPage extends AbstractPage {
 			$data = array(
 				'pn' => $this->packages[$this->currentDirectory]['packageName'],
 				'pv' => $this->packages[$this->currentDirectory]['version'],
-				'pr' => 'r'.$this->source['revision']
+				'pr' => 'r'.$this->source->revision
 			);
 		}
 
