@@ -42,3 +42,10 @@ CREATE TABLE pb1_1_selected_packages (
 	resourceDirectory MEDIUMTEXT NOT NULL,
 	UNIQUE KEY packageKey (sourceID, directory(250), hash)
 ) ENGINE=MyISAM CHARACTER SET=utf8;
+
+CREATE TABLE pb1_1_user_preferences (
+	sourceID INT(10) NOT NULL,
+	userID INT(10) NOT NULL,
+	directory MEDIUMTEXT NOT NULL,
+	UNIQUE KEY userID (userID)
+) ENGINE=MyISAM CHARACTER SET=utf8;
