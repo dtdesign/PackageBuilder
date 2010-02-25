@@ -91,7 +91,7 @@ class SourceEditor extends Source {
 		$position = $row['position'];
 
 		// save position
-		$sql = "UPDATE	pb".WBB_N."_sources
+		$sql = "UPDATE	pb".PB_N."_sources
 			SET	position = ".$position."
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
