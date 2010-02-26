@@ -16,7 +16,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
  * @subpackage	action
  * @category 	PackageBuilder
  */
-class SubversionCheckoutAction extends AbstractAction {
+class CheckoutAction extends AbstractAction {
 	public $sourceID = 0;
 
 	/**
