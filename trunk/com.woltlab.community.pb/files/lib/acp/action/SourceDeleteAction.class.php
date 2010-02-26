@@ -34,7 +34,7 @@ class SourceDeleteAction extends AbstractAction {
 	public function execute() {
 		// call execute event
 		parent::execute();
-		WCF::getUser()->checkPermission('wcf.acp.group.option.admin.source.canDeleteSources');
+		WCF::getUser()->checkPermission('admin.source.canDeleteSources');
 		// fetch data
 		$source = new SourceEditor($this->sourceID);
 		if (!$source->sourceID) throw new IllegalLinkException();
