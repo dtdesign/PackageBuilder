@@ -19,8 +19,8 @@
 
 {if $userMessages|isset}{@$userMessages}{/if}
 
-<form method="post" action="index.php?action=SetBuildOptions" class="yform columnar">
-	{if $builds|isset && $builds|count > 0}
+{if $builds|count > 0}
+<div class="yform">
 	<fieldset>
 		<legend>
 			{lang}pb.build.existingArchives{/lang}
@@ -67,111 +67,38 @@
 			</table>
 		</div>
 	</fieldset>
+</div>
 {/if}
 
+<form method="post" action="index.php?action=SetBuildOptions" class="yform columnar">
 	<fieldset>
 		<legend>{lang}pb.source.buildOptions{/lang}</legend>
 
 		<div class="type-text">
 			<label for="buildDirectory">{lang}pb.source.buildDirectory{/lang}</label>
 
-			<input type="text" name="buildDirectory" value="{$source->buildDirectory}" />
+			{$source->buildDirectory}
 		</div>
+
+		{if $source->scm != 'none'}
+		<div class="type-text">
+			<label for="revision">{lang}pb.source.revision{/lang}</label>
+
+			(not implemented){*{lang}pb.source.revision.{if !$source->isOutdated()}current{else}outdated{/if}{/lang}*}
+		</div>
+		{/if}
 
 		<div class="type-select">
 			<label for="directory">{lang}pb.source.directories{/lang}</label>
 
+			{if $directories|empty}
+				{lang}pb.source.error.directories.noData{/lang}
+			{else}
 			<select name="directory" id="directory">
-				{htmloptions options=$directories selected=$currentDirectory}
+    				{htmloptions options=$directories selected=$currentDirectory}
 			</select>
+			{/if}
 		</div>
-
-		<div class="type-select">
-			<label for="filename">{lang}pb.source.filename{/lang}</label>
-
-			<select name="filename" id="filename">
-				{htmloptions options=$filenames selected=$currentFilename}
-			</select>
-		</div>
-
-		<div class="type-button">
-			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
-			<input type="submit" value="{lang}pb.source.changeBuildOptions{/lang}" />
-		</div>
-	</fieldset>
-</form>
-
-<form method="post" action="index.php?form=PreferredPackage&amp;sourceID={$source->sourceID}" class="yform">
-	<fieldset>
-		<legend>
-			{lang}pb.source.buildPackage{/lang}
-		</legend>
-
-		{if $currentDirectory|empty}
-		<p class="warning">
-			{lang}pb.source.error.selectDirectory{/lang}
-		</p>
-		{else}
-		<table class="full">
-			<thead>
-				<tr>
-					<th scope="col">
-						{lang}pb.source.buildPackage.option{/lang}
-					</th>
-					<th scope="col">
-						{lang}pb.source.buildPackage.optionValue{/lang}
-					</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<tr>
-					<td>
-						{lang}pb.source.currentDirectory{/lang}
-					</td>
-					<td>
-						{$source->sourceDirectory}{$currentDirectory}
-					</td>
-				</tr>
-				<tr>
-					<td>
-						{lang}pb.source.buildDirectory{/lang}
-					</td>
-					<td>
-						{$source.buildDirectory}{$currentDirectory}
-					</td>
-				</tr>
-				{if $source->scm != 'none'}
-				<tr>
-					<td>
-						{lang}pb.source.revision{/lang}
-					</td>
-					<td>
-						{$source->revision}{if $source->availableRevision > $source->revision} <strong>({lang}pb.source.availableRevision{/lang})</strong>{/if}
-					</td>
-				</tr>
-				{/if}
-			</tbody>
-		</table>
-
-		<div class="type-button">
-			<input type="submit" value="{lang}pb.source.build{/lang}" />
-		</div>
-		{/if}
-	</fieldset>
-</form>
-
-<form method="post" action="index.php?action=SubversionCheckout&amp;sourceID={$source->sourceID}" class="yform">
-	<fieldset>
-		<legend>{lang}pb.source.viewSubversion{/lang}</legend>
-
-		{*
-		{if $source.message}
-			<div id="subversion">
-				<pre>{@$source.message}</pre>
-			</div>
-		{/if}
-		*}
 
 		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
@@ -179,10 +106,34 @@
 		</div>
 
 		<div class="type-button">
-			<input type="submit" value="{lang}pb.subversion.checkout{/lang}" />
+			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
+
+			<input type="submit" name="changeBuildOptions" value="{lang}pb.source.changeBuildOptions{/lang}" />
+
 		</div>
 	</fieldset>
 </form>
+
+{if !$currentDirectory|empty}
+<form method="post" action="index.php?form=PreferredPackage&amp;sourceID={@$source->sourceID}" class="yform columnar">
+	<fieldset>
+		<legend>{lang}pb.source.build{/lang}</legend>
+
+		<div class="type-select">
+			<label for="filename">{lang}pb.source.filename{/lang}</label>
+
+			<select name="filename" id="filename">
+    				{htmloptions options=$filenames selected=$currentFilename}
+			</select>
+		</div>
+
+		<div class="type-button">
+			<input type="submit" name="buildPackage" value="{lang}pb.source.build{/lang}" />
+			<input type="reset" />
+		</div>
+	</fieldset>
+</form>
+{/if}
 
 {include file='footer' sandbox=false}
 
