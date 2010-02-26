@@ -8,7 +8,7 @@ require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 /**
  * Provides methods to create and edit a source.
  *
- * @author	Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -173,11 +173,32 @@ class SourceEditor extends Source {
 			WCF::getDB()->sendQuery($sql);
 		}
 	}
-
+	
+	public static function removeDir($source) {
+		$source = FileUtil::unifyDirSeperator($source);
+		if(file_exists($source)) {
+			if(is_dir($source)) {
+				$handle=opendir($source);
+				while (false !== ($file = readdir($handle))){
+					if($file != '.' && $file != '..') self::removeDir($source.'/'.$file);
+				}
+				closedir($handle);
+				rmdir($source);
+			}
+			else return @unlink($source);
+		}
+   		else {
+         	return false;
+    	}
+	}
 	/**
 	 * Deletes this source.
 	 */
-	public function delete() {
+	public function delete($removeFolders = false) {
+		if($removeFolders) {
+			self::removeDir($this->sourceDirectory);
+			self::removeDir($this->buildDirectory);
+		}
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
 			WHERE	sourceID = ".$this->sourceID;

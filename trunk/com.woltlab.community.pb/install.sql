@@ -11,7 +11,7 @@ CREATE TABLE pb1_1_sources (
 	trustServerCert TINYINT( 1 ) unsigned NOT NULL ,
 	password VARCHAR( 80 ) NULL ,
 	PRIMARY KEY ( sourceID ),
-	INDEX sortOrder (sortOrder)
+	INDEX position (position)
 ) ENGINE=MyISAM CHARACTER SET=utf8;
 
 CREATE TABLE pb1_1_sources_packages (

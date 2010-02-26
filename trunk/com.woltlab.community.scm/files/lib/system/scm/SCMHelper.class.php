@@ -65,7 +65,7 @@ class SCMHelper {
 		if (empty(self::$data)) self::registerCache();
 
 		WCF::getCache()->clearResource('scm');
-		WCF::getCache()->clear(WCF_DIR.'cache/cache.scm.php');
+		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.scm.php');
 
 		self::$data = array();
 	}
