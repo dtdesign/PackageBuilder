@@ -1,6 +1,7 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/acp/package/plugin/AbstractXMLPackageInstallationPlugin.class.php');
+require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * Provides PIP for source code management systems.
@@ -61,7 +62,8 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 								ON DUPLICATE KEY UPDATE scm = VALUES(scm)";
 							WCF::getDB()->sendQuery($sql);
 
-							// TODO: Clear cache
+							// clear cache
+							SCMHelper::clearCache();
 						}
 					break;
 
@@ -87,6 +89,9 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 								$sql = "DELETE FROM	wcf".WCF_N."_".$this->tableName."
 							 		WHERE		scm IN (".$itemNames.")";
 								WCF::getDB()->sendQuery($sql);
+
+								// clear cache
+								SCMHelper::clearCache();
 							}
 						}
 					break;

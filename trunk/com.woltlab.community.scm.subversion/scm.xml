@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data xmlns="http://www.mywgl.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mywgl.org/XSD/scm.xsd">
+	<import>
+		<scm name="Subversion" />
+	</import>
+</data>
