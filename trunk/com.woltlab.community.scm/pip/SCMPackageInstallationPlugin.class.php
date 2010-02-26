@@ -33,7 +33,7 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 
 		$scmXML = $xml->getElementTree('data');
 
-		foreach ($portalboxXML['children'] as $key => $block) {
+		foreach ($scmXML['children'] as $key => $block) {
 			if (!empty($block['children'])) {
 				switch($block['name']) {
 					// install (or update existing) scm
@@ -67,15 +67,15 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 						}
 					break;
 
-					// delete portal box
+					// delete scm
 					case 'delete':
 
 						if ($package->getAction() == 'update') {
 							$itemNames	= '';
 
 							foreach ($block['children'] as $scm) {
-								if (!isset($boxItem['attrs']['name'])) {
-									throw new SystemException('Required "name" attribute for portal box item tag is missing.');
+								if (!isset($scm['attrs']['name'])) {
+									throw new SystemException('Required "name" attribute for scm tag is missing.');
 								}
 
 								if (!empty($itemNames)) {
