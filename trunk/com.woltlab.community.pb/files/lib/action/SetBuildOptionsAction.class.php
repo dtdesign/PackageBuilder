@@ -25,7 +25,6 @@ class SetBuildOptionsAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_POST['directory'])) $this->directory = StringUtil::trim($_POST['directory']);
-		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
 		if (isset($_POST['sourceID'])) $this->sourceID = intval($_POST['sourceID']);
 	}
 
@@ -39,14 +38,18 @@ class SetBuildOptionsAction extends AbstractAction {
 		// set sourceDirectory
 		WCF::getSession()->register('source'.$this->sourceID, $this->directory);
 
-		// set filename
-		WCF::getSession()->register('filename'.$this->sourceID, $this->filename);
+		// write to user preferences
+		$sql = "INSERT IGNORE	INTO pb".PB_N."_user_preferences
+					(sourceID, userID, directory)
+			VALUES		(".$this->sourceID.", ".WCF::getUser()->userID.", '".escapeString($this->directory)."')
+			ON DUPLICATE KEY UPDATE directory=VALUES(directory)";
+		WCF::getDB()->sendQuery($sql);
 
 		// call executed event
 		$this->executed();
 
 		// forward
-		HeaderUtil::redirect('index.php?page=SourceView&sourceID=' . $this->sourceID . SID_ARG_2ND_NOT_ENCODED);
+		HeaderUtil::redirect('index.php?page=SourceView&sourceID='.$this->sourceID.SID_ARG_2ND_NOT_ENCODED);
 		exit;
 	}
 }
