@@ -12,6 +12,12 @@
 				<optiontype>text</optiontype>
 				<defaultvalue></defaultvalue>
 			</option>
+			
+			<option name="git_temporary_directory">
+				<categoryname>scm.git</categoryname>
+				<optiontype>text</optiontype>
+				<defaultvalue></defaultvalue>
+			</option>
 		</options>
 	</import>
 </data>

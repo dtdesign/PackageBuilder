@@ -49,7 +49,12 @@ class Git implements SCM {
 	 * @see	SCM::getHeadRevision()
 	 */
 	public static function getHeadRevision($url, $loginDetails, $options) {
-		throw new GitException('IMPLEMENT ME! getHeadRevision()');
+		// not very nice or fast method to find out, but it should work
+		chdir(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)));
+		$shellCommand = escapeshellarg(GIT_PATH).' clone '.$url.' 2>&1';
+		$dir = explode('/', $url);
+		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
+		return file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/refs/heads/master');
 	}
 
 	/**
