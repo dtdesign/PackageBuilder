@@ -51,8 +51,7 @@ optgroup option {
 	border: 0;
 	vertical-align: bottom;
 }
-// do not display any large icons in frontend
+/* do not display any large icons in frontend */
 .mainHeadline img {
 	display: none;	
-}
 }
