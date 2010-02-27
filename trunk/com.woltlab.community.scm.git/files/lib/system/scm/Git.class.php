@@ -104,5 +104,16 @@ class Git implements SCM {
 		if (!file_exists(GIT_PATH)) {
 			throw new GitException('git path seems to be wrong, no file found.');
 		}
+		
+		// check wether a temporary directory is given
+		if (!defined('GIT_TEMPORARY_DIRECTORY') || GIT_TEMPORARY_DIRECTORY == '') {
+			throw new GitException('Missing temporary folder for git.');
+		}
+
+		// verify that the folder exist and is writable
+		$temporaryDirectory = realpath(GIT_TEMPORARY_DIRECTORY);
+		if (!$temporaryDirectory || !is_writeable($temporaryDirectory)) {
+			throw new GitException('Temporary directory for git does not exist or is not writable.');
+		}
 	}
 }
