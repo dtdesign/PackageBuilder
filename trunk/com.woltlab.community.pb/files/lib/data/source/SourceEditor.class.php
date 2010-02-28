@@ -131,7 +131,7 @@ class SourceEditor extends Source {
 		// import language variables
 		foreach ($languageData as $languageCode => $data) {
 			//create XML string
-			$xml = LanguagesXMLPIP::create(array($languageCode => $languageData), true);
+			$xml = LanguagesXMLPIP::create(array($languageCode => $data), true);
 
 			// parse xml
 			$xmlObj = new XML();
