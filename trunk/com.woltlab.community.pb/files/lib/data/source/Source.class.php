@@ -15,16 +15,6 @@ require_once(WCF_DIR.'lib/util/StringUtil.class.php');
  * @category 	PackageBuilder
  */
 class Source extends DatabaseObject {
-	/**
-	 * Holds all available SCM
-	 *
-	 * @var	array
-	 */
-	protected static $availableSCM = array(
-		'git',
-		'none',
-		'subversion'
-	);
 
 	/**
 	 * Creates a new Source object.
@@ -60,7 +50,7 @@ class Source extends DatabaseObject {
 	 * @return	string	Valid SCMs
 	 */
 	public static function getAvailableSCM() {
-		return self::$availableSCM;
+		return SCMHelper::getSCM();
 	}
 
 	/**
@@ -70,15 +60,7 @@ class Source extends DatabaseObject {
 	 * @return	string	Valid SCM
 	 */
 	public static function validateSCM($scm) {
-		$scm = StringUtil::toLowerCase($scm);
-
-		// return lower case SCM
-		if (in_array($scm, self::$availableSCM)) {
-			return $scm;
-		}
-
-		// scm unknown, change to none
-		return 'none';
+		return (SCMHelper::getSCM($scm) ? SCMHelper::getSCM($scm) : 'none');
 	}
 
 	/**
