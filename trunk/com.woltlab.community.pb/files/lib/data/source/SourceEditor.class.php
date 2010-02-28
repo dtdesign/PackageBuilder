@@ -113,7 +113,7 @@ class SourceEditor extends Source {
 				)
 			AND	packageID = ".PACKAGE_ID;
 		$result = WCF::getDB()->sendQuery($sql);
-
+		$languageData = array();
 		// create language variables for each language
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			$key = 'option.user.source.dynamic.canUseSource'.$this->sourceID;
