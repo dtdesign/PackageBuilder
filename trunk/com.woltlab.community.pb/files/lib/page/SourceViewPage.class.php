@@ -5,7 +5,7 @@ require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
-require_once(WCF_DIR.'lib/util/FileUtil.class.php');
+require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * Shows details for a given source.
@@ -18,41 +18,39 @@ require_once(WCF_DIR.'lib/util/FileUtil.class.php');
  * @category 	PackageBuilder
  */
 class SourceViewPage extends AbstractPage {
+	// system
 	public $templateName = 'sourceView';
+	public $neededPermissions = 'user.source.dynamic.canUseSource';
 
 	// data
+	public $buildDirectory = '';
 	public $builds = array();
 	public $currentDirectory = '';
 	public $currentFilename = 'pn_pv';
 	public $directories = array();
 	public $filenames = array();
+	public $latestRevision = '';
 	public $packages = array();
-	public $source = array();
-	public $sourceID = 0;
+	public $source;
 
 	/**
 	 * @see	Page::readParameters()
 	 */
 	public function readParameters() {
-		if (isset($_GET['sourceID'])) $this->sourceID = intval($_GET['sourceID']);
+		if (isset($_GET['sourceID'])) $this->source = new Source($_GET['sourceID']);
+
+		if (!$this->source->sourceID) throw new IllegalLinkException();
+
+		// append sourceID
+		$this->neededPermissions .= $this->source->sourceID;
 	}
 
 	/**
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		$this->source = new Source($this->sourceID);
-
-		if (!$this->source->sourceID) throw new IllegalLinkException();
-
-		/*
-		// fetch available revision if subversion is used
-		if ($this->source['useSubversion']) {
-			require_once(WCF_DIR.'lib/system/subversion/Subversion.class.php');
-			$availableRevision = Subversion::getHeadRevision($this->source['url'], $this->source['username'], $this->source['password']);
-			$this->source['availableRevision'] = $availableRevision;
-		}
-		*/
+		$className = SCMHelper::get($this->source->scm);
+		$this->latestRevision = call_user_func(array($className, 'getHeadRevision'), $this->source->url, $this->source->username, $this->source->password);
 
 		// read cache
 		WCF::getCache()->addResource(
@@ -69,6 +67,13 @@ class SourceViewPage extends AbstractPage {
 				'packageName' => $package['packageName'],
 				'version' => $package['version']
 			);
+		}
+
+		// set build directory
+		$this->buildDirectory = $this->source->buildDirectory;
+
+  		if (WCF::getUser()->getPermission('admin.source.canEditSources')) {
+  			$this->buildDirectory = str_replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->buildDirectory);
 		}
 
 		// set current sourceDirectory
@@ -154,11 +159,13 @@ class SourceViewPage extends AbstractPage {
 		// assign variables to template
 		WCF::getTPL()->assign(array(
 			'allowSpidersToIndexThisPage' => false,
+			'buildDirectory' => $this->buildDirectory,
 			'builds' => $this->builds,
 			'currentDirectory' => $this->currentDirectory,
 			'currentFilename' => $this->currentFilename,
 			'directories' => $this->directories,
 			'filenames' => $this->filenames,
+			'latestRevision' => $this->latestRevision,
 			'source' => $this->source
 		));
 	}
