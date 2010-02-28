@@ -90,16 +90,36 @@ class SourceEditor extends Source {
 		$showOrder = $row['showOrder'];
 
 		// create group option
-		$sql = "INSERT IGNORE INTO	wcf".WCF_N."_group_option
-						(packageID, optionName, categoryName, optionType, defaultValue, showOrder)
+		$sql = "INSERT INTO	wcf".WCF_N."_group_option
+						(packageID, optionName, categoryName, optionType, defaultValue, showOrder, validationPattern, enableOptions, permissions, options, additionalData)
 			VALUES			(".PACKAGE_ID.",
 						'user.source.dynamic.canUseSource".$this->sourceID."',
 						'user.source.dynamic',
 						'boolean',
 						0,
-						".intval($showOrder).")";
+						".intval($showOrder).",
+						'',
+						'',
+						'',
+						'',
+						'".serialize(array())."')";
 		WCF::getDB()->sendQuery($sql);
-
+		$optionID = WCF::getDB()->getInsertID();
+		// insert new option and default value to each group
+		// get all groupIDs
+		// don't change values of existing options
+		$sql = "SELECT	groupID
+			FROM	wcf".WCF_N."_group";
+		$result = WCF::getDB()->sendQuery($sql);
+		while ($row = WCF::getDB()->fetchArray($result)) {
+			$sql = "INSERT IGNORE INTO	wcf".WCF_N."_group_option_value
+							(groupID, optionID, optionValue)
+				VALUES			(".$row['groupID'].",
+							 ".$optionID.",
+							'0')";
+			WCF::getDB()->sendQuery($sql);
+		}
+		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.group-option-*.php');
 		//get available languages
 		$languageCodes = Language::getLanguageCodes();
 
