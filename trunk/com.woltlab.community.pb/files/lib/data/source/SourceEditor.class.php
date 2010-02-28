@@ -73,6 +73,10 @@ class SourceEditor extends Source {
 
 		return $source;
 	}
+	
+	/**
+	 * Removes permissions for this source
+	 */
 	public function removePermissions() {
 		// remove option
 		$sql = "SELECT	optionID
@@ -101,6 +105,7 @@ class SourceEditor extends Source {
 		WCF::getDB()->sendQuery($sql);
 		Language::clearCache();
 	}
+	
 	/**
 	 * Creates permissions for this source
 	 */

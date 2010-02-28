@@ -150,7 +150,7 @@ class SourceAddForm extends ACPForm {
 		$this->buildDirectory = Source::getRandomDirectory('build');
 		$this->name = $this->scm = $this->url = $this->username = $this->password = '';
 		$this->trustServerCert = 0;
-
+		$this->scm = 'none';
 		WCF::getTPL()->assign('success', true);
 	}
 
