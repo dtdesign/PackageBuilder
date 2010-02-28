@@ -41,7 +41,9 @@ class SourceAddForm extends ACPForm {
 
 		if (isset($_POST['name'])) $this->name = StringUtil::trim($_POST['name']);
 		if (isset($_POST['sourceDirectory'])) $this->sourceDirectory = StringUtil::trim($_POST['sourceDirectory']);
+		$this->sourceDirectory = FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator($this->sourceDirectory));
 		if (isset($_POST['buildDirectory'])) $this->buildDirectory = StringUtil::trim($_POST['buildDirectory']);
+		$this->buildDirectory = FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator($this->buildDirectory));
 		if (isset($_POST['position'])) $this->position = intval($_POST['position']);
 		if (isset($_POST['scm'])) $this->scm = StringUtil::trim($_POST['scm']);
 		if (isset($_POST['useSubversion'])) $this->useSubversion = intval($_POST['useSubversion']);
@@ -133,12 +135,6 @@ class SourceAddForm extends ACPForm {
 	 */
 	public function save() {
 		parent::save();
-
-		$this->sourceDirectory = FileUtil::unifyDirSeperator($this->sourceDirectory);
-		$this->sourceDirectory = FileUtil::addTrailingSlash($this->sourceDirectory);
-
-		$this->buildDirectory = FileUtil::unifyDirSeperator($this->buildDirectory);
-		$this->buildDirectory = FileUtil::addTrailingSlash($this->buildDirectory);
 
 		// any numeric value is valid for $position thus we replace an empty value with null
 		if (empty($this->position)) $this->position = null;
