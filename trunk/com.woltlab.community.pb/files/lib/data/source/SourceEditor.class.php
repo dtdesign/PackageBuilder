@@ -104,26 +104,34 @@ class SourceEditor extends Source {
 		$languageCodes = Language::getLanguageCodes();
 
 		// create language variables
-		$sql = "SELECT	languageID, languageItemValue
+		$sql = "SELECT	languageID, languageItem, languageItemValue
 			FROM	wcf".WCF_N."_language_item
-			WHERE	languageItem = 'wcf.acp.group.option.user.source.dynamic.default'
+			WHERE	languageItem IN
+				(
+					'wcf.acp.group.option.user.source.dynamic.default',
+					'wcf.acp.group.option.user.source.dynamic.default.description'
+				)
 			AND	packageID = ".PACKAGE_ID;
 		$result = WCF::getDB()->sendQuery($sql);
 
 		// create language variables for each language
 		while ($row = WCF::getDB()->fetchArray($result)) {
+			$key = 'option.user.source.dynamic.canUseSource'.$this->sourceID;
+
+			if ($row['languageItem'] == 'wcf.acp.group.option.user.source.dynamic.default.description') {
+				$key .= '.description';
+			}
+
 			$value = str_replace('#sourceName#', $this->name, $row['languageItemValue']);
 
-			$languageData = array(
-				$languageCodes[$row['languageID']] => array(
-					'wcf.acp.group' => array(
-						'option.user.source.dynamic.canUseSource'.$this->sourceID => $value
-					)
-				)
-			);
+			$languageCode = $languageCodes[$row['languageID']];
+			$languageData[$languageCode]['wcf.acp.group'][$key] = $value;
+		}
 
+		// import language variables
+		foreach ($languageData as $languageCode => $data) {
 			//create XML string
-			$xml = LanguagesXMLPIP::create($languageData, true);
+			$xml = LanguagesXMLPIP::create(array($languageCode => $languageData), true);
 
 			// parse xml
 			$xmlObj = new XML();
