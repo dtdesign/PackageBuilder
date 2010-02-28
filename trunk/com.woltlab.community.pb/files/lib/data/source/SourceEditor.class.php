@@ -88,6 +88,10 @@ class SourceEditor extends Source {
 			$sql = "DELETE FROM 	wcf".WCF_N."_group_option_value
 				WHERE		optionID = ".$optionID;
 			WCF::getDB()->sendQuery($sql);
+			$sql = "DELETE
+				FROM 	wcf".WCF_N."_group_option
+				WHERE	optionID = ".$optionID;
+			WCF::getDB()->sendQuery($sql);
 		}
 		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.group-option-*.php');
 		// remove language
