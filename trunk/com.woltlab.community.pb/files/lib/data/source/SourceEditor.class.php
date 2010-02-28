@@ -73,39 +73,46 @@ class SourceEditor extends Source {
 
 		return $source;
 	}
-	
+
 	/**
 	 * Removes permissions for this source
 	 */
 	public function removePermissions() {
-		// remove option
+		// get option ID
 		$sql = "SELECT	optionID
 			FROM 	wcf".WCF_N."_group_option
 			WHERE	optionName = 'user.source.dynamic.canUseSource".$this->sourceID."'
 			AND 	packageID = ".PACKAGE_ID;
-		$result = WCF::getDB()->sendQuery($sql);
-		$optionIDs = array();
-		while ($row = WCF::getDB()->fetchArray($result)) {
-			$optionIDs[] = $row['optionID'];
-		}
-		foreach ($optionIDs as $optionID) {
-			$sql = "DELETE FROM 	wcf".WCF_N."_group_option_value
-				WHERE		optionID = ".$optionID;
-			WCF::getDB()->sendQuery($sql);
-			$sql = "DELETE
-				FROM 	wcf".WCF_N."_group_option
-				WHERE	optionID = ".$optionID;
-			WCF::getDB()->sendQuery($sql);
-		}
-		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.group-option-*.php');
-		// remove language
-		$sql = "DELETE	FROM wcf".WCF_N."_language_item
-				WHERE	languageItem = 'wcf.acp.group.option.user.source.dynamic.canUseSource".$this->sourceID."'
-				AND	packageID = ".PACKAGE_ID;
+		$row = WCF::getDB()->getFirstRow($sql);
+		$optionID = $row['optionID'];
+
+		// remove values
+		$sql = "DELETE	FROM wcf".WCF_N."_group_option_value
+			WHERE	optionID = ".$optionID;
 		WCF::getDB()->sendQuery($sql);
+
+		// remove option
+		$sql = "DELETE	FROM wcf".WCF_N."_group_option
+			WHERE	optionID = ".$optionID;
+		WCF::getDB()->sendQuery($sql);
+
+		// reset cache
+		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.group-option-*.php');
+
+		// remove language items
+		$sql = "DELETE	FROM wcf".WCF_N."_language_item
+			WHERE	languageItem IN
+				(
+					'wcf.acp.group.option.user.source.dynamic.canUseSource".$this->sourceID."',
+					'wcf.acp.group.option.user.source.dynamic.canUseSource".$this->sourceID.".description'
+				)
+			AND	packageID = ".PACKAGE_ID;
+		WCF::getDB()->sendQuery($sql);
+
+		// reset cache
 		Language::clearCache();
 	}
-	
+
 	/**
 	 * Creates permissions for this source
 	 */
@@ -123,20 +130,21 @@ class SourceEditor extends Source {
 
 		// create group option
 		$sql = "INSERT INTO	wcf".WCF_N."_group_option
-						(packageID, optionName, categoryName, optionType, defaultValue, showOrder, validationPattern, enableOptions, permissions, options, additionalData)
-			VALUES			(".PACKAGE_ID.",
-						'user.source.dynamic.canUseSource".$this->sourceID."',
-						'user.source.dynamic',
-						'boolean',
-						0,
-						".intval($showOrder).",
-						'',
-						'',
-						'',
-						'',
-						'".serialize(array())."')";
+					(packageID, optionName, categoryName, optionType, defaultValue, showOrder, validationPattern, enableOptions, permissions, options, additionalData)
+			VALUES		(".PACKAGE_ID.",
+					'user.source.dynamic.canUseSource".$this->sourceID."',
+					'user.source.dynamic',
+					'boolean',
+					0,
+					".intval($showOrder).",
+					'',
+					'',
+					'',
+					'',
+					'".serialize(array())."')";
 		WCF::getDB()->sendQuery($sql);
 		$optionID = WCF::getDB()->getInsertID();
+
 		// insert new option and default value to each group
 		// get all groupIDs
 		// don't change values of existing options
