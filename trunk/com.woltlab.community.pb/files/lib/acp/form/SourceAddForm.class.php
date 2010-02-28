@@ -140,6 +140,9 @@ class SourceAddForm extends ACPForm {
 		$this->buildDirectory = FileUtil::unifyDirSeperator($this->buildDirectory);
 		$this->buildDirectory = FileUtil::addTrailingSlash($this->buildDirectory);
 
+		// any numeric value is valid for $position thus we replace an empty value with null
+		if (empty($this->position)) $this->position = null;
+
 		// create source
 		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert, $this->position);
 
