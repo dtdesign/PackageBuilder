@@ -28,7 +28,7 @@ class Git implements SCM {
 		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
 		
 		// if there is already a working copy pull new data
-		// otherwise clone a new workingcopy
+		// otherwise clone a new working copy
 		if(file_exists(FileUtil::addTrailingSlash($options['directory']).$dir.'/.git')) {
 			chdir(FileUtil::addTrailingSlash($options['directory']).$dir.'/.git');
 			$shellCommand = escapeshellarg(GIT_PATH).' pull 2>&1';

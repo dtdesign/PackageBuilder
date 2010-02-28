@@ -103,19 +103,12 @@ class SourceEditor extends Source {
 		//get available languages
 		$languageCodes = Language::getLanguageCodes();
 
-		// create language variables
-		$sql = "SELECT	languageID, languageItemValue
-			FROM	wcf".WCF_N."_language_item
-			WHERE	languageItem = 'wcf.acp.group.option.user.source.dynamic.default'
-			AND	packageID = ".PACKAGE_ID;
-		$result = WCF::getDB()->sendQuery($sql);
-
-		// create language variables for each language
-		while ($row = WCF::getDB()->fetchArray($result)) {
-			$value = str_replace('#sourceName#', $this->name, $row['languageItemValue']);
+		foreach($languageCodes as $language) {
+			$language = new Language($language);
+			$value = $language->get('wcf.acp.group.option.user.source.dynamic.default', array('$sourceName' => $this->name));
 
 			$languageData = array(
-				$languageCodes[$row['languageID']] => array(
+				$languageCodes[$language->getLanguageID()] => array(
 					'wcf.acp.group' => array(
 						'option.user.source.dynamic.canUseSource'.$this->sourceID => $value
 					)
