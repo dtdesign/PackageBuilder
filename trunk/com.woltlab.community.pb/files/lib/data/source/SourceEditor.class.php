@@ -3,7 +3,8 @@
 require_once(PB_DIR.'lib/data/source/Source.class.php');
 
 // wcf imports
-require_once(WCF_DIR.'lib/util/FileUtil.class.php');
+require_once(WCF_DIR.'lib/util/pip/LanguagesXMLPIP.class.php');
+require_once(WCF_DIR.'lib/system/language/LanguageEditor.class.php');
 
 /**
  * Provides methods to create and edit a source.
@@ -67,7 +68,70 @@ class SourceEditor extends Source {
 		// set position
 		$source->setPosition($position);
 
+		// create permissions
+		$source->createPermissions();
+
 		return $source;
+	}
+
+	/**
+	 * Creates permissions for this source
+	 */
+	public function createPermissions() {
+		// break if no sourceID given
+		if (!$this->sourceID) throw new IllegalLinkException();
+
+		// determine position for next group option
+		$sql = "SELECT	IFNULL(MAX(showOrder), 0) + 1 AS showOrder
+			FROM	wcf".WCF_N."_group_option
+			WHERE	categoryName = 'user.source.dynamic'
+			AND	packageID = ".PACKAGE_ID;
+		$row = WCF::getDB()->getFirstRow($sql);
+		$showOrder = $row['showOrder'];
+
+		// create group option
+		$sql = "INSERT IGNORE INTO	wcf".WCF_N."_group_option
+						(packageID, optionName, categoryName, optionType, defaultValue, showOrder)
+			VALUES			(".PACKAGE_ID.",
+						'user.source.dynamic.canUseSource".$this->sourceID."',
+						'user.source.dynamic',
+						'boolean',
+						0,
+						".intval($showOrder).")";
+		WCF::getDB()->sendQuery($sql);
+
+		//get available languages
+		$languageCodes = Language::getLanguageCodes();
+
+		// create language variables
+		$sql = "SELECT	languageID, languageItemValue
+			FROM	wcf".WCF_N."_language_item
+			WHERE	languageItem = 'wcf.acp.group.option.user.source.dynamic.default'
+			AND	packageID = ".PACKAGE_ID;
+		$result = WCF::getDB()->sendQuery($sql);
+
+		// create language variables for each language
+		while ($row = WCF::getDB()->fetchArray($result)) {
+			$value = str_replace('#sourceName#', $this->name, $row['languageItemValue']);
+
+			$languageData = array(
+				$languageCodes[$row['languageID']] => array(
+					'wcf.acp.group' => array(
+						'option.user.source.dynamic.canUseSource'.$this->sourceID => $value
+					)
+				)
+			);
+
+			//create XML string
+			$xml = LanguagesXMLPIP::create($languageData, true);
+
+			// parse xml
+			$xmlObj = new XML();
+			$xmlObj->loadString($xml);
+
+			// import language xml
+			LanguageEditor::importFromXML($xmlObj, PACKAGE_ID);
+		}
 	}
 
 	/**
@@ -173,32 +237,11 @@ class SourceEditor extends Source {
 			WCF::getDB()->sendQuery($sql);
 		}
 	}
-	
-	public static function removeDir($source) {
-		$source = FileUtil::unifyDirSeperator($source);
-		if(file_exists($source)) {
-			if(is_dir($source)) {
-				$handle=opendir($source);
-				while (false !== ($file = readdir($handle))){
-					if($file != '.' && $file != '..') self::removeDir($source.'/'.$file);
-				}
-				closedir($handle);
-				rmdir($source);
-			}
-			else return @unlink($source);
-		}
-   		else {
-         	return false;
-    	}
-	}
+
 	/**
 	 * Deletes this source.
 	 */
-	public function delete($removeFolders = false) {
-		if($removeFolders) {
-			self::removeDir($this->sourceDirectory);
-			self::removeDir($this->buildDirectory);
-		}
+	public function delete() {
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
 			WHERE	sourceID = ".$this->sourceID;
