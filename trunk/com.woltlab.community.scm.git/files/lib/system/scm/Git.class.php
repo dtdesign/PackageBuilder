@@ -18,7 +18,7 @@ class Git implements SCM {
 	/**
 	 * @see	SCM::checkout()
 	 */
-	public static function checkout($url, $directory, $loginDetails, $options) {
+	public static function checkout($url, $directory, $loginDetails = array(), $options = array()) {
 		if (empty($directory)) throw new GitException('git clone: target directory missing.');
 
 		// append directory
@@ -48,7 +48,7 @@ class Git implements SCM {
 	/**
 	 * @see	SCM::getHeadRevision()
 	 */
-	public static function getHeadRevision($url, $loginDetails, $options) {
+	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
 		// not very nice or fast method to find out, but it should work
 		chdir(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)));
 		$shellCommand = escapeshellarg(GIT_PATH).' clone '.$url.' 2>&1';

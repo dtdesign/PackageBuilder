@@ -18,7 +18,7 @@ class Subversion implements SCM {
 	/**
 	 * @see	SCM::checkout()
 	 */
-	public static function checkout($url, $directory, $loginDetails, $options) {
+	public static function checkout($url, $directory, $loginDetails = array(), $options = array()) {
 		if (empty($directory)) throw new SubversionException('Subversion checkout: target directory missing.');
 
 		// append directory
@@ -31,7 +31,7 @@ class Subversion implements SCM {
 	/**
 	 * @see	SCM::getHeadRevision()
 	 */
-	public static function getHeadRevision($url, $loginDetails, $options) {
+	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
 		$options['asXML'] = true;
 		$output = self::executeCommand('info', $url, $loginDetails, $options);
 		$xml = new XML();
