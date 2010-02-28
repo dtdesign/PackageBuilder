@@ -3,7 +3,7 @@
 	<category name="wcf.acp.group">
 		<item name="wcf.acp.group.option.user.source.dynamic"><![CDATA[Zugriffsrechte]]></item>
 		<item name="wcf.acp.group.option.user.source.dynamic.description"><![CDATA[]]></item>
-		<item name="wcf.acp.group.option.user.source.dynamic.default"><![CDATA[Kann "#sourceName#" benutzen]]></item>
-		<item name="wcf.acp.group.option.user.source.dynamic.default.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Paketquelle "#sourceName#" benutzen.]]></item>
+		<item name="wcf.acp.group.option.user.source.dynamic.default"><![CDATA[Kann "{$sourceName}" benutzen]]></item>
+		<item name="wcf.acp.group.option.user.source.dynamic.default.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Paketquelle "{$sourceName}" benutzen.]]></item>
 	</category>
 </language>
