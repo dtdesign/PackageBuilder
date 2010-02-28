@@ -1,7 +1,6 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/system/scm/SCM.class.php');
-require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 
 /**
  * Does nothing, but is required for sources that use the "None" scm

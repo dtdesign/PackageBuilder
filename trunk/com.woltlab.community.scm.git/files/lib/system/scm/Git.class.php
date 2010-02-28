@@ -2,7 +2,6 @@
 // wcf imports
 require_once(WCF_DIR.'lib/system/scm/SCM.class.php');
 require_once(WCF_DIR.'lib/system/scm/GitException.class.php');
-require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 
 /**
  * Provides git access
