@@ -73,7 +73,30 @@ class SourceEditor extends Source {
 
 		return $source;
 	}
-
+	public function removePermissions() {
+		// remove option
+		$sql = "SELECT	optionID
+			FROM 	wcf".WCF_N."_group_option
+			WHERE	optionName = 'user.source.dynamic.canUseSource".$this->sourceID."'
+			AND 	packageID = ".PACKAGE_ID;
+		$result = WCF::getDB()->sendQuery($sql);
+		$optionIDs = array();
+		while ($row = WCF::getDB()->fetchArray($result)) {
+			$optionIDs[] = $row['optionID'];
+		}
+		foreach ($optionIDs as $optionID) {
+			$sql = "DELETE FROM 	wcf".WCF_N."_group_option_value
+				WHERE		optionID = ".$optionID;
+			WCF::getDB()->sendQuery($sql);
+		}
+		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.group-option-*.php');
+		// remove language
+		$sql = "DELETE	FROM wcf".WCF_N."_language_item
+				WHERE	languageItem = 'wcf.acp.group.option.user.source.dynamic.canUseSource".$this->sourceID."'
+				AND	packageID = ".PACKAGE_ID;
+		WCF::getDB()->sendQuery($sql);
+		Language::clearCache();
+	}
 	/**
 	 * Creates permissions for this source
 	 */
@@ -289,6 +312,7 @@ class SourceEditor extends Source {
 		$sql = "DELETE	FROM pb".PB_N."_selected_packages
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
+		$this->removePermissions();
 	}
 }
 ?>
