@@ -3,6 +3,7 @@
 require_once(WCF_DIR.'lib/data/DatabaseObject.class.php');
 require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 require_once(WCF_DIR.'lib/util/StringUtil.class.php');
+require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * Represents a source database row.
