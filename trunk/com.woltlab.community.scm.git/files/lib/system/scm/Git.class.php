@@ -29,10 +29,11 @@ class Git implements SCM {
 		// if there is already a working copy pull new data
 		// otherwise clone a new working copy
 		if(file_exists(FileUtil::addTrailingSlash($directory).$dir.'/.git')) {
-			chdir(FileUtil::addTrailingSlash($directory).$dir.'/.git');
+			chdir(FileUtil::addTrailingSlash($directory).$dir);
 			$shellCommand = escapeshellarg(GIT_PATH).' pull 2>&1';
 			// execute command
 			exec ($shellCommand, $output);
+			print_r($output);
 			return $output;
 		}
 		else {
