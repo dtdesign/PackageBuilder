@@ -1,6 +1,7 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
+require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * Default start page, displays all relevant informations.
@@ -28,17 +29,9 @@ class IndexPage extends AbstractPage {
 		$result = WCF::getDB()->sendQuery($sql);
 
 		while ($row = WCF::getDB()->fetchArray($result)) {
-			/*
-			// fetch available revision if subversion is used
-			if ($row['useSubversion']) {
-				require_once(WCF_DIR.'lib/system/subversion/Subversion.class.php');
-				$availableRevision = Subversion::getHeadRevision($row['url'], $row['username'], $row['password']);
-				$row['availableRevision'] = $availableRevision;
-			}
-			*/
-
-			$row['availableRevision'] = '(disabled)';
-
+			$className = ucfirst(SCMHelper::getSCM($row['scm']) ? SCMHelper::getSCM($row['scm']) : 'none');
+			require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
+			$row['availableRevision'] = call_user_func(array($className, 'getHeadRevision'), $row['url'], $row['username'], $row['password']);
 			$this->sources[] = $row;
 		}
 	}

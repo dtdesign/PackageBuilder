@@ -49,11 +49,11 @@ class Git implements SCM {
 	 */
 	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
 		// not very nice or fast method to find out, but it should work
-		chdir(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)));
-		$shellCommand = escapeshellarg(GIT_PATH).' clone '.$url.' 2>&1';
+		self::checkout($url, GIT_TEMPORARY_DIRECTORY, $loginDetails, $options);
 		$dir = explode('/', $url);
 		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
-		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/FETCH_HEAD');
+		$headdir = explode(" ", file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/HEAD'));
+		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.trim($headdir[1]));
 		// TODO: remove temporary dir
 		return $return;
 	}
