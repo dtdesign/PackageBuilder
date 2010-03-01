@@ -31,7 +31,8 @@ class SourceListPage extends AbstractPage {
 		parent::readData();
 
 		$sql = "SELECT	*
-			FROM	pb".PB_N."_sources";
+			FROM	pb".PB_N."_sources
+			ORDER BY position ASC";
 		$result = WCF::getDB()->sendQuery($sql);
 
 		while ($row = WCF::getDB()->fetchArray($result)) {
@@ -61,3 +62,4 @@ class SourceListPage extends AbstractPage {
 		parent::show();
 	}
 }
+?>
