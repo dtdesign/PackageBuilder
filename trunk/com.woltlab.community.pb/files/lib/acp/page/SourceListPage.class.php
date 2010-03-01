@@ -47,7 +47,7 @@ class SourceListPage extends AbstractPage {
 
 		WCF::getTPL()->assign(array(
 			'deletedSourceID' => $this->deletedSourceID,
-			'maxPosition' => (count($this->sources) + 1),
+			'maxPosition' => count($this->sources),
 			'sources' => $this->sources,
 			'successfulSorting' => $this->successfulSorting
 		));
