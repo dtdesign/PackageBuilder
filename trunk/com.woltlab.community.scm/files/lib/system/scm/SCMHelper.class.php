@@ -24,6 +24,7 @@ class SCMHelper {
 	 * @return	string	Class name
 	 */
 	public static function getSCM($scm = '') {
+		self::getCache();
 		$scm = StringUtil::toLowerCase($scm);
 
 		if (empty($scm)) {
