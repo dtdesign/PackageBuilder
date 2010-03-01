@@ -1,7 +1,6 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/action/AbstractAction.class.php');
-require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 
 /**
  * Sets source directory used as source.

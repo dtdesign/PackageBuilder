@@ -5,8 +5,6 @@ require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
 require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 
 // wcf imports
-require_once(WCF_DIR.'lib/util/FileUtil.class.php');
-require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 
 /**

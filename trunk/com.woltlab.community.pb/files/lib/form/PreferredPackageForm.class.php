@@ -5,7 +5,6 @@ require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
-require_once(WCF_DIR.'lib/util/StringUtil.class.php');
 
 /**
  * Sets preferred packages for archive creation.

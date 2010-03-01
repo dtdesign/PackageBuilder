@@ -17,17 +17,6 @@ require_once(WCF_DIR.'lib/system/language/LanguageEditor.class.php');
  * @category 	PackageBuilder
  */
 class SourceEditor extends Source {
-	/**
-	 * Creates a new SourceEditor object.
-	 * @see Source::__construct()
-	 */
-	public function __construct($sourceID, $row = null) {
-		$sql = "SELECT	*
-			FROM	pb".PB_N."_sources
-			WHERE	sourceID = ".$sourceID;
-		$row = WCF::getDB()->getFirstRow($sql);
-		parent::__construct(null, $row);
-	}
 
 	/**
 	 * Creates a new source.

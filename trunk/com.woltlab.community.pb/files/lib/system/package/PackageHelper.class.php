@@ -3,9 +3,6 @@
 require_once(PB_DIR.'lib/data/source/Source.class.php');
 require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 
-// wcf imports
-require_once(WCF_DIR.'lib/util/StringUtil.class.php');
-
 /**
  * Providing methods for packages.
  *
