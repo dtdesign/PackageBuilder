@@ -33,7 +33,6 @@ class Git implements SCM {
 			$shellCommand = escapeshellarg(GIT_PATH).' pull 2>&1';
 			// execute command
 			exec ($shellCommand, $output);
-			print_r($output);
 			return $output;
 		}
 		else {
