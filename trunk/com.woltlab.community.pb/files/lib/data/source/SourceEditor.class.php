@@ -201,7 +201,19 @@ class SourceEditor extends Source {
 			LanguageEditor::importFromXML($xmlObj, PACKAGE_ID);
 		}
 	}
-
+	
+	/**
+	 * Removes a position
+	 *
+	 * @param	integer	$position	Position to remove
+	 */
+	public function removePosition($position = null) {
+		$sql = "UPDATE	pb".PB_N."_sources
+			SET	position = position - 1
+			WHERE 	position > ".$position;
+		WCF::getDB()->sendQuery($sql);
+	}
+	
 	/**
 	 * Sets new position
 	 *
@@ -310,6 +322,7 @@ class SourceEditor extends Source {
 	 * Deletes this source.
 	 */
 	public function delete() {
+		$this->removePosition($this->position);
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
 			WHERE	sourceID = ".$this->sourceID;
