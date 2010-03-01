@@ -1,6 +1,6 @@
 {include file="documentHeader"}
 <head>
-	<title>{*{lang}pb.source.view.title{/lang}*} - {PAGE_TITLE}</title>
+	<title>{PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
 	<link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
@@ -84,7 +84,7 @@
 		<div class="type-text">
 			<label for="revision">{lang}pb.source.revision{/lang}</label>
 
-			(not implemented){*{lang}pb.source.revision.{if !$source->isOutdated()}current{else}outdated{/if}{/lang}*}
+			{lang}pb.source.revision.{if $source->revision == $latestRevision}current{else}outdated{/if}{/lang}
 		</div>
 		{/if}
 
