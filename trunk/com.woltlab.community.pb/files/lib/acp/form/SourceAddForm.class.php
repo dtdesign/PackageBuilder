@@ -4,7 +4,6 @@ require_once(PB_DIR.'lib/data/source/SourceEditor.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/acp/form/ACPForm.class.php');
-require_once(WCF_DIR.'lib/util/FileUtil.class.php');
 
 /**
  * A form to create new sources.

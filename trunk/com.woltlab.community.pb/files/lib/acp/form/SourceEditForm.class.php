@@ -24,7 +24,7 @@ class SourceEditForm extends SourceAddForm {
 	public function readParameters() {
 		parent::readParameters();
 
-		if (isset($_REQUEST['sourceID'])) $this->source = new Source($_REQUEST['sourceID']);
+		if (isset($_REQUEST['sourceID'])) $this->source = new SourceEditor($_REQUEST['sourceID']);
 	}
 
 	/**
