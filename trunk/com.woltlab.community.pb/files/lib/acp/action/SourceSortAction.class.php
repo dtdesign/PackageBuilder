@@ -40,10 +40,10 @@ class SourceSortAction extends AbstractAction {
 		$position = 0;
 		// set the position for each of them
 		foreach($this->positions as $key => $val) {
-			$source = new SourceEditor($key);
-			// break if one source is invalid
-			if (!$source->sourceID) throw new IllegalLinkException();
-			$source->update(null, null, null, null,  null,  null,  null,  null,  null, $position);
+			$sql = "UPDATE	pb".PB_N."_sources
+				SET	position = ".$position."
+				WHERE	sourceID = ".$key;
+			WCF::getDB()->sendQuery($sql);
 			$position++;
 		}
 		// call executed event
