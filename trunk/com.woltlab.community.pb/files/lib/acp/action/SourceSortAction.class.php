@@ -6,7 +6,7 @@ require_once(PB_DIR.'lib/data/source/SourceEditor.class.php');
 require_once(WCF_DIR.'lib/action/AbstractAction.class.php');
 
 /**
- * An action to remove sources.
+ * An action to sort sources.
  *
  * @author	Tim Düsterhus
  * @copyright	2009-2010 WoltLab Community
