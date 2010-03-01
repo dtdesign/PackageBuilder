@@ -6,7 +6,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 /**
  * Default start page, displays all relevant informations.
  *
- * @author	Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
