@@ -33,6 +33,7 @@ class Subversion implements SCM {
 	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
 		$options['asXML'] = true;
 		$output = self::executeCommand('info', $url, $loginDetails, $options);
+		$output = implode($output, '');
 		$xml = new XML();
 		$xml->loadString($output);
 		$tree = $xml->getElementTree('');
@@ -113,3 +114,4 @@ class Subversion implements SCM {
 		}
 	}
 }
+?>
