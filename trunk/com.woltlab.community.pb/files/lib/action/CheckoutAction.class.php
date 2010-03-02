@@ -40,7 +40,7 @@ class CheckoutAction extends AbstractAction {
 		if (!$source->sourceID) throw new IllegalLinkException();
 
 		// load scm driver
-		$className = ucfirst(SCMHelper::getSCM($row['scm']) ? SCMHelper::getSCM($row['scm']) : 'none');
+		$className = ucfirst(SCMHelper::getSCM($source->scm) ? SCMHelper::getSCM($source->scm) : 'none');
 
 		// check out repository
 		require_once(WCF_DIR.'lib/system/scm/'.$className.'.class.php');
@@ -54,7 +54,7 @@ class CheckoutAction extends AbstractAction {
 		$this->executed();
 
 		// forward
-		HeaderUtil::redirect('index.php?page=SourceView&sourceID='.$source->sourceID.'&latestRevision='.$revision.SID_ARG_2ND_NOT_ENCODED);
+		HeaderUtil::redirect('index.php?page=SourceView&sourceID='.$source->sourceID.SID_ARG_2ND_NOT_ENCODED);
 		exit;
 	}
 }
