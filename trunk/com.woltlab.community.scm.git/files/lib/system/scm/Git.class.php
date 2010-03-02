@@ -18,6 +18,7 @@ class Git implements SCM {
 	 * @see	SCM::checkout()
 	 */
 	public static function checkout($url, $directory, $loginDetails = array(), $options = array()) {
+		self::validateGitPath();
 		if (empty($directory)) throw new GitException('git clone: target directory missing.');
 
 		// append directory
@@ -48,12 +49,13 @@ class Git implements SCM {
 	 * @see	SCM::getHeadRevision()
 	 */
 	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
+		self::validateGitPath();
 		// not very nice or fast method to find out, but it should work
 		self::checkout($url, GIT_TEMPORARY_DIRECTORY, $loginDetails, $options);
 		$dir = explode('/', $url);
 		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
 		$headdir = explode(" ", file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/HEAD'));
-		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.StringUtil::trim($headdir[1]));
+		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.trim($headdir[1]));
 		// TODO: remove temporary dir
 		return $return;
 	}
