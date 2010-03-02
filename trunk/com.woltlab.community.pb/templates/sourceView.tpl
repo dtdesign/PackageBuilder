@@ -3,8 +3,8 @@
 	<title>{$source->name} - {PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
-	<link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
-	<link rel="alternate" type="application/atom+xml" href="index.php?page=Feed&amp;type=Atom" title="Atom" />
+	{* <link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
+	<link rel="alternate" type="application/atom+xml" href="index.php?page=Feed&amp;type=Atom" title="Atom" /> *}
 </head>
 <body>
 {include file='header' sandbox=false}
