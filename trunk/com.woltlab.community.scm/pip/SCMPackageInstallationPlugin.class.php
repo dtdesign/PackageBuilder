@@ -1,7 +1,7 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/acp/package/plugin/AbstractXMLPackageInstallationPlugin.class.php');
-require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
+if(file_exists(WCF_DIR.'lib/system/scm/SCMHelper.class.php')) require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * Provides PIP for source code management systems.
