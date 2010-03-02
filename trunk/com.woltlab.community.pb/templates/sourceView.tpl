@@ -1,6 +1,6 @@
 {include file="documentHeader"}
 <head>
-	<title>{PAGE_TITLE}</title>
+	<title>{$source->name} - {PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
 	<link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
@@ -12,8 +12,8 @@
 <div class="mainHeadline">
 	<img src="{icon}indexL.png{/icon}" alt = "" />
 	<div class="headlineContainer">
-		<h2>{PAGE_TITLE}</h2>
-		<p>{PAGE_DESCRIPTION}</p>
+		<h2>{$source->name}</h2>
+		<p></p>
 	</div>
 </div>
 
