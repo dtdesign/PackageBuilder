@@ -32,7 +32,7 @@ class IndexPage extends AbstractPage {
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			$className = ucfirst(SCMHelper::getSCM($row['scm']) ? SCMHelper::getSCM($row['scm']) : 'none');
 			require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
-			$row['availableRevision'] = call_user_func(array($className, 'getHeadRevision'), $row['url'], $row['username'], $row['password']);
+			$row['availableRevision'] = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $row['url'], $row['username'], $row['password']));
 			$this->sources[] = $row;
 		}
 	}
