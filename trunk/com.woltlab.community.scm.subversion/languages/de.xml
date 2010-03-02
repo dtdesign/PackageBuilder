@@ -8,4 +8,7 @@
 		<item name="wcf.acp.option.subversion_temporary_directory"><![CDATA[Temporäres Verzeichnis]]></item>
 		<item name="wcf.acp.option.subversion_temporary_directory.description"><![CDATA[Geben Sie hier ein beliebiges Verzeichnis an, es sollte sich jedoch an einer nicht-öffentlich zugänglichen Stelle befinden. Dieses Verzeichnis dient der temporären Speicherung aller für Subversion relevanter Daten inklusive Repositoryzugangsdaten.]]></item>
 	</category>
+	<category name="wcf.scm">
+		<item name="wcf.scm.subversion">Subversion</item>
+	</category>
 </language>

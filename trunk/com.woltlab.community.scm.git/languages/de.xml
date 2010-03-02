@@ -8,4 +8,7 @@
 		<item name="wcf.acp.option.git_temporary_directory"><![CDATA[Temporäres Verzeichnis]]></item>
 		<item name="wcf.acp.option.git_temporary_directory.description"><![CDATA[Geben Sie hier ein beliebiges Verzeichnis an, es sollte sich jedoch an einer nicht-öffentlich zugänglichen Stelle befinden. Dieses Verzeichnis dient zur temporären Speicherung von Dateien.]]></item>
 	</category>
+	<category name="wcf.scm">
+		<item name="wcf.scm.git">Git</item>
+	</category>
 </language>

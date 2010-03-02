@@ -51,7 +51,7 @@
 				{$source.sourceDirectory}
 			</td>
 			<td>
-				{lang}pb.source.scm.{$source.scm}{/lang}
+				{lang}wcf.scm.{$source.scm}{/lang}
 			</td>
 			<td>
 				{if $source.scm == 'none'}
