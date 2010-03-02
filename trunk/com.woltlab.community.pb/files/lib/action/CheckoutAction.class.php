@@ -25,7 +25,7 @@ class CheckoutAction extends AbstractAction {
 	public function readParameters() {
 		parent::readParameters();
 
-		if (isset($_GET['sourceID'])) $this->sourceID = intval($_GET['sourceID']);
+		if (isset($_REQUEST['sourceID'])) $this->sourceID = intval($_REQUEST['sourceID']);
 	}
 
 	/**

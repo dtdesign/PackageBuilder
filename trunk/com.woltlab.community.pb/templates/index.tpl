@@ -65,7 +65,7 @@
 				{/if}
 			</td>
 			<td class="sourceGo">
-				<a href="index.php?page=SourceView&amp;sourceID={$source.sourceID}"><img src="{@RELATIVE_WCF_DIR}icon/cronjobExecuteS.png" alt="{lang}pb.source.go{/lang}" title="{lang}pb.source.go{/lang}" /></a>
+				<a href="index.php?page=SourceView&amp;sourceID={$source.sourceID}"><img src="{icon}cronjobExecuteS.png{/icon}" alt="{lang}pb.source.go{/lang}" title="{lang}pb.source.go{/lang}" /></a>
 			</td>
 		</tr>
 	{/foreach}
