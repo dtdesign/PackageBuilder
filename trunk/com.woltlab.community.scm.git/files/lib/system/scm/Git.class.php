@@ -53,7 +53,7 @@ class Git implements SCM {
 		$dir = explode('/', $url);
 		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
 		$headdir = explode(" ", file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/HEAD'));
-		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.trim($headdir[1]));
+		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.StringUtil::trim($headdir[1]));
 		// TODO: remove temporary dir
 		return $return;
 	}
