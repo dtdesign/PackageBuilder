@@ -32,7 +32,7 @@
 				{lang}pb.source.scm{/lang}
 			</th>
 			<th scope="col">
-				{lang}pb.source.revision{/lang} ¹
+				{lang}pb.source.revision{/lang} <sup>1</sup>
 			</th>
 			<th scope="col">
 				{lang}pb.global.action{/lang}
@@ -51,7 +51,7 @@
 				{$source.sourceDirectory}
 			</td>
 			<td>
-				{lang}wcf.scm.{$source.scm}{/lang}
+				{lang}wcf.scm.{$source.scm|strtolower}{/lang}
 			</td>
 			<td>
 				{if $source.scm == 'none'}
