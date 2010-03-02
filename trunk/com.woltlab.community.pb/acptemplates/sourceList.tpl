@@ -4,7 +4,7 @@
 	//<![CDATA[
 	function init() {
 		{if $sources|count > 0 && $this->user->getPermission('admin.source.canEditSources')}
-			new ItemListEditor('sourceList', { itemTitleEdit: true, itemTitleEditURL: 'index.php?action=SourceRename&sourceID=', tree: true, treeTag: 'ol' });
+			new ItemListEditor('sourceList', { itemTitleEdit: true, itemTitleEditURL: 'index.php?action=SourceRename&sourceID=' });
 		{/if}
 	}
 
@@ -59,12 +59,10 @@
 							</div>
 
 							<h3 class="itemListTitle">
-								{*<img src="{@RELATIVE_PB_DIR}icon/{if $board->isBoard()}board{else}boardRedirect{/if}S.png" alt="" title="{lang}wbb.acp.board.boardType.{@$board->boardType}{/lang}" />*}
-
 								{if $this->user->getPermission('admin.source.canEditSources')}
 									<select name="sourceListPositions[{@$source->sourceID}]">
 										{section name='positions' loop=$maxPosition}
-											<option value="{@$positions}"{if $positions == $source->position} selected="selected"{/if}>{@$positions+1}</option>
+											<option value="{@$positions+1}"{if $positions+1 == $source->position+1} selected="selected"{/if}>{@$positions+1}</option>
 										{/section}
 									</select>
 								{/if}
