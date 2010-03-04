@@ -35,7 +35,7 @@ class PackageBuilder {
 	 * @param	mixed	$excludeFiles		files to exclude while packing archive
 	 * @param	bool	$ignoreDotFiles		should files beginning with a dot be ignored
 	 */
-	public function __construct($source, PackageReader $package, $directory, $excludeFiles = array(), $ignoreDotFiles = true) {
+	public function __construct($source, PackageReader $package, $directory, $filename, $excludeFiles = array(), $ignoreDotFiles = true) {
 		// read source
 		$this->source = ($source instanceof Source) ? $source : new Source($source);
 
@@ -57,9 +57,6 @@ class PackageBuilder {
 		// check requirements
 		$this->verifyPackages('requiredpackage', $directory);
 		$this->verifyPackages('optionalpackage', $directory);
-
-		// get filename
-		$filename = WCF::getSession()->getVar('filename'.$this->source->sourceID);
 
 		// get data for filename
 		$data = array(

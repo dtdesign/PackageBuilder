@@ -39,6 +39,13 @@ class BuildPackageAction extends AbstractAction {
 	 * @var	boolean
 	 */
 	public $saveSelection = false;
+	
+	/**
+	 * Filename Pattern for the Archive
+	 *
+	 * @var	string
+	 */
+	public $filename = 'pn_pv';
 
 	/**
 	 * Source object
@@ -55,7 +62,8 @@ class BuildPackageAction extends AbstractAction {
 
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
 		if (isset($_POST['sourceID'])) $this->source = new Source($_POST['sourceID']);
-
+		if (isset($_POST['filename'])) $this->filename = trim($_POST['filename']);
+		
 		// read selected resources
 		$this->readPackageSelection();
 
@@ -125,7 +133,7 @@ class BuildPackageAction extends AbstractAction {
 		$pr = new PackageReader($this->source->sourceID, $this->directory);
 
 		// build package
-		$pkg = new PackageBuilder($this->source->sourceID, $pr, $this->directory, array('.svn', '.git'));
+		$pkg = new PackageBuilder($this->source->sourceID, $pr, $this->directory, $this->filename);
 
 		// clear previously created archives
 		PackageHelper::clearTemporaryFiles();

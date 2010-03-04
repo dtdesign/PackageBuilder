@@ -51,6 +51,7 @@
 		{/if}
 
 		<div class="type-button">
+			<input type="hidden" name="filename" value="{@$filename}" />
 			<input type="hidden" name="sourceID" value="{@$source->sourceID}" />
 			<input type="submit" value="{lang}pb.source.build{/lang}" />
 		</div>

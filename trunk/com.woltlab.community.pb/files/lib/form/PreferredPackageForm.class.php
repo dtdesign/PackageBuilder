@@ -9,7 +9,7 @@ require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
 /**
  * Sets preferred packages for archive creation.
  *
- * @author	Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -26,6 +26,7 @@ class PreferredPackageForm extends AbstractForm {
 	public $selectedPackages = array();
 	public $source = array();
 	public $sourceID = 0;
+	public $filename = 'pn_pv';
 
 	/**
 	 * @see	Page::readParameters()
@@ -34,6 +35,7 @@ class PreferredPackageForm extends AbstractForm {
 		parent::readParameters();
 
 		if (isset($_REQUEST['sourceID'])) $this->sourceID = intval($_REQUEST['sourceID']);
+		if (isset($_REQUEST['filename'])) $this->filename = trim($_REQUEST['filename']);
 	}
 
 	/**
@@ -176,7 +178,8 @@ class PreferredPackageForm extends AbstractForm {
 			'packages' => $this->packages,
 			'saveSelection' => $this->saveSelection,
 			'selectedPackages' => $this->selectedPackages,
-			'source' => $this->source
+			'source' => $this->source,
+			'filename' => $this->filename
 		));
 	}
 }
