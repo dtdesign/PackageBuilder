@@ -241,7 +241,7 @@ class PackageBuilder {
 		// proceed with directory content
 		if ($dh = opendir($directory.$file)) {
 			while (($subFile = readdir($dh)) !== false) {
-				if (!in_array($subFile, $this->excludeDirectories)) {
+				if (!in_array($subFile, $this->excludeFiles) && (!$this->ignoreDotFiles || substr($file, 0,1) != '.')) {
 					$this->addFilesRecursive($archive, $directory, $file.$subFile, $removeDir);
 				}
 			}

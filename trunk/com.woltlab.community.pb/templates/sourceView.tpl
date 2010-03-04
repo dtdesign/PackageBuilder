@@ -59,7 +59,7 @@
 						</td>
 						<td class="sourceGo">
 							{assign var=filenameEncoded value=$build.filename|urlencode}
-							<a href="index.php?action=DeleteArchive&amp;sourceID={$source.sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_SECOND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang}pb.build.action.delete{/lang}" title="{lang}pb.build.action.delete{/lang}" longdesc="{lang}pb.build.action.delete.sure{/lang}" /></a>
+							<a href="index.php?action=DeleteArchive&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang}pb.build.action.delete{/lang}" title="{lang}pb.build.action.delete{/lang}" longdesc="{lang}pb.build.action.delete.sure{/lang}" /></a>
 						</td>
 					</tr>
 					{/foreach}
@@ -112,7 +112,7 @@
 <form method="post" action="index.php?action=Checkout" class="yform columnar">
 	<fieldset>
 		<legend>{lang}pb.source.checkout{/lang}</legend>
-		{if $source->revision != $latestRevision}<div class="warning">{lang}pb.source.checkout.iscurrent{/lang}</div>{/if}
+		{if $source->revision == $latestRevision}<div class="warning">{lang}pb.source.checkout.iscurrent{/lang}</div>{/if}
 		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
 			<label for="rebuildPackageData">{lang}pb.source.rebuildPackageData{/lang}</label>
