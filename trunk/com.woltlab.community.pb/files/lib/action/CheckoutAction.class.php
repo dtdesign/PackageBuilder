@@ -9,7 +9,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 /**
  * Checks out a repository.
  *
- * @author	Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -18,6 +18,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
  */
 class CheckoutAction extends AbstractAction {
 	public $sourceID = 0;
+	public $rebuildPackageData;
 
 	/**
 	 * @see Action::readParameters()
@@ -26,6 +27,7 @@ class CheckoutAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_REQUEST['sourceID'])) $this->sourceID = intval($_REQUEST['sourceID']);
+		if (isset($_REQUEST['rebuildPackageData'])) $this->rebuildPackageData = (boolean) $_REQUEST['rebuildPackageData'];
 	}
 
 	/**
@@ -49,6 +51,12 @@ class CheckoutAction extends AbstractAction {
 		// set revision
 		$revision = call_user_func(array($className, 'getHeadRevision'), $source->url, $source->username, $source->password);
 		$source->update(null, null, null, null, null, null, null, $revision);
+
+		// rebuild package data if requested
+		if ($this->rebuildPackageData) {
+			require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
+			PackageHelper::readPackages($source);
+		}
 
 		// call executed event
 		$this->executed();
