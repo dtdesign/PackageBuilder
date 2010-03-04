@@ -14,12 +14,20 @@
 		<!-- disable form or page -->
 		<eventlistener>
 			<environment><![CDATA[user]]></environment>
-			<eventclassname><![CDATA[MemberListPage]]></eventclassname>
+			<eventclassname><![CDATA[MembersListPage]]></eventclassname>
 			<eventname><![CDATA[readParameters]]></eventname>
 			<inherit>0</inherit>
 			<listenerclassfile><![CDATA[lib/system/event/listener/DisabledPageListener.class.php]]></listenerclassfile>
 		</eventlistener>
-
+		
+		<eventlistener>
+			<environment><![CDATA[user]]></environment>
+			<eventclassname><![CDATA[UserPage]]></eventclassname>
+			<eventname><![CDATA[readParameters]]></eventname>
+			<inherit>0</inherit>
+			<listenerclassfile><![CDATA[lib/system/event/listener/DisabledPageListener.class.php]]></listenerclassfile>
+		</eventlistener>
+		
 		<eventlistener>
 			<environment><![CDATA[user]]></environment>
 			<eventclassname><![CDATA[MemberSearch]]></eventclassname>
