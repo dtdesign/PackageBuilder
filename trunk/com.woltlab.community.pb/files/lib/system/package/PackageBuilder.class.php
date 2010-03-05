@@ -35,7 +35,7 @@ class PackageBuilder {
 	 * @param	mixed	$excludeFiles		files to exclude while packing archive
 	 * @param	bool	$ignoreDotFiles		should files beginning with a dot be ignored
 	 */
-	public function __construct($source, PackageReader $package, $directory, $filename, $excludeFiles = array(), $ignoreDotFiles = true) {
+	public function __construct($source, PackageReader $package, $directory, $filename, $excludeFiles = array(), $ignoreDotFiles = true, $removeAfter = false) {
 		// read source
 		$this->source = ($source instanceof Source) ? $source : new Source($source);
 
@@ -72,7 +72,7 @@ class PackageBuilder {
 		$this->verifyPackages('optionalpackage', $directory);
 
 		// intialize archive
-		$this->location = $this->createArchive($directory, $this->filename);
+		$this->location = $this->createArchive($directory, $this->filename, $removeAfter);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class PackageBuilder {
 			$location = PackageHelper::searchPackage($packageName);
 			if (!is_null($location)) {
 				if (!@copy($location, $directory.$package['file'])) {
-					throw new SystemException('Unable to copy archive, check permissions for directory '.$directory);
+					throw new SystemException('Unable to copy archive ('.$package['file'].'), check permissions for directory '.$directory);
 				}
 
 				// register temporary file
@@ -113,17 +113,17 @@ class PackageBuilder {
 			$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);
-				$pb = new PackageBuilder($this->source, $packageData, $location, '.svn');
+				$pb = new PackageBuilder($this->source, $packageData, $location, 'pn', array(), true, true);
 				// copy archive
 				if (!@copy($pb->getArchiveLocation(), $directory.$package['file'])) {
-					throw new SystemException('Unable to copy archive, check permissions for directory '.$directory);
+					throw new SystemException('Unable to copy archive ('.$package['file'].'), check permissions for directory '.$directory);
 				}
 
 				// register temporary file
 				PackageHelper::registerTemporaryFile($directory.$package['file']);
 
 				// mark package as built
-				PackageHelper::addPackageData($packageName, $pb->getArchiveLocation());
+				#PackageHelper::addPackageData($packageName, $pb->getArchiveLocation());
 
 				continue;
 			}
@@ -139,7 +139,7 @@ class PackageBuilder {
 	 * @param	string	$directory
 	 * @param	string	$filename
 	 */
-	public function createArchive($directory, $filename) {
+	public function createArchive($directory, $filename, $removeAfter) {
 		$buildDirectory = '';
 		$directories = array('acptemplates', 'files', 'pip', 'templates');
 		$directory = $this->source->sourceDirectory.$directory.'/';
@@ -203,7 +203,7 @@ class PackageBuilder {
 				}
 			}
 		}
-
+		if($removeAfter) PackageHelper::registerTemporaryFile($location);
 		return $location;
 	}
 
