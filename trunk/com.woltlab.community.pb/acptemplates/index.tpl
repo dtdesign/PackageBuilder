@@ -1,5 +1,11 @@
 {include file='header'}
-
+<script src="../../wcf/js/TabMenu.class.js" type="text/javascript"></script>
+<script type="text/javascript">
+	//<![CDATA[
+	var tabMenu = new TabMenu();
+	onloadEvents.push(function() { tabMenu.showSubTabMenu('system') });
+	//]]>
+</script>
 <div class="mainHeadline">
 	<img src="{RELATIVE_PB_DIR}/icon/acpL.png" alt="" />
 	<div class="headlineContainer">
