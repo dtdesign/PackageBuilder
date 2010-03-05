@@ -43,9 +43,7 @@
 
 		<!-- scm system -->
 		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.tar.gz">com.woltlab.community.scm</requiredpackage>
-		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.git.tar.gz">com.woltlab.community.scm.git</requiredpackage>
-		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.subversion.tar.gz">com.woltlab.community.scm.subversion</requiredpackage>
-
+		
 		<!-- additional packages -->
 		<requiredpackage minversion="1.0.0 pl 1" file="requirements/com.woltlab.community.wcf.util.package.tar.gz">com.woltlab.community.wcf.util.package</requiredpackage>
 	</requiredpackages>

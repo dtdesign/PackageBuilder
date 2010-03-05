@@ -19,6 +19,11 @@
 		<authorurl><![CDATA[http://community.woltlab.com]]></authorurl>
 	</authorinformation>
 
+	<optionalpackages>
+		<optionalpackage file="optionals/com.woltlab.community.scm.git.tar.gz">com.woltlab.community.scm.git</optionalpackage>
+		<optionalpackage file="optionals/com.woltlab.community.scm.subversion.tar.gz">com.woltlab.community.scm.subversion</optionalpackage>
+	</optionalpackages>
+	
 	<requiredpackages>
 		<requiredpackage minversion="1.1.1 pl 2">com.woltlab.wcf</requiredpackage>
 	</requiredpackages>
