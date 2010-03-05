@@ -54,10 +54,7 @@ class PackageBuilder {
 			$this->excludeFiles = array_merge($this->excludeFiles, $excludeFiles);
 		}
 
-		// check requirements
-		$this->verifyPackages('requiredpackage', $directory);
-		$this->verifyPackages('optionalpackage', $directory);
-
+		
 		// get data for filename
 		$data = array(
 			'pn' => $this->package['name'],
@@ -67,6 +64,12 @@ class PackageBuilder {
 
 		// set archive name
 		$this->filename = PackageHelper::getArchiveName($filename, $data);
+		// check requirements
+		$buildDirectory = $this->source->buildDirectory.'/';
+		$location = $buildDirectory.$this->filename;
+		PackageHelper::addPackageData($this->package['name'], $location);
+		$this->verifyPackages('requiredpackage', $directory);
+		$this->verifyPackages('optionalpackage', $directory);
 
 		// intialize archive
 		$this->location = $this->createArchive($directory, $this->filename);
@@ -83,7 +86,6 @@ class PackageBuilder {
 
 		// break if package type is unknown
 		if (!isset($this->package[$packageType])) return;
-
 		foreach ($this->package[$packageType] as $packageName => $package) {
 			// we do not care about referenced packages with an empty file attribute
 			if (empty($package['file'])) continue;
@@ -112,7 +114,6 @@ class PackageBuilder {
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);
 				$pb = new PackageBuilder($this->source, $packageData, $location, '.svn');
-
 				// copy archive
 				if (!@copy($pb->getArchiveLocation(), $directory.$package['file'])) {
 					throw new SystemException('Unable to copy archive, check permissions for directory '.$directory);
