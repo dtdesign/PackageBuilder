@@ -3,7 +3,7 @@
 	<import>
 		<acpmenuitem name="pb.acp.menu.link.content.source">
 			<parent>wcf.acp.menu.link.content</parent>
-			<permissions>admin.source.canEditSources</permissions>
+			<permissions>admin.source.canViewSources</permissions>
 		</acpmenuitem>
 
 		<acpmenuitem name="pb.acp.menu.link.content.source.list">
