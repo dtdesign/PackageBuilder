@@ -49,7 +49,7 @@ class SourceViewPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		$className = ucfirst(SCMHelper::getSCM($this->source->scm) ? SCMHelper::getSCM($this->source->scm) : 'none');
+		$className = ucfirst(Source::validateSCM($this->source->scm));
 		require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
 		$this->latestRevision = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->source->url, $this->source->username, $this->source->password));
 

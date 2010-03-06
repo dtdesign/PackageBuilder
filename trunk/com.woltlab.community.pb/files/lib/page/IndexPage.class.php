@@ -31,7 +31,7 @@ class IndexPage extends AbstractPage {
 
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			if(WCF::getUser()->getPermission('user.source.dynamic.canUseSource'.$row['sourceID']) == 1) {
-				$className = ucfirst(SCMHelper::getSCM($row['scm']) ? SCMHelper::getSCM($row['scm']) : 'none');
+				$className = ucfirst(Source::validateSCM($row['scm']));
 				require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
 				$row['availableRevision'] = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $row['url'], $row['username'], $row['password']));
 				$this->sources[] = $row;

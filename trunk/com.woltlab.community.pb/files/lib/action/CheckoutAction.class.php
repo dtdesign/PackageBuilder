@@ -42,7 +42,7 @@ class CheckoutAction extends AbstractAction {
 		if (!$source->sourceID) throw new IllegalLinkException();
 
 		// load scm driver
-		$className = ucfirst(SCMHelper::getSCM($source->scm) ? SCMHelper::getSCM($source->scm) : 'none');
+		$className = ucfirst(Source::validateSCM($source->scm));
 
 		// check out repository
 		require_once(WCF_DIR.'lib/system/scm/'.$className.'.class.php');
