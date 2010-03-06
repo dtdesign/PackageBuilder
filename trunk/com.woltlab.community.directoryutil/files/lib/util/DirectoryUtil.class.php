@@ -55,11 +55,18 @@ class DirectoryUtil {
 	protected $recursiv = true;
 	
 	/**
-	 * all instances
+	 * all recursiv instances
 	 *
 	 * @var array
 	 */
 	protected static $instances = array();
+	
+	/**
+	 * all non-recursiv instances
+	 *
+	 * @var array
+	 */
+	protected static $instancesNonRecursiv = array();
 	
 	protected function __construct($directory, $recursiv = true) {
 		$this->directory = $directory;
@@ -78,9 +85,14 @@ class DirectoryUtil {
 	public function getInstance($directory, $recursiv = true) {
 		$directory = realpath(FileUtil::unifyDirSeperator($directory));
 		if($directory === false) throw new SystemException('Invalid directory');
-		if(array_key_exists($directory, self::$instances)) return self::$instances[$directory];
-		self::$instances[$directory] = new self($directory, $recursiv);
-		return self::$instances[$directory];
+		if(array_key_exists($directory, self::$instances) && $recursiv) return self::$instances[$directory];
+		if(array_key_exists($directory, self::$instancesNonRecursiv) && !$recursiv) return self::$instances[$directory];
+		if($recursiv) {
+			self::$instances[$directory] = new self($directory, $recursiv);
+			return self::$instances[$directory];
+		}
+		self::$instancesNonRecursiv[$directory] = new self($directory, $recursiv);
+		return self::$instancesNonResursiv[$directory];
 	}
 	
 	/**
@@ -178,14 +190,17 @@ class DirectoryUtil {
 			if($obj->isDir()) rmdir($filename);
 			elseif($obj->isFile()) unlink($filename);
 		}
+		$this->filesObj = array();
+		$this->scanFilesObj();
 	}
 	
 	/**
 	 * calculates the size of the directory
 	 *
-	 * @return int	directorysize
+	 * @return mixed	directorysize
 	 */
 	public function getSize() {
+		if(!$this->recursiv) return false;
 		if($this->size != 0) return $this->size;
 		$this->scanFilesObj();
 		foreach($this->fileObj as $filename=>$obj) {
