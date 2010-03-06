@@ -267,7 +267,6 @@ class SourceEditor extends Source {
 	 * @param	string	$revision		Currently used revision
 	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
 	 * @param	integer	$position		Position used to order sources
-	 * @return	SourceEditor
 	 */
 	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $scm = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null, $position = null) {
 		$fields = array();
