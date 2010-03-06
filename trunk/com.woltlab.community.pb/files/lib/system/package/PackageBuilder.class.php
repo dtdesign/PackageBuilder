@@ -45,7 +45,8 @@ class PackageBuilder {
 			throw new SystemException('Missing package name in "'.$directory.'", package.xml is not valid');
 		}
 		$this->ignoreDotFiles = $ignoreDotFiles;
-		// add additional directories whitch should be excluded
+		
+		// add additional files whitch should be excluded
 		if (!empty($excludeFiles)) {
 			if (!is_array($excludeFiles)) {
 				$excludeFiles = array($excludeFiles);
@@ -64,10 +65,12 @@ class PackageBuilder {
 
 		// set archive name
 		$this->filename = PackageHelper::getArchiveName($filename, $data);
-		// check requirements
+		// mark package as built
 		$buildDirectory = $this->source->buildDirectory.'/';
 		$location = $buildDirectory.$this->filename;
 		PackageHelper::addPackageData($this->package['name'], $location);
+		
+		// check requirements
 		$this->verifyPackages('requiredpackage', $directory);
 		$this->verifyPackages('optionalpackage', $directory);
 
@@ -121,9 +124,6 @@ class PackageBuilder {
 
 				// register temporary file
 				PackageHelper::registerTemporaryFile($directory.$package['file']);
-
-				// mark package as built
-				#PackageHelper::addPackageData($packageName, $pb->getArchiveLocation());
 
 				continue;
 			}

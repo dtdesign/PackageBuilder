@@ -69,6 +69,7 @@ class SourceViewPage extends AbstractPage {
 				'version' => $package['version']
 			);
 		}
+		foreach($this->directories as $key => $val) asort($this->directories[$key]);
 
 		// set build directory
 		$this->buildDirectory = $this->source->buildDirectory;
@@ -112,6 +113,7 @@ class SourceViewPage extends AbstractPage {
 				closedir($dh);
 			}
 		}
+		asort($this->builds);
 	}
 
 	/**
