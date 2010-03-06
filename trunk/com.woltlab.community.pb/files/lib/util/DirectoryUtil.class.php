@@ -67,7 +67,7 @@ class DirectoryUtil {
 	 * @return 	object				DirectoryUtil object
 	 */
 	public function getInstance($directory) {
-		$directory = realpath($directory);
+		$directory = realpath(FileUtil::unifyDirSeperator($directory));
 		if(array_key_exists($directory, self::$instances)) return self::$instances[$directory];
 		self::$instances[$directory] = new self($directory);
 		return self::$instances[$directory];
@@ -132,7 +132,7 @@ class DirectoryUtil {
 	public function removeComplete() {
 		$files = $this->getFilesObj('DESC');
 		foreach($files as $filename=>$obj) {
-			if(!is_writable($obj->getPath())) throw new Exception('Could not remove dir: "'.$obj->getPath().'" is not writable');
+			if(!is_writable($obj->getPath())) throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
 			if($obj->isDir()) rmdir($filename);
 			elseif($obj->isFile()) unlink($filename);
 		}
@@ -150,7 +150,7 @@ class DirectoryUtil {
 		$files = $this->getFiles('DESC');
 		foreach($files as $filename=>$obj) {
 			if(!preg_match($pattern, $filename)) continue;
-			if(!is_writable($obj->getPath())) throw new Exception('Could not remove dir: "'.$obj->getPath().'" is not writable');
+			if(!is_writable($obj->getPath())) throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
 			if($obj->isDir()) rmdir($filename);
 			elseif($obj->isFile()) unlink($filename);
 		}

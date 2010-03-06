@@ -149,60 +149,46 @@ class PackageBuilder {
 		if (!is_dir($directory)) throw new SystemException('Given directory "'.$directory.'" is not valid.');
 
 		// try to open directory
-		$dh = @opendir($directory);
-
-		// handle invalid directory
-		if (!$dh) throw new SystemException('Given directory "'.$directory.'" can not be opened.');
+		$dir = DirectoryUtil::getInstance($directory);
 
 		$buildDirectory = $this->source->buildDirectory.'/';
 		$location = $buildDirectory.$filename;
 		$package = new TarWriter($location, true);
 
-		while (($file = readdir($dh)) !== false) {
+		foreach($dir->getFiles() as $filename) {
 			// skip directories
-			if (in_array($file, $this->excludeFiles)) continue;
-			if ($this->ignoreDotFiles && substr($file, 0,1) == '.') continue;
+			if (in_array(basename($filename), $this->excludeFiles)) continue;
+			if ($this->ignoreDotFiles && substr(basename($filename), 0,1) == '.') continue;
 			// handle files
-			if (!is_dir($directory.$file)) {
+			if (!is_dir($filename)) {
 				// add file
-				$package->add($directory.$file, '', $directory);
+				$package->add($filename, '', $directory);
 				continue;
 			}
 
 			// skip directories
-			if (in_array($file, $directories)) {
+			if (in_array(basename($filename), $directories)) {
 				// create tarball from special directories
-				$archive = new TarWriter($buildDirectory.$file.'.tar', false);
-				$this->addFilesRecursive($archive, $directory, $file, $file.'/');
+				$archive = new TarWriter($buildDirectory.basename($filename).'.tar', false);
+				$this->addFilesRecursive($archive, $directory, basename($filename), basename($filename).'/');
 				$archive->create();
 
 				// add previously created tarball
-				$package->add($buildDirectory.$file.'.tar', '', $buildDirectory);
+				$package->add($buildDirectory.basename($filename).'.tar', '', $buildDirectory);
 			}
 			else {
 				// add sourceDirectory
-				$this->addFilesRecursive($package, $directory, $file);
+				$this->addFilesRecursive($package, $directory, basename($filename));
 			}
 		}
-
-		closedir($dh);
 
 		// create complete package
 		$package->create();
 
 		// cleanup, remove previous created tarballs
-		$directory = $this->source->buildDirectory;
-
-		if (is_dir($directory)) {
-			if ($dh = opendir($directory)) {
-				while ($file = readdir($dh)) {
-					if ((strlen($file) > 4) && (substr($file, -4) == '.tar')) {
-						// remove tarball
-						unlink($directory.$file);
-					}
-				}
-			}
-		}
+		$dir = DirectoryUtil::getInstance($this->source->buildDirectory);
+		$dir->removePattern('/.*\.tar$/');
+		
 		if($removeAfter) PackageHelper::registerTemporaryFile($location);
 		return $location;
 	}
@@ -235,16 +221,12 @@ class PackageBuilder {
 				throw new SystemException('Unable to write header block for "'.$directory.$file.'".');
 			}
 		}
-
+		$dir = DirectoryUtil::getInstance($directory.$file);
 		// proceed with directory content
-		if ($dh = opendir($directory.$file)) {
-			while (($subFile = readdir($dh)) !== false) {
-				if (!in_array($subFile, $this->excludeFiles) && (!$this->ignoreDotFiles || substr($subFile, 0,1) != '.')) {
-					$this->addFilesRecursive($archive, $directory, $file.$subFile, $removeDir);
-				}
+		foreach($dir->getFiles() as $filename) {
+			if (!in_array(basename($filename), $this->excludeFiles) && (!$this->ignoreDotFiles || substr(basename($filename), 0,1) != '.')) {
+				$this->addFilesRecursive($archive, $directory, $filename, $removeDir);
 			}
-
-			closedir($dh);
 		}
 	}
 

@@ -309,7 +309,19 @@ class SourceEditor extends Source {
 	/**
 	 * Deletes this source.
 	 */
-	public function delete() {
+	public function delete($removeDirs = true) {
+		if($removeDirs) {
+			try {
+				$dir = DirectoryUtil::getInstance($this->sourceDirectory);
+				$dir->removeComplete();
+			}
+			catch(SystemException $e) { }
+			try {
+				$dir = DirectoryUtil::getInstance($this->buildDirectory);
+				$dir->removeComplete();
+			}
+			catch(SystemException $e) { }
+		}
 		$this->removePosition($this->position);
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
