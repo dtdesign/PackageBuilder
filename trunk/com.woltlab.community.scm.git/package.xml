@@ -21,6 +21,7 @@
 
 	<requiredpackages>
 		<requiredpackage minversion="1.0.0 Alpha 2">com.woltlab.community.scm</requiredpackage>
+		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.directoryutil.tar.gz">com.woltlab.community.directoryutil</requiredpackage>
 	</requiredpackages>
 
 	<instructions type="install">
