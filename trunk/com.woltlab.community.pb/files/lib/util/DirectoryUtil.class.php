@@ -68,6 +68,7 @@ class DirectoryUtil {
 	 */
 	public function getInstance($directory) {
 		$directory = realpath(FileUtil::unifyDirSeperator($directory));
+		if($directory === false) throw new SystemException('Invalid directory');
 		if(array_key_exists($directory, self::$instances)) return self::$instances[$directory];
 		self::$instances[$directory] = new self($directory);
 		return self::$instances[$directory];
