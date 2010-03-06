@@ -48,15 +48,24 @@ class DirectoryUtil {
 	protected $directory = '';
 	
 	/**
+	 * should it be a recursiv scan
+	 *
+	 * @var bool
+	 */
+	protected $recursiv = true;
+	
+	/**
 	 * all instances
 	 *
 	 * @var array
 	 */
 	protected static $instances = array();
 	
-	protected function __construct($directory) {
+	protected function __construct($directory, $recursiv = true) {
 		$this->directory = $directory;
-		$this->obj = new RecursiveDirectoryIterator($directory);
+		$this->recursiv = $recursiv;
+		if($recursiv) $this->obj = new RecursiveDirectoryIterator($directory);
+		else $this->obj = new DirectoryIterator($directory);
 		// fill the files
 		$this->scanFiles();
 	}
@@ -66,11 +75,11 @@ class DirectoryUtil {
 	 * @param 	string		$directory 	directorypath
 	 * @return 	object				DirectoryUtil object
 	 */
-	public function getInstance($directory) {
+	public function getInstance($directory, $recursiv = true) {
 		$directory = realpath(FileUtil::unifyDirSeperator($directory));
 		if($directory === false) throw new SystemException('Invalid directory');
 		if(array_key_exists($directory, self::$instances)) return self::$instances[$directory];
-		self::$instances[$directory] = new self($directory);
+		self::$instances[$directory] = new self($directory, $recursiv);
 		return self::$instances[$directory];
 	}
 	
@@ -108,8 +117,15 @@ class DirectoryUtil {
 	 */
 	protected function scanFiles() {
 		if(!empty($this->files)) return;
-		foreach (new RecursiveIteratorIterator($this->obj) as $filename=>$obj) {
-			$this->files[] = $filename;
+		if($this->recursiv) {
+			foreach (new RecursiveIteratorIterator($this->obj) as $filename=>$obj) {
+				$this->files[] = $filename;
+			}
+		}
+		else {
+			foreach ($this->obj as $filename=>$obj) {
+				$this->files[] = $obj->getFilename();
+			}
 		}
 	}
 	
@@ -120,8 +136,15 @@ class DirectoryUtil {
 	 */
 	protected function scanFilesObj() {
 		if(!empty($this->filesObj)) return;
-		foreach (new RecursiveIteratorIterator($this->obj) as $filename=>$obj) {
-			$this->filesObj[$filename] = $obj;
+		if($this->recursiv) {
+			foreach (new RecursiveIteratorIterator($this->obj) as $filename=>$obj) {
+				$this->filesObj[$filename] = $obj;
+			}
+		}
+		else {
+			foreach ($this->obj as $filename=>$obj) {
+				$this->filesObj[$obj->getFilename()] = $obj;
+			}
 		}
 	}
 	
@@ -148,7 +171,7 @@ class DirectoryUtil {
 	 * @return void
 	 */
 	public function removePattern($pattern) {
-		$files = $this->getFiles('DESC');
+		$files = $this->getFilesObj('DESC');
 		foreach($files as $filename=>$obj) {
 			if(!preg_match($pattern, $filename)) continue;
 			if(!is_writable($obj->getPath())) throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');

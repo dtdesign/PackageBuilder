@@ -149,7 +149,7 @@ class PackageBuilder {
 		if (!is_dir($directory)) throw new SystemException('Given directory "'.$directory.'" is not valid.');
 
 		// try to open directory
-		$dir = DirectoryUtil::getInstance($directory);
+		$dir = DirectoryUtil::getInstance($directory, false);
 
 		$buildDirectory = $this->source->buildDirectory.'/';
 		$location = $buildDirectory.$filename;
@@ -157,28 +157,28 @@ class PackageBuilder {
 
 		foreach($dir->getFiles() as $filename) {
 			// skip directories
-			if (in_array(basename($filename), $this->excludeFiles)) continue;
-			if ($this->ignoreDotFiles && substr(basename($filename), 0,1) == '.') continue;
+			if (in_array($filename, $this->excludeFiles)) continue;
+			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.') continue;
 			// handle files
-			if (!is_dir($filename)) {
+			if (!is_dir($directory.$filename)) {
 				// add file
-				$package->add($filename, '', $directory);
+				$package->add($directory.$filename, '', $directory);
 				continue;
 			}
 
 			// skip directories
-			if (in_array(basename($filename), $directories)) {
+			if (in_array($filename, $directories)) {
 				// create tarball from special directories
-				$archive = new TarWriter($buildDirectory.basename($filename).'.tar', false);
-				$this->addFilesRecursive($archive, $directory, basename($filename), basename($filename).'/');
+				$archive = new TarWriter($buildDirectory.$filename.'.tar', false);
+				$this->addFilesRecursive($archive, $directory, $filename, $filename.'/');
 				$archive->create();
 
 				// add previously created tarball
-				$package->add($buildDirectory.basename($filename).'.tar', '', $buildDirectory);
+				$package->add($buildDirectory.$filename.'.tar', '', $buildDirectory);
 			}
 			else {
 				// add sourceDirectory
-				$this->addFilesRecursive($package, $directory, basename($filename));
+				$this->addFilesRecursive($package, $directory, $filename);
 			}
 		}
 
@@ -221,11 +221,11 @@ class PackageBuilder {
 				throw new SystemException('Unable to write header block for "'.$directory.$file.'".');
 			}
 		}
-		$dir = DirectoryUtil::getInstance($directory.$file);
+		$dir = DirectoryUtil::getInstance($directory.$file, false);
 		// proceed with directory content
 		foreach($dir->getFiles() as $filename) {
-			if (!in_array(basename($filename), $this->excludeFiles) && (!$this->ignoreDotFiles || substr(basename($filename), 0,1) != '.')) {
-				$this->addFilesRecursive($archive, $directory, $filename, $removeDir);
+			if (!in_array($filename, $this->excludeFiles) && (!$this->ignoreDotFiles || substr($filename, 0,1) != '.')) {
+				$this->addFilesRecursive($archive, $directory, $file.$filename, $removeDir);
 			}
 		}
 	}

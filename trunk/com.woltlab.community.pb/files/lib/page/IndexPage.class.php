@@ -1,4 +1,7 @@
 <?php
+// pb imports
+require_once(PB_DIR.'lib/data/source/Source.class.php');
+
 // wcf imports
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
