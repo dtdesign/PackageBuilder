@@ -76,17 +76,37 @@ class DirectoryUtil {
 		// fill the files
 		$this->scanFiles();
 	}
+	
+	/**
+	 * clears instance
+	 *
+	 * @param 	string		$directory	directorypath
+	 * @param 	bool		$recursiv	should the recursiv instance be killed
+	 * @return	bool 				successfully killed the instance?
+	 */
+	public function kill($directory, $recursiv = true) {
+		if(array_key_exists($directory, self::$instances) && $recursiv) {
+			unset(self::$instances[$directory]);
+			return true;
+		}
+		if(array_key_exists($directory, self::$instancesNonRecursiv) && !$recursiv) {
+			unset(self::$instancesNonRecursiv[$directory]);
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * returns a (new) instance of DirectoryUtil
 	 *
 	 * @param 	string		$directory 	directorypath
+	 * @param	bool		$recursiv	should the directory be walked through recursiv
 	 * @return 	object				DirectoryUtil object
 	 */
 	public function getInstance($directory, $recursiv = true) {
 		$directory = realpath(FileUtil::unifyDirSeperator($directory));
 		if($directory === false) throw new SystemException('Invalid directory');
 		if(array_key_exists($directory, self::$instances) && $recursiv) return self::$instances[$directory];
-		if(array_key_exists($directory, self::$instancesNonRecursiv) && !$recursiv) return self::$instances[$directory];
+		if(array_key_exists($directory, self::$instancesNonRecursiv) && !$recursiv) return self::$instancesNonRecursiv[$directory];
 		if($recursiv) {
 			self::$instances[$directory] = new self($directory, $recursiv);
 			return self::$instances[$directory];

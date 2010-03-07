@@ -187,6 +187,7 @@ class PackageBuilder {
 		$package->create();
 
 		// cleanup, remove previous created tarballs
+		DirectoryUtil::kill($this->source->buildDirectory);
 		$dir = DirectoryUtil::getInstance($this->source->buildDirectory);
 		$dir->removePattern('/.*\.tar$/');
 		
