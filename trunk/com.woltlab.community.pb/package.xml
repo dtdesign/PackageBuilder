@@ -46,7 +46,7 @@
 		
 		<!-- additional packages -->
 		<requiredpackage minversion="1.0.0 pl 1" file="requirements/com.woltlab.community.wcf.util.package.tar.gz">com.woltlab.community.wcf.util.package</requiredpackage>
-		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.directoryutil.tar.gz">com.woltlab.community.directoryutil</requiredpackage>
+		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.util.directory.tar.gz">com.woltlab.community.util.directory</requiredpackage>
 	</requiredpackages>
 
 	<excludepackages>
