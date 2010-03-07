@@ -206,8 +206,8 @@ class DirectoryUtil {
 	public function getSize() {
 		if(!$this->recursiv) return false;
 		if($this->size != 0) return $this->size;
-		$this->scanFilesObj();
-		foreach($this->fileObj as $filename=>$obj) {
+		$files = $this->getFilesObj('DESC');
+		foreach($files as $filename=>$obj) {
 			$this->size += $obj->getSize();
 		}
 		return $this->size;

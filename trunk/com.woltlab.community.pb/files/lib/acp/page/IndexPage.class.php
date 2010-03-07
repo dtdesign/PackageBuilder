@@ -33,6 +33,13 @@ class IndexPage extends AbstractPage {
 	 * @var	string
 	 */
 	public $templateName = 'index';
+	
+	/**
+	 * Directorysizes
+	 *
+	 * @var array
+	 */
+	public $size = array('build' => 0, 'repository' => 0);
 
 	/**
 	 * @see	Page::readData()
@@ -51,6 +58,9 @@ class IndexPage extends AbstractPage {
 				if (!function_exists($function)) $this->disabledFunctions[$functionType][] = $function;
 			}
 		}
+		/*
+		$this->size['build'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'build')->getSize());
+		$this->size['repository'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'repository')->getSize());*/
 	}
 
 	/**
@@ -60,7 +70,8 @@ class IndexPage extends AbstractPage {
 		parent::assignVariables();
 
 		WCF::getTPL()->assign(array(
-			'disabledFunctions' => $this->disabledFunctions
+			'disabledFunctions' => $this->disabledFunctions,
+			'size' => $this->size
 		));
 	}
 }

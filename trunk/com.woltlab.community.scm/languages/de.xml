@@ -10,7 +10,12 @@
 		<item name="wcf.acp.group.option.admin.system.scm.canEdit"><![CDATA[Kann Versionsverwaltungen bearbeiten]]></item>
 		<item name="wcf.acp.group.option.admin.system.scm.canEdit.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Einstellungen für Versionsverwaltungssoftware bearbeiten.]]></item>
 	</category>
+	<category name="wcf.acp.package">
+		<item name="wcf.acp.package.step.install.SCMPackageInstallationPlugin"><![CDATA[SCM wird installiert]]></item>
+		<item name="wcf.acp.package.step.uninstall.SCMPackageInstallationPlugin"><![CDATA[SCM wird deinstalliert]]></item>
+		<item name="wcf.acp.package.step.update.SCMPackageInstallationPlugin"><![CDATA[SCM wird aktualisiert]]></item>
+	</category>
 	<category name="wcf.scm">
-		<item name="wcf.scm.none">Keine</item>
+		<item name="wcf.scm.none">---</item>
 	</category>
 </language>
