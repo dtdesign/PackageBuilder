@@ -129,7 +129,7 @@ class DirectoryUtil {
 	public function getFiles($order = SORT_ASC) {
 		$files = $this->files;
 
-		if($order == SORT_ASC) {
+		if ($order == SORT_ASC) {
 			asort($files);
 		}
 		else {
@@ -149,7 +149,7 @@ class DirectoryUtil {
 		$this->scanFilesObj();
 		$objects = $this->filesObj;
 
-		if 	($order == SORT_ASC) {
+		if ($order == SORT_ASC) {
 			ksort($objects);
 		}
 		else {
