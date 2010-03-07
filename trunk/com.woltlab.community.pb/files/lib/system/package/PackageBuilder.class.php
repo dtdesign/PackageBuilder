@@ -60,7 +60,8 @@ class PackageBuilder {
 		$data = array(
 			'pn' => $this->package['name'],
 			'pv' => $this->package['version'],
-			'pr' => 'r'.$this->source->revision
+			'pr' => 'r'.$this->source->revision,
+			't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
 		);
 
 		// set archive name

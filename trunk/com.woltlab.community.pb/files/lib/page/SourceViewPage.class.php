@@ -156,7 +156,11 @@ class SourceViewPage extends AbstractPage {
 			'pn',		// packageName.tar.gz
 			'pn_pv',	// packageName_packageVersion.tar.gz
 			'pn_pr',	// packageName_packageRevision.tar.gz
-			'pn_pv_pr'	// packageName_packageVersion_packageRevision.tar.gz
+			'pn_pv_pr',	// packageName_packageVersion_packageRevision.tar.gz
+			'pn_t',		// packageName_time.tar.gz
+			'pn_pv_t',	// packageName_packageVersion_time.tar.gz
+			'pn_pr_t',	// packageName_packageRevision_time.tar.gz
+			'pn_pv_pr_t'	// packageName_packageVersion_packageRevision_time.tar.gz
 		));
 
 		// assign variables to template
@@ -193,14 +197,16 @@ class SourceViewPage extends AbstractPage {
 			$data = array(
 				'pn' => 'packageName',
 				'pv' => 'packageVersion',
-				'pr' => 'revision'
+				'pr' => 'revision',
+				't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
 			);
 		}
 		else {
 			$data = array(
 				'pn' => $this->packages[$this->currentDirectory]['packageName'],
 				'pv' => $this->packages[$this->currentDirectory]['version'],
-				'pr' => 'r'.$this->source->revision
+				'pr' => 'r'.$this->source->revision,
+				't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
 			);
 		}
 
