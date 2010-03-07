@@ -130,7 +130,7 @@ class DirectoryUtil {
 	protected function scanFiles() {
 		if(!empty($this->files)) return;
 		if($this->recursiv) {
-			foreach (new RecursiveIteratorIterator($this->obj) as $filename=>$obj) {
+			foreach (new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST) as $filename=>$obj) {
 				$this->files[] = $filename;
 			}
 		}
@@ -149,7 +149,7 @@ class DirectoryUtil {
 	protected function scanFilesObj() {
 		if(!empty($this->filesObj)) return;
 		if($this->recursiv) {
-			foreach (new RecursiveIteratorIterator($this->obj) as $filename=>$obj) {
+			foreach (new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST) as $filename=>$obj) {
 				$this->filesObj[$filename] = $obj;
 			}
 		}
