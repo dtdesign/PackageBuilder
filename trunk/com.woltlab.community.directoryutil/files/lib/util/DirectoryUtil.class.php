@@ -163,9 +163,10 @@ class DirectoryUtil {
 	/**
 	 * recursiv remove of directory
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function removeComplete() {
+		if(!$this->recursiv) return false;
 		$files = $this->getFilesObj('DESC');
 		foreach($files as $filename=>$obj) {
 			if(!is_writable($obj->getPath())) throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
@@ -180,9 +181,10 @@ class DirectoryUtil {
 	 * removes all files that match the pattern
 	 *
 	 * @param  string	$pattern	regex pattern
-	 * @return void
+	 * @return mixed
 	 */
 	public function removePattern($pattern) {
+		if(!$this->recursiv) return false;
 		$files = $this->getFilesObj('DESC');
 		foreach($files as $filename=>$obj) {
 			if(!preg_match($pattern, $filename)) continue;
