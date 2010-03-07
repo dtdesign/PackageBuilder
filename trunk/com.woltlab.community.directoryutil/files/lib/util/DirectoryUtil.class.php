@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Provides functions for handling directories
  *
@@ -11,192 +10,225 @@
  * @category 	PackageBuilder
  */
 class DirectoryUtil {
-	
 	/**
-	 * holds the RecursiveDirectoryIterator object
-	 *
-	 * @var object
+	 * @var RecursiveDirectoryIterator
 	 */
 	protected $obj = NULL;
-	
+
 	/**
-	 * all files with fullpath
+	 * Stores all files with fullpath
 	 *
 	 * @var array
 	 */
 	protected $files = array();
-	
+
 	/**
-	 * all files with filename as key and DirectoryIterator object as value
+	 * Stores all files with filename as key and DirectoryIterator object as value
 	 *
 	 * @var array
 	 */
 	protected $filesObj = array();
-	
+
 	/**
-	 * filesize of the diretory
+	 * Directory filesize
 	 *
-	 * @var int
+	 * @var integer
 	 */
 	protected $size = 0;
-	
+
 	/**
-	 * path to directory
+	 * Directory path
 	 *
 	 * @var string
 	 */
 	protected $directory = '';
-	
+
 	/**
-	 * should it be a recursiv scan
+	 * Determines wether scan should be recursive
 	 *
-	 * @var bool
+	 * @var boolean
 	 */
-	protected $recursiv = true;
-	
+	protected $recursive = true;
+
 	/**
-	 * all recursiv instances
+	 * All recursive and non-recursive instances
 	 *
-	 * @var array
+	 * @var array<array>
 	 */
-	protected static $instances = array();
-	
+	protected static $instances = array(
+		true => array(),	// recursive instances
+		false => array()	// non-recursive instances
+	);
+
 	/**
-	 * all non-recursiv instances
+	 * Creates a new instance of DirectoryUtil
 	 *
-	 * @var array
+	 * @param	string	$directory	directory path
+	 * @param	boolean	$recursive	created a recursive directory iterator
+	 * @see		DirectoryUtil::getInstance()
 	 */
-	protected static $instancesNonRecursiv = array();
-	
-	protected function __construct($directory, $recursiv = true) {
+	protected function __construct($directory, $recursive = true) {
 		$this->directory = $directory;
-		$this->recursiv = $recursiv;
-		if($recursiv) $this->obj = new RecursiveDirectoryIterator($directory);
-		else $this->obj = new DirectoryIterator($directory);
-		// fill the files
+		$this->recursive = $recursive;
+
+		// handle iterator type
+		if ($this->recursive) {
+			$this->obj = new RecursiveDirectoryIterator($directory);
+		}
+		else {
+			$this->obj = new DirectoryIterator($directory);
+		}
+
+		// read files
 		$this->scanFiles();
 	}
-	
+
 	/**
-	 * clears instance
-	 *
-	 * @param 	string		$directory	directorypath
-	 * @param 	bool		$recursiv	should the recursiv instance be killed
-	 * @return	bool 				successfully killed the instance?
+	 * @see	DirectoryUtil::getInstance()
 	 */
-	public function kill($directory, $recursiv = true) {
-		if(array_key_exists($directory, self::$instances) && $recursiv) {
-			unset(self::$instances[$directory]);
-			return true;
-		}
-		if(array_key_exists($directory, self::$instancesNonRecursiv) && !$recursiv) {
-			unset(self::$instancesNonRecursiv[$directory]);
-			return true;
-		}
-		return false;
-	}
+	private final function __clone() {}
+
 	/**
-	 * returns a (new) instance of DirectoryUtil
+	 * Clears an instance
+	 *
+	 * @param 	string		$directory	directory path
+	 * @param 	boolean		$recursive	destroy a recursive instance
+	 * @return	boolean				successfully killed the instance?
+	 */
+	public function destroy($directory, $recursive = true) {
+		if (!isset(self::$instances[$recursive][$directory])) return false;
+
+		unset (self::$instances[$recursive][$directory]);
+		return true;
+	}
+
+	/**
+	 * returns an instance of DirectoryUtil
 	 *
 	 * @param 	string		$directory 	directorypath
-	 * @param	bool		$recursiv	should the directory be walked through recursiv
+	 * @param	boolean		$recursive	should the directory be walked through recursive
 	 * @return 	object				DirectoryUtil object
 	 */
-	public function getInstance($directory, $recursiv = true) {
+	public static function getInstance($directory, $recursive = true) {
 		$directory = realpath(FileUtil::unifyDirSeperator($directory));
-		if($directory === false) throw new SystemException('Invalid directory');
-		if(array_key_exists($directory, self::$instances) && $recursiv) return self::$instances[$directory];
-		if(array_key_exists($directory, self::$instancesNonRecursiv) && !$recursiv) return self::$instancesNonRecursiv[$directory];
-		if($recursiv) {
-			self::$instances[$directory] = new self($directory, $recursiv);
-			return self::$instances[$directory];
+		if ($directory === false) throw new SystemException('Invalid directory');
+
+		if (!isset(self::$instances[$recursive][$directory])) {
+			self::$instances[$recursive][$directory] = new DirectoryUtil($directory, $recursive);
 		}
-		self::$instancesNonRecursiv[$directory] = new self($directory, $recursiv);
-		return self::$instancesNonRecursiv[$directory];
+
+		return self::$instances[$recursive][$directory];
 	}
-	
+
 	/**
-	 * returns a (sorted) list of files
+	 * returns a sorted list of files
 	 *
-	 * @param 	string 	$order	the order the files should be sorted
+	 * @param 	integer	$order	the order the files should be sorted
+	 * @return 	array		sorted file list
+	 */
+	public function getFiles($order = SORT_ASC) {
+		$files = $this->files;
+
+		if($order == SORT_ASC) {
+			asort($files);
+		}
+		else {
+			arsort($files);
+		}
+
+		return $files;
+	}
+
+	/**
+	 * returns a sorted list of files, with DirectoryIterator object as value
+	 *
+	 * @param 	integer	$order	the order the files should be sorted
 	 * @return 	array		sorted filelist
 	 */
-	public function getFiles($order = 'ASC') {
-		$tmp = $this->files;
-		if($order == 'ASC') asort($tmp);
-		elseif($order == 'DESC') arsort($tmp);
-		return $tmp;
-	}
-	
-	/**
-	 * returns a (sorted) list of files, with DirectoryIterator object as value
-	 *
-	 * @param 	string 	$order	the order the files should be sorted
-	 * @return 	array		sorted filelist
-	 */
-	public function getFilesObj($order = 'ASC') {
+	public function getFilesObj($order = SORT_ASC) {
 		$this->scanFilesObj();
-		$tmp = $this->filesObj;
-		if($order == 'ASC') ksort($tmp);
-		elseif($order == 'DESC') krsort($tmp);
-		return $tmp;
+		$objects = $this->filesObj;
+
+		if 	($order == SORT_ASC) {
+			ksort($objects);
+		}
+		else {
+			krsort($objects);
+		}
+
+		return $objects;
 	}
-	
+
 	/**
 	 * fills the list of availible files
 	 *
 	 * @return void
 	 */
 	protected function scanFiles() {
-		if(!empty($this->files)) return;
-		if($this->recursiv) {
-			foreach (new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST) as $filename=>$obj) {
+		if (!empty($this->files)) return;
+
+		if ($this->recursive) {
+			$it = new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST);
+
+			foreach ($it as $filename => $obj) {
 				$this->files[] = $filename;
 			}
 		}
 		else {
-			foreach ($this->obj as $filename=>$obj) {
+			foreach ($this->obj as $filename => $obj) {
 				$this->files[] = $obj->getFilename();
 			}
 		}
 	}
-	
+
 	/**
 	 * fills the list of availible files, with DirectoryIterator object as value
 	 *
 	 * @return void
 	 */
 	protected function scanFilesObj() {
-		if(!empty($this->filesObj)) return;
-		if($this->recursiv) {
-			foreach (new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST) as $filename=>$obj) {
+		if (!empty($this->filesObj)) return;
+
+		if ($this->recursive) {
+			$it = new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST);
+
+			foreach ($it as $filename => $obj) {
 				$this->filesObj[$filename] = $obj;
 			}
 		}
 		else {
-			foreach ($this->obj as $filename=>$obj) {
+			foreach ($this->obj as $filename => $obj) {
 				$this->filesObj[$obj->getFilename()] = $obj;
 			}
 		}
 	}
-	
+
 	/**
 	 * recursiv remove of directory
 	 *
 	 * @return mixed
 	 */
 	public function removeComplete() {
-		if(!$this->recursiv) return false;
-		$files = $this->getFilesObj('DESC');
-		foreach($files as $filename=>$obj) {
-			if(!is_writable($obj->getPath())) throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
-			if($obj->isDir()) rmdir($filename);
-			elseif($obj->isFile()) unlink($filename);
+		if (!$this->recursive) return false;
+
+		$files = $this->getFilesObj(SORT_DESC);
+		foreach ($files as $filename => $obj) {
+			if (!is_writable($obj->getPath())) {
+				throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
+			}
+
+			if ($obj->isDir()) {
+				rmdir($filename);
+			}
+			else if ($obj->isFile()) {
+				unlink($filename);
+			}
 		}
+
 		rmdir($this->directory);
-		unset(self::$instances[$this->directory]);
+		unset(self::$instances[$this->recursive][$this->directory]);
 	}
-	
+
 	/**
 	 * removes all files that match the pattern
 	 *
@@ -204,32 +236,46 @@ class DirectoryUtil {
 	 * @return mixed
 	 */
 	public function removePattern($pattern) {
-		if(!$this->recursiv) return false;
-		$files = $this->getFilesObj('DESC');
-		foreach($files as $filename=>$obj) {
-			if(!preg_match($pattern, $filename)) continue;
-			if(!is_writable($obj->getPath())) throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
-			if($obj->isDir()) rmdir($filename);
-			elseif($obj->isFile()) unlink($filename);
+		if (!$this->recursive) return false;
+
+		$files = $this->getFilesObj(SORT_DESC);
+		foreach ($files as $filename => $obj) {
+			if (!preg_match($pattern, $filename)) continue;
+
+			if (!is_writable($obj->getPath())) {
+				throw new SystemException('Could not remove dir: "'.$obj->getPath().'" is not writable');
+			}
+
+			if ($obj->isDir()) {
+				rmdir($filename);
+			}
+			else if ($obj->isFile()) {
+				unlink($filename);
+			}
 		}
+
 		$this->filesObj = array();
 		$this->scanFilesObj();
+
 		$this->files = array();
 		$this->scanFiles();
 	}
-	
+
 	/**
 	 * calculates the size of the directory
 	 *
 	 * @return mixed	directorysize
 	 */
 	public function getSize() {
-		if(!$this->recursiv) return false;
-		if($this->size != 0) return $this->size;
-		$files = $this->getFilesObj('DESC');
-		foreach($files as $filename=>$obj) {
+		if (!$this->recursive) return false;
+
+		if ($this->size) return $this->size;
+
+		$files = $this->getFilesObj(SORT_DESC);
+		foreach ($files as $filename => $obj) {
 			$this->size += $obj->getSize();
 		}
+
 		return $this->size;
 	}
 }
