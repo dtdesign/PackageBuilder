@@ -92,7 +92,7 @@ class DirectoryUtil {
 			return self::$instances[$directory];
 		}
 		self::$instancesNonRecursiv[$directory] = new self($directory, $recursiv);
-		return self::$instancesNonResursiv[$directory];
+		return self::$instancesNonRecursiv[$directory];
 	}
 	
 	/**
@@ -194,6 +194,8 @@ class DirectoryUtil {
 		}
 		$this->filesObj = array();
 		$this->scanFilesObj();
+		$this->files = array();
+		$this->scanFiles();
 	}
 	
 	/**
