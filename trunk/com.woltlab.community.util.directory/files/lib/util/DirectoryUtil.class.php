@@ -95,7 +95,7 @@ class DirectoryUtil {
 	 * @param 	boolean		$recursive	destroy a recursive instance
 	 * @return	boolean				successfully killed the instance?
 	 */
-	public function destroy($directory, $recursive = true) {
+	public static function destroy($directory, $recursive = true) {
 		if (!isset(self::$instances[$recursive][$directory])) return false;
 
 		unset (self::$instances[$recursive][$directory]);
@@ -119,7 +119,26 @@ class DirectoryUtil {
 
 		return self::$instances[$recursive][$directory];
 	}
+	
+	/**
+	 * Executes a callback on each file
+	 *
+	 * @param 	callback 	$callback 	Valid callback
+	 * @param 	string 		$pattern 	Apply callback only to files matching the given pattern
+	 * @return	boolean 			Returns false if callback is missing or no files available
+	 */
+	public function executeCallback($callback, $pattern = '') {
+		if (!is_array($callback) || empty($this->files)) return false;
 
+		foreach ($this->files as $filename) {
+			if (!empty($pattern) && !preg_match($pattern, $filename)) continue;
+			
+			call_user_func($callback, $filename);
+		}
+
+		return true;
+	}
+	
 	/**
 	 * returns a sorted list of files
 	 *
