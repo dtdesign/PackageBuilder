@@ -61,6 +61,7 @@ class BuildPackageAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
+		$sourceID = 0;
 		if (isset($_POST['sourceID'])) $sourceID = $_POST['sourceID'];
 		
 		$this->source = new Source($sourceID);

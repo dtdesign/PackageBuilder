@@ -41,6 +41,7 @@ class SourceViewPage extends AbstractPage {
 	 * @see	Page::readParameters()
 	 */
 	public function readParameters() {
+		$sourceID = 0;
 		if (isset($_GET['sourceID'])) $sourceID = $_GET['sourceID'];
 		
 		$this->source = new Source($sourceID);
