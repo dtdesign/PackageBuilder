@@ -33,12 +33,17 @@ class SourceViewPage extends AbstractPage {
 	public $packages = array();
 	public $source;
 
+	public function show() {
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		parent::show();
+	}
 	/**
 	 * @see	Page::readParameters()
 	 */
 	public function readParameters() {
-		if (isset($_GET['sourceID'])) $this->source = new Source($_GET['sourceID']);
-
+		if (isset($_GET['sourceID'])) $sourceID = $_GET['sourceID'];
+		
+		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
 
 		// append sourceID

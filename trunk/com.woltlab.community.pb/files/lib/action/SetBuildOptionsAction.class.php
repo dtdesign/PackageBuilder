@@ -33,7 +33,12 @@ class SetBuildOptionsAction extends AbstractAction {
 	public function execute() {
 		// call execute event
 		parent::execute();
-
+		
+		$source = new Source($this->sourceID);
+		if (!$source->sourceID) throw new IllegalLinkException();
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$source->sourceID);
+		
 		// set sourceDirectory
 		WCF::getSession()->register('source'.$this->sourceID, $this->directory);
 

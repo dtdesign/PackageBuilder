@@ -40,7 +40,9 @@ class CheckoutAction extends AbstractAction {
 		// fetch data
 		$source = new SourceEditor($this->sourceID);
 		if (!$source->sourceID) throw new IllegalLinkException();
-
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$source->sourceID);
+		
 		// load scm driver
 		$className = ucfirst(Source::validateSCM($source->scm));
 

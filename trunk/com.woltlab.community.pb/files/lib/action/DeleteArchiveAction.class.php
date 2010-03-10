@@ -38,7 +38,10 @@ class DeleteArchiveAction extends AbstractAction {
 
 		// read source
 		$source = new Source($this->sourceID);
-
+		if (!$source->sourceID) throw new IllegalLinkException();
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$source->sourceID);
+		
 		// delete files
 		$location = $source->buildDirectory;
 		$location .= (!empty($this->filename)) ? $this->filename : '';

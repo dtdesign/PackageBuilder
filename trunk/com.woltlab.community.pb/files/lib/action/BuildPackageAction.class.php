@@ -61,7 +61,13 @@ class BuildPackageAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
-		if (isset($_POST['sourceID'])) $this->source = new Source($_POST['sourceID']);
+		if (isset($_POST['sourceID'])) $sourceID = $_POST['sourceID'];
+		
+		$this->source = new Source($sourceID);
+		if (!$this->source->sourceID) throw new IllegalLinkException();
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$this->source->sourceID);
+		
 		if (isset($_POST['filename'])) $this->filename = trim($_POST['filename']);
 		
 		// read selected resources
@@ -97,7 +103,7 @@ class BuildPackageAction extends AbstractAction {
 	public function execute() {
 		// call execute event
 		parent::execute();
-
+		
 		// save selection
 		if ($this->saveSelection) {
 			$sql = '';

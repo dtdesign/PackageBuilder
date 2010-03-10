@@ -18,7 +18,7 @@ require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
  */
 class PreferredPackageForm extends AbstractForm {
 	public $templateName = 'preferredPackage';
-
+	public $neededPermissions = 'user.source.dynamic.canUseSource';
 	// data
 	public $package = '';
 	public $packages = array();
@@ -27,7 +27,12 @@ class PreferredPackageForm extends AbstractForm {
 	public $source = array();
 	public $sourceID = 0;
 	public $filename = 'pn_pv';
-
+	
+	public function show() {
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		parent::show();
+	}
+	
 	/**
 	 * @see	Page::readParameters()
 	 */
@@ -35,6 +40,11 @@ class PreferredPackageForm extends AbstractForm {
 		parent::readParameters();
 
 		if (isset($_REQUEST['sourceID'])) $this->sourceID = intval($_REQUEST['sourceID']);
+		// register source
+		$this->source = new Source($this->sourceID);
+		if (!$this->source->sourceID) throw new IllegalLinkException();
+		// append sourceID
+		$this->neededPermissions .= $this->source->sourceID;
 		if (isset($_REQUEST['filename'])) $this->filename = trim($_REQUEST['filename']);
 	}
 
@@ -42,10 +52,8 @@ class PreferredPackageForm extends AbstractForm {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		// register source
-		$this->source = new Source($this->sourceID);
-		if (!$this->source->sourceID) throw new IllegalLinkException();
-
+		
+		
 		// get package directory
 		$directory = WCF::getSession()->getVar('source'.$this->sourceID);
 		if ($directory === null) throw new IllegalLinkException();
