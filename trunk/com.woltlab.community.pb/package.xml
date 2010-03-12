@@ -17,7 +17,11 @@
 		<author><![CDATA[WoltLab Community]]></author>
 		<authorurl><![CDATA[http://community.woltlab.com]]></authorurl>
 	</authorinformation>
-
+	
+	<optionalpackages>
+		<optionalpackage file="optionals/com.woltlab.community.pb.updateserver.tar.gz">com.woltlab.community.pb.updateserver</optionalpackage>
+	</optionalpackages>
+	
 	<requiredpackages>
 		<!-- basics -->
 		<requiredpackage minversion="1.1.1 pl 2">com.woltlab.wcf</requiredpackage>
