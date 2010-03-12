@@ -66,8 +66,8 @@ class UpdateServerPage extends AbstractPage {
 	 * @return void
 	 */
 	protected function authenticate() {
-		header('HTTP/1.1 401 Unauthorized');
-		header('WWW-Authenticate: Basic realm="Please enter username and password for ' . PAGE_TITLE . '"');
+		@header('HTTP/1.1 401 Unauthorized');
+		@header('WWW-Authenticate: Basic realm="Please enter username and password for ' . PAGE_TITLE . '"');
 		echo 'HTTP/1.0 401 Unauthorized';
     		exit;
 	}
@@ -84,6 +84,7 @@ class UpdateServerPage extends AbstractPage {
 			3600
 		);
 		$xml = WCF::getCache()->get('update-'.$this->source->sourceID.'-'.$this->type);
+		@header('Content-Type: text/xml');
 		echo $xml->asXML();
 		exit;
 	}

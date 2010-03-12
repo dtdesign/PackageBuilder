@@ -48,8 +48,9 @@
 				<tbody>
 					{foreach from=$builds item=build}
 					<tr class="deletable">
+						{assign var=filenameEncoded value=$build.filename|urlencode}
 						<td>
-							<a href="{$build.link}">{$build.filename}</a>
+							<a href="index.php?page=DownloadPackage&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}">{$build.filename}</a>
 						</td>
 						<td>
 							{$build.name}
@@ -58,7 +59,6 @@
 							{$build.version}
 						</td>
 						<td class="sourceGo">
-							{assign var=filenameEncoded value=$build.filename|urlencode}
 							<a href="index.php?action=DeleteArchive&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang}pb.build.action.delete{/lang}" title="{lang}pb.build.action.delete{/lang}" longdesc="{lang}pb.build.action.delete.sure{/lang}" /></a>
 						</td>
 					</tr>

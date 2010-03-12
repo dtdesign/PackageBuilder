@@ -139,7 +139,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 				// use the built time of that package as timestamp
 				$xml .= "\n\t\t\t\t<timestamp><![CDATA[".filemtime($val['link'])."]]></timestamp>";
 				$xml .= "\n\t\t\t\t<versiontype><![CDATA[".$type."]]></versiontype>";
-				$xml .= "\n\t\t\t\t<file><![CDATA[".PAGE_URL.'/'.$val['link']."]]></file>";
+				$xml .= "\n\t\t\t\t<file><![CDATA[".PAGE_URL.'/index.php?page=DownloadPackage&sourceID='.$this->source->sourceID.$val['filename']."]]></file>";
 				// get updatetype
 				if($isUpdate && stripos($key, 'pl')) $updateType = 'security';
 				elseif($isUpdate) $updateType = 'update';
@@ -178,9 +178,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 					if (strrpos($file, '.tar.gz') !== false) {
 						$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
 						$data = $package->getPackageData();
-						$link = str_replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
 						$this->packages[$data['name']][$data['version']] = array(
-							'link' => $link.$file,
 							'filename' => $file,
 							'xml' => $package->xml
 						);
