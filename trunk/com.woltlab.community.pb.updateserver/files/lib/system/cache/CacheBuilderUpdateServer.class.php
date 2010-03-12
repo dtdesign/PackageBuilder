@@ -6,6 +6,16 @@ require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 // wcf imports
 require_once(WCF_DIR.'lib/system/cache/CacheBuilder.class.php');
 
+/**
+ * Renders the XML for update-server
+ *
+ * @author	Tim Düsterhus
+ * @copyright	2009-2010 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb.updateserver
+ * @subpackage	cache
+ * @category 	PackageBuilder
+ */
 class CacheBuilderUpdateServer implements CacheBuilder {
 	
 	/**

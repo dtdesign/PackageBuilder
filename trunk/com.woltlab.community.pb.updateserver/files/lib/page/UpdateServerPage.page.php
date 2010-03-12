@@ -11,7 +11,7 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
  * @author	Tim Düsterhus
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
- * @package	com.woltlab.community.pb.update
+ * @package	com.woltlab.community.pb.updateserver
  * @category 	PackageBuilder
  */
 class UpdateServerPage extends AbstractPage {
