@@ -57,7 +57,7 @@ class SourceViewPage extends AbstractPage {
 	public function readData() {
 		$className = ucfirst(Source::validateSCM($this->source->scm));
 		require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
-		$this->latestRevision = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->source->url, $this->source->username, $this->source->password));
+		$this->latestRevision = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->source->url, array('username' => $this->source->username, 'password' => $this->source->password)));
 
 		// read cache
 		WCF::getCache()->addResource(
