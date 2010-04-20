@@ -138,26 +138,6 @@ class DirectoryUtil {
 
 		return true;
 	}
-	
-	/**
-	 * Executes a callback on each filename
-	 *
-	 * @param	array	$callback	Classname and method
-	 * @param	string	$directory	Directory path
-	 * @param	string	$pattern	Apply callback only to files matching the given pattern
-	 * @return	boolean			Returns false if callback is missing or no files available
-	 */
-	public function executeCallback($callback, $directory, $pattern = '') {
-		if (!is_array($callback) || empty($this->files)) return false;
-
-		foreach ($this->files as $filename) {
-			if (!empty($pattern) && !preg_match($pattern, $filename)) continue;
-
-			call_user_func($callback, $filename);
-		}
-
-		return true;
-	}
 
 	/**
 	 * returns a sorted list of files
