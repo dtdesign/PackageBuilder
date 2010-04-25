@@ -17,7 +17,7 @@ class Git implements SCM {
 	/**
 	 * @see	SCM::checkout()
 	 */
-	public static function checkout($url, $directory, $loginDetails = array(), $options = array()) {
+	public static function checkout($url, $directory, Array $loginDetails = array(), Array $options = array()) {
 		self::validateGitPath();
 		if (empty($directory)) throw new GitException('git clone: target directory missing.');
 
@@ -48,7 +48,7 @@ class Git implements SCM {
 	/**
 	 * @see	SCM::getHeadRevision()
 	 */
-	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
+	public static function getHeadRevision($url, Array $loginDetails = array(), Array $options = array()) {
 		self::validateGitPath();
 		// not very nice or fast method to find out, but it should work
 		self::checkout($url, GIT_TEMPORARY_DIRECTORY, $loginDetails, $options);
@@ -70,7 +70,7 @@ class Git implements SCM {
 	 * @param	array<array>	$options	Additional options
 	 * @return	array
 	 */
-	protected static function executeCommand($command, $url, $loginDetails, $options) {
+	protected static function executeCommand($command, $url, $loginDetails, Array $options = array()) {
 		self::validateGitPath();
 
 		// break if repository url is empty
