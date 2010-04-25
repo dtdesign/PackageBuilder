@@ -96,6 +96,7 @@ class DirectoryUtil {
 	 * @return	boolean				successfully killed the instance?
 	 */
 	public static function destroy($directory, $recursive = true) {
+		$directory = realpath(FileUtil::unifyDirSeperator($directory));
 		if (!isset(self::$instances[$recursive][$directory])) return false;
 
 		unset (self::$instances[$recursive][$directory]);
