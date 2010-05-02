@@ -1,6 +1,6 @@
 <?php
 // pb imports
-require_once(PB_DIR.'lib/data/source/Source.class.php');
+require_once(PB_DIR.'lib/data/source/SourceList.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
@@ -21,7 +21,7 @@ class IndexPage extends AbstractPage {
 	public $neededPermissions = 'user.source.general.canViewSources';
 
 	// data
-	public $sources = array();
+	public $sourceList = null;
 
 	/**
 	 * @see	Page::readData()
@@ -31,15 +31,8 @@ class IndexPage extends AbstractPage {
 			FROM	pb".PB_N."_sources
 			ORDER BY position ASC";
 		$result = WCF::getDB()->sendQuery($sql);
-
-		while ($row = WCF::getDB()->fetchArray($result)) {
-			if(WCF::getUser()->getPermission('user.source.dynamic.canUseSource'.$row['sourceID']) == 1) {
-				$className = ucfirst(Source::validateSCM($row['scm']));
-				require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
-				$row['availableRevision'] = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $row['url'], array('username' => $row['username'], 'password' => $row['password'])));
-				$this->sources[] = $row;
-			}
-		}
+		$this->sourceList = new SourceList();
+		$this->sourceList->readObjects();
 	}
 
 	/**
@@ -50,7 +43,7 @@ class IndexPage extends AbstractPage {
 
 		WCF::getTPL()->assign(array(
 				'allowSpidersToIndexThisPage' => false,
-				'sources' => $this->sources
+				'sources' => $this->sourceList->getObjects()
 		));
 	}
 }

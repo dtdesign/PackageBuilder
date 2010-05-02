@@ -66,13 +66,33 @@ class Source extends DatabaseObject {
 	 * Returns a random directory
 	 *
 	 * @param	string	$directory	Directory to include
-	 * @return	Random directory
+	 * @return	Random 	directory
 	 */
 	public static function getRandomDirectory($directory) {
 		$directory = PB_DIR.$directory.'/'.StringUtil::getRandomID().'/';
 		$directory = FileUtil::unifyDirSeperator($directory);
 
 		return $directory;
+	}
+	
+	/**
+	 * Returns the head revision
+	 *
+	 * @return 	mixed	the head revision
+	 */
+	public function getHeadRevision() {
+		$className = ucfirst(self::validateSCM($this->data['scm']));
+		require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
+		return StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->data['url'], array('username' => $this->data['username'], 'password' => $this->data['password'])));
+	}
+	
+	/**
+	 * Returns whether the user has access
+	 *
+	 * @return 	boolean		accessable
+	 */
+	public function hasAccess() {
+		return (bool) WCF::getUser()->getPermission('user.source.dynamic.canUseSource'.$this->data['sourceID']);
 	}
 }
 ?>

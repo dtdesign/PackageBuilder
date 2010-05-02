@@ -43,31 +43,33 @@
 	<tbody>
 {if $sources|isset}
 	{foreach from=$sources item=source}
-		<tr>
-			<td>
-				<a href="index.php?page=SourceView&amp;sourceID={$source.sourceID}">{$source.name}</a>
-			</td>
-			<td>
-				{$source.sourceDirectory}
-			</td>
-			<td>
-				{lang}wcf.scm.{$source.scm|strtolower}{/lang}
-			</td>
-			<td>
-				{if $source.scm == 'none'}
-					{lang}pb.source.scm.disabled{/lang}
-				{else}
-					{if $source.availableRevision != $source.revision}
-						<strong class="red">{lang}pb.source.scm.higherRevisionAvailable{/lang}</strong>
+		{if $source->hasAccess}
+			<tr>
+				<td>
+					<a href="index.php?page=SourceView&amp;sourceID={$source->sourceID}">{$source.>name}</a>
+				</td>
+				<td>
+					{$source->sourceDirectory}
+				</td>
+				<td>
+					{lang}wcf.scm.{$source->scm|strtolower}{/lang}
+				</td>
+				<td>
+					{if $source->scm == 'none'}
+						{lang}pb.source.scm.disabled{/lang}
 					{else}
-						{$source.revision}
+						{if $source->getHeadRevision() != $source->revision}
+							<strong class="red">{lang}pb.source.scm.higherRevisionAvailable{/lang}</strong>
+						{else}
+							{$source->revision}
+						{/if}
 					{/if}
-				{/if}
-			</td>
-			<td class="sourceGo">
-				<a href="index.php?page=SourceView&amp;sourceID={$source.sourceID}"><img src="{icon}cronjobExecuteS.png{/icon}" alt="{lang}pb.source.go{/lang}" title="{lang}pb.source.go{/lang}" /></a>
-			</td>
-		</tr>
+				</td>
+				<td class="sourceGo">
+					<a href="index.php?page=SourceView&amp;sourceID={$source->sourceID}"><img src="{icon}cronjobExecuteS.png{/icon}" alt="{lang}pb.source.go{/lang}" title="{lang}pb.source.go{/lang}" /></a>
+				</td>
+			</tr>
+		{/if}
 	{/foreach}
 {/if}
 	</tbody>
