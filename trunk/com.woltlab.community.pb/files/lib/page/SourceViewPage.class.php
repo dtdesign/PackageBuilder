@@ -20,7 +20,8 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 class SourceViewPage extends AbstractPage {
 	// system
 	public $templateName = 'sourceView';
-
+	public $neededPermissions = 'user.source.general.canViewSources';
+	
 	// data
 	public $buildDirectory = '';
 	public $builds = array();
@@ -32,10 +33,6 @@ class SourceViewPage extends AbstractPage {
 	public $packages = array();
 	public $source;
 
-	public function show() {
-		WCF::getUser()->checkPermission('user.source.general.canViewSources');
-		parent::show();
-	}
 	/**
 	 * @see	Page::readParameters()
 	 */
