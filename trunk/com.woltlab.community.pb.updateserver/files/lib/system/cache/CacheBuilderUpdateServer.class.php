@@ -20,6 +20,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 	
 	/**
 	 * Source Object
+	 *
 	 * @var Source
 	 */
 	public $source = NULL;
@@ -48,8 +49,11 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 		$this->readPackages();
 		return simplexml_load_string($this->renderXML());
 	}
+	
 	/**
 	 * builds the XML out of the provided data
+	 *
+	 * TODO: Rewrite this crap...
 	 *
 	 * @return 	string		the built xml
 	 */
@@ -57,6 +61,14 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 		$xml = '<?xml version="1.0" encoding="utf-8"?>';
 		$xml .= "\n".'<section name="packages">';
 		foreach($this->packages as $package) {
+			$versions = 0;
+			foreach($package as $key => $val) {
+				// count versions
+				if(self::getTypeByVersion($key) != $this->type) continue;
+				$versions++;
+			}
+			if($versions == 0) continue;
+			
 			foreach($package as $key => $val) {
 				// get the data of the first package for general data (packagename, description, authorinfos etc.)
 				break;
@@ -104,17 +116,9 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 			// versions
 			$xml .= "\n\t\t<versions>";
 			// list each version
-			// TODO: remove package if no version is displayed
 			foreach($package as $key => $val) {
 				// get type, dont display if this type is not wanted
-				if(		stripos($key, 'a') !== false
-					||	stripos($key, 'alpha') !== false
-					||	stripos($key, 'b') !== false
-					||	strpos($key, 'beta') !== false
-					||	strpos($key, 'dev') !== false) $type = 'unstable';
-				else if(stripos($key, 'rc') !== false) $type = 'testing';
-				else $type = 'stable';
-				if($type != $this->type) continue;
+				if(self::getTypeByVersion($key) != $this->type) continue;
 				
 				$data = $val['xml']->getElementTree('data');
 				// get Updatetype & fromversions
@@ -161,6 +165,17 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 		
 		$xml .= "\n</section>";
 		return $xml;
+	}
+	public static function getTypeByVersion($version) {
+		if(	stripos($version, 'a') !== false
+		||	stripos($version, 'alpha') !== false
+		||	stripos($version, 'b') !== false
+		||	stripos($version, 'beta') !== false
+		||	stripos($version, 'dev') !== false) $type = 'unstable';
+		else if(stripos($version, 'rc') !== false) $type = 'testing';
+		else $type = 'stable';
+		
+		return $type;
 	}
 	public function readPackages() {
 		WCF::getCache()->addResource(
