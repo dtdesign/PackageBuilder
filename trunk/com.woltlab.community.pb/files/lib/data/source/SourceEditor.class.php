@@ -52,7 +52,7 @@ class SourceEditor extends Source {
 		));
 
 		// get source
-		$source = new self($sourceID, null);
+		$source = new SourceEditor($sourceID, null);
 
 		// set position
 		$source->setPosition($position);
