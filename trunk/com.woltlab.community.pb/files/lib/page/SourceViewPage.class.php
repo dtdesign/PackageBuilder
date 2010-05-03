@@ -20,7 +20,6 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 class SourceViewPage extends AbstractPage {
 	// system
 	public $templateName = 'sourceView';
-	public $neededPermissions = 'user.source.dynamic.canUseSource';
 
 	// data
 	public $buildDirectory = '';
@@ -46,18 +45,14 @@ class SourceViewPage extends AbstractPage {
 		
 		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
-
-		// append sourceID
-		$this->neededPermissions .= $this->source->sourceID;
+		if (!$this->source->hasAccess()) throw new PermissionDeniedException();
 	}
 
 	/**
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		$className = ucfirst(Source::validateSCM($this->source->scm));
-		require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
-		$this->latestRevision = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->source->url, array('username' => $this->source->username, 'password' => $this->source->password)));
+		$this->latestRevision = $this->source->getHeadRevision();
 
 		// read cache
 		WCF::getCache()->addResource(

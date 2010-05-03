@@ -43,7 +43,7 @@
 	<tbody>
 {if $sources|isset}
 	{foreach from=$sources item=source}
-		{if $source->hasAccess}
+		{if $source->hasAccess()}
 			<tr>
 				<td>
 					<a href="index.php?page=SourceView&amp;sourceID={$source->sourceID}">{$source.>name}</a>
