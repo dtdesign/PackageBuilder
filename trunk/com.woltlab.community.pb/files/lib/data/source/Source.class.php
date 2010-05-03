@@ -96,10 +96,12 @@ class Source extends DatabaseObject {
 	/**
 	 * Returns whether the user has access
 	 *
+	 * @param	User	$user	the user which should be checked
 	 * @return 	boolean		accessable
 	 */
-	public function hasAccess() {
-		return (bool) WCF::getUser()->getPermission('user.source.dynamic.canUseSource'.$this->data['sourceID']);
+	public function hasAccess($user = null) {
+		if($user === null) $user = WCF::getUser();
+		return (bool) $user->getPermission('user.source.dynamic.canUseSource'.$this->data['sourceID']);
 	}
 }
 ?>

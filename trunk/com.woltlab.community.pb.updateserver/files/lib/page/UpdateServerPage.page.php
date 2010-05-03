@@ -17,6 +17,7 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 class UpdateServerPage extends AbstractPage {
 	/**
 	 * Source Object
+	 *
 	 * @var Source
 	 */
 	public $source = NULL;
@@ -56,8 +57,7 @@ class UpdateServerPage extends AbstractPage {
 		
 		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
-		$this->user->checkPermission('user.source.general.canViewSources');
-		$this->user->checkPermission('user.source.dynamic.canUseSource'.$this->source->sourceID);
+		if (!$this->source->hasAccess($this->user)) throw new PermissionDeniedException();
 	}
 	
 	/**
@@ -75,6 +75,7 @@ class UpdateServerPage extends AbstractPage {
 	 * @see Page::show();
 	 */
 	public function show() {
+		$this->user->checkPermission('user.source.general.canViewSources');
 		parent::show();
 		WCF::getCache()->addResource(
 			'update-'.$this->source->sourceID.'-'.$this->type,
