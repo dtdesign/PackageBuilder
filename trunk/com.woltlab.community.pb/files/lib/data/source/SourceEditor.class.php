@@ -38,7 +38,7 @@ class SourceEditor extends Source {
 		$buildDirectory = FileUtil::unifyDirSeperator($buildDirectory);
 
 		// validate SCM
-		$scm = Source::validateSCM($scm);
+		$scm = self::validateSCM($scm);
 
 		// save data
 		$sourceID = self::insert($name, array(
@@ -52,7 +52,7 @@ class SourceEditor extends Source {
 		));
 
 		// get source
-		$source = new SourceEditor($sourceID, null);
+		$source = new self($sourceID, null);
 
 		// set position
 		$source->setPosition($position);
@@ -162,6 +162,7 @@ class SourceEditor extends Source {
 				)
 			AND	packageID = ".PACKAGE_ID;
 		$result = WCF::getDB()->sendQuery($sql);
+		
 		$languageData = array();
 		// create language variables for each language
 		while ($row = WCF::getDB()->fetchArray($result)) {
@@ -323,6 +324,7 @@ class SourceEditor extends Source {
 			catch(SystemException $e) { }
 		}
 		$this->removePosition($this->position);
+		
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
 			WHERE	sourceID = ".$this->sourceID;
@@ -342,6 +344,7 @@ class SourceEditor extends Source {
 		$sql = "DELETE	FROM pb".PB_N."_selected_packages
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
+		
 		$this->removePermissions();
 	}
 }
