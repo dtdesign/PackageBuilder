@@ -80,7 +80,7 @@ class Source extends DatabaseObject {
 	/**
 	 * Returns the head revision
 	 *
-	 * @param	boolean	cache	should a cached result be fetched
+	 * @param	boolean	$cache	should a cached result be fetched
 	 * @return 	mixed		the head revision
 	 */
 	public function getHeadRevision($cache = true) {
