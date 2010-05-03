@@ -52,7 +52,6 @@ class SourceViewPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		$this->latestRevision = $this->source->getHeadRevision();
 
 		// read cache
 		WCF::getCache()->addResource(
@@ -173,7 +172,6 @@ class SourceViewPage extends AbstractPage {
 			'currentFilename' => $this->currentFilename,
 			'directories' => $this->directories,
 			'filenames' => $this->filenames,
-			'latestRevision' => $this->latestRevision,
 			'source' => $this->source
 		));
 	}

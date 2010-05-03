@@ -15,6 +15,8 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
  */
 class Source extends DatabaseObject {
 
+	protected $headRevision = null;
+	
 	/**
 	 * Creates a new Source object.
 	 *
@@ -78,12 +80,17 @@ class Source extends DatabaseObject {
 	/**
 	 * Returns the head revision
 	 *
-	 * @return 	mixed	the head revision
+	 * @param	boolean	cache	should a cached result be fetched
+	 * @return 	mixed		the head revision
 	 */
-	public function getHeadRevision() {
-		$className = ucfirst(self::validateSCM($this->data['scm']));
-		require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
-		return StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->data['url'], array('username' => $this->data['username'], 'password' => $this->data['password'])));
+	public function getHeadRevision($cache = true) {
+		if($this->headRevision === null || !$cache) {
+			$className = ucfirst(self::validateSCM($this->data['scm']));
+			require_once(WCF_DIR . 'lib/system/scm/'.$className.'.class.php');
+			$this->headRevision = StringUtil::trim(call_user_func(array($className, 'getHeadRevision'), $this->data['url'], array('username' => $this->data['username'], 'password' => $this->data['password'])));
+		}
+		
+		return $this->headRevision;
 	}
 	
 	/**

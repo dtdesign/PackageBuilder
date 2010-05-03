@@ -84,7 +84,7 @@
 		<div class="type-text">
 			<label for="revision">{lang}pb.source.revision{/lang}</label>
 
-			{lang}pb.source.revision.{if $source->revision == $latestRevision}current{else}outdated{/if}{/lang}
+			{lang}pb.source.revision.{if $source->revision == $source->getHeadRevision()}current{else}outdated{/if}{/lang}
 		</div>
 		{/if}
 
@@ -112,7 +112,7 @@
 <form method="post" action="index.php?action=Checkout" class="yform columnar">
 	<fieldset>
 		<legend>{lang}pb.source.checkout{/lang}</legend>
-		{if $source->revision == $latestRevision}<div class="warning">{lang}pb.source.checkout.iscurrent{/lang}</div>{/if}
+		{if $source->revision == $source->getHeadRevision()}<div class="warning">{lang}pb.source.checkout.iscurrent{/lang}</div>{/if}
 		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
 			<label for="rebuildPackageData">{lang}pb.source.rebuildPackageData{/lang}</label>
