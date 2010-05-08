@@ -9,7 +9,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 /**
  * Checks out a repository.
  *
- * @author	Tim Düsterhus, Alexander Ebert
+ * @author	Tim DÃ¼sterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -48,10 +48,10 @@ class CheckoutAction extends AbstractAction {
 
 		// check out repository
 		require_once(WCF_DIR.'lib/system/scm/'.$className.'.class.php');
-		call_user_func(array($className, 'checkout'), $source->url, $source->sourceDirectory, $source->username, $source->password);
+		call_user_func(array($className, 'checkout'), $source->url, $source->sourceDirectory, array($source->username, $source->password));
 
 		// set revision
-		$revision = call_user_func(array($className, 'getHeadRevision'), $source->url, $source->username, $source->password);
+		$revision = call_user_func(array($className, 'getHeadRevision'), $source->url, array($source->username, $source->password));
 		$source->update(null, null, null, null, null, null, null, $revision);
 
 		// rebuild package data if requested
