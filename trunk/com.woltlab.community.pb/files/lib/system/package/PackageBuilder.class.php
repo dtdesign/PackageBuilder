@@ -29,11 +29,13 @@ class PackageBuilder {
 	/**
 	 * Builds a package
 	 *
-	 * @param	integer	$source			id or instance of a source
-	 * @param	array	$package		required and optional packages
-	 * @param	string	$directory		source directory
-	 * @param	mixed	$excludeFiles		files to exclude while packing archive
-	 * @param	bool	$ignoreDotFiles		should files beginning with a dot be ignored
+	 * @param	integer		$source			id or instance of a source
+	 * @param	PackageReader	$package		required and optional packages
+	 * @param	string		$directory		source directory
+	 * @param	string		$filename		the filename
+	 * @param	mixed		$excludeFiles		files to exclude while packing archive
+	 * @param	boolean		$ignoreDotFiles		should files beginning with a dot be ignored
+	 * @param	boolean		$removeAfter		should temporary files be removed afterwards
 	 */
 	public function __construct($source, PackageReader $package, $directory, $filename, $excludeFiles = array(), $ignoreDotFiles = true, $removeAfter = false) {
 		// read source

@@ -46,7 +46,7 @@
 		{if $source->hasAccess()}
 			<tr>
 				<td>
-					<a href="index.php?page=SourceView&amp;sourceID={$source->sourceID}">{$source.>name}</a>
+					<a href="index.php?page=SourceView&amp;sourceID={$source->sourceID}">{$source->name}</a>
 				</td>
 				<td>
 					{$source->sourceDirectory}
