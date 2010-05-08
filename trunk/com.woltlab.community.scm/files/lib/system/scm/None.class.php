@@ -16,14 +16,14 @@ class None implements SCM {
 	/**
 	 * @see	SCM::checkout()
 	 */
-	public static function checkout($url, $directory, $loginDetails = array(), $options = array()) {
+	public static function checkout($url, $directory, Array $loginDetails = array(), Array $options = array()) {
 		return;
 	}
 
 	/**
 	 * @see	SCM::getHeadRevision()
 	 */
-	public static function getHeadRevision($url, $loginDetails = array(), $options = array()) {
+	public static function getHeadRevision($url, Array $loginDetails = array(), Array $options = array()) {
 		return;
 	}
 }

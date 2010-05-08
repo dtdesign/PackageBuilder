@@ -18,7 +18,7 @@ interface SCM {
 	 * @param	array	$loginDetails	Login details if repository does not allow anonymous access
 	 * @param	array	$options	Additional options
 	 */
-	public static function checkout($url, $directory, $loginDetails = array(), $options = array());
+	public static function checkout($url, $directory, Array $loginDetails = array(), Array $options = array());
 
 	/**
 	 * Returns latest repository revision identifier
@@ -28,6 +28,6 @@ interface SCM {
 	 * @param	array	$options	Additionals options
 	 * @return	string	Revision identifier
 	 */
-	public static function getHeadRevision($url, $loginDetails = array(), $options = array());
+	public static function getHeadRevision($url, Array $loginDetails = array(), Array $options = array());
 }
 ?>
