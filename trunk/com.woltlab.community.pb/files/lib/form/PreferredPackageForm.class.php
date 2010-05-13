@@ -2,7 +2,7 @@
 // pb imports
 require_once(PB_DIR.'lib/data/source/Source.class.php');
 require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
-require_once(PB_DIR.'lib/system/package/SimplePackage.class.php');
+// require_once(PB_DIR.'lib/system/package/SimplePackage.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
