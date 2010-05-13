@@ -39,7 +39,7 @@ class BuildPackageAction extends AbstractAction {
 	 * @var	boolean
 	 */
 	public $saveSelection = false;
-	
+
 	/**
 	 * Filename Pattern for the Archive
 	 *
@@ -60,17 +60,15 @@ class BuildPackageAction extends AbstractAction {
 	public function readParameters() {
 		parent::readParameters();
 
+		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
-		$sourceID = 0;
-		if (isset($_POST['sourceID'])) $sourceID = $_POST['sourceID'];
-		
-		$this->source = new Source($sourceID);
+
+		if (isset($_POST['sourceID'])) $this->source = new Source($_POST['sourceID']);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
+
 		WCF::getUser()->checkPermission('user.source.general.canViewSources');
 		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$this->source->sourceID);
-		
-		if (isset($_POST['filename'])) $this->filename = trim($_POST['filename']);
-		
+
 		// read selected resources
 		$this->readPackageSelection();
 
@@ -87,12 +85,12 @@ class BuildPackageAction extends AbstractAction {
 
 		// handle package selection
 		foreach ($_POST['packages'] as $package) {
-			list($hash, $packageName) = explode('-', $package, 2);
+			list($hash, $packageName) = explode('-', $package);
 
 			if (isset($_POST[$hash])) {
 				$this->packages[$packageName] = array(
 					'hash' => $hash,
-					'directory' => $_POST[$hash]
+					'directory' => StringUtil::trim($_POST[$hash])
 				);
 			}
 		}
@@ -104,7 +102,7 @@ class BuildPackageAction extends AbstractAction {
 	public function execute() {
 		// call execute event
 		parent::execute();
-		
+
 		// save selection
 		if ($this->saveSelection) {
 			$sql = '';
@@ -140,7 +138,7 @@ class BuildPackageAction extends AbstractAction {
 		$pr = new PackageReader($this->source->sourceID, $this->directory);
 
 		// build package
-		$pkg = new PackageBuilder($this->source->sourceID, $pr, $this->directory, $this->filename);
+		$pkg = new PackageBuilder($this->source, $pr, $this->directory, $this->filename);
 
 		// clear previously created archives
 		PackageHelper::clearTemporaryFiles();
