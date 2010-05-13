@@ -7,21 +7,21 @@
 		<packagedescription languagecode="de"><![CDATA[Automatische Paketerzeugung]]></packagedescription>
 		<packagedescription languagecode="de-informal"><![CDATA[Automatische Paketerzeugung]]></packagedescription>
 		<packagedescription languagecode="en"><![CDATA[Automatic package-building]]></packagedescription>
-		<version>2.0.0 Alpha 12</version> <!-- Codename Prometheus -->
+		<version>2.0.0 Alpha 13</version> <!-- Codename Prometheus -->
 		<isunique>0</isunique>
 		<standalone>1</standalone>
-		<date>2010-02-22</date>
+		<date>2010-05-13</date>
 	</packageinformation>
 
 	<authorinformation>
 		<author><![CDATA[WoltLab Community]]></author>
 		<authorurl><![CDATA[http://community.woltlab.com]]></authorurl>
 	</authorinformation>
-	
+
 	<optionalpackages>
 		<optionalpackage file="optionals/com.woltlab.community.pb.updateserver.tar.gz">com.woltlab.community.pb.updateserver</optionalpackage>
 	</optionalpackages>
-	
+
 	<requiredpackages>
 		<!-- basics -->
 		<requiredpackage minversion="1.1.1 pl 2">com.woltlab.wcf</requiredpackage>
@@ -47,7 +47,7 @@
 
 		<!-- scm system -->
 		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.scm.tar.gz">com.woltlab.community.scm</requiredpackage>
-		
+
 		<!-- additional packages -->
 		<requiredpackage minversion="1.0.0 pl 1" file="requirements/com.woltlab.community.wcf.util.package.tar.gz">com.woltlab.community.wcf.util.package</requiredpackage>
 		<requiredpackage minversion="1.0.0 Alpha 1" file="requirements/com.woltlab.community.util.directory.tar.gz">com.woltlab.community.util.directory</requiredpackage>
@@ -67,6 +67,12 @@
 		<options>options.xml</options>
 		<pagemenu>pagemenu.xml</pagemenu>
 		<sql>install.sql</sql>
+		<templates>templates.tar</templates>
+	</instructions>
+
+	<instructions type="update" fromversion="2.0.0 Alpha 12">
+		<files>files.tar</files>
+		<languages languagecode="de">languages/de.xml</languages>
 		<templates>templates.tar</templates>
 	</instructions>
 </package>
