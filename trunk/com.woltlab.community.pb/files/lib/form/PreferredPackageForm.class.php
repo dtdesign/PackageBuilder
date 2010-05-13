@@ -39,6 +39,7 @@ class PreferredPackageForm extends AbstractForm {
 		parent::readFormParameters();
 
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
+		
 		// read source
 		if ($this->readSource() === false) throw new IllegalLinkException();
 	}
