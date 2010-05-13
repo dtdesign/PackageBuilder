@@ -21,7 +21,7 @@ class SourceViewPage extends AbstractPage {
 	// system
 	public $templateName = 'sourceView';
 	public $neededPermissions = 'user.source.general.canViewSources';
-	
+
 	// data
 	public $buildDirectory = '';
 	public $builds = array();
@@ -39,7 +39,7 @@ class SourceViewPage extends AbstractPage {
 	public function readParameters() {
 		$sourceID = 0;
 		if (isset($_GET['sourceID'])) $sourceID = $_GET['sourceID'];
-		
+
 		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
 		if (!$this->source->hasAccess()) throw new PermissionDeniedException();
@@ -49,14 +49,13 @@ class SourceViewPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-
 		// read cache
 		WCF::getCache()->addResource(
 			'packages-'.$this->source->sourceID,
 			PB_DIR.'cache/cache.packages-'.$this->source->sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
-		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID);
+		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID, 'packages');
 
 		// handle packages
 		foreach ($packages as $package) {
