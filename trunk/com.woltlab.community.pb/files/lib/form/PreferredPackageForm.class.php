@@ -127,7 +127,12 @@ class PreferredPackageForm extends AbstractForm {
 
 		return WCF::getCache()->get($cacheName);
 	}
-
+	
+	/**
+	 * gets the name and the hash of the requested package
+	 *
+	 * @return void
+	 */
 	protected function getRequestedPackage() {
 		// get directory
 		$directory = WCF::getSession()->getVar('source'.$this->source->sourceID);
@@ -159,10 +164,8 @@ class PreferredPackageForm extends AbstractForm {
 			return false;
 		}
 
-		// append source ID to permission string
-		$this->neededPermissions[] .= 'user.source.dynamic.canUseSource.'.$this->source->sourceID;
-
-		return true;
+		// check permission
+		return $this->source->hasAccess();
 	}
 
 	public function assignVariables() {
