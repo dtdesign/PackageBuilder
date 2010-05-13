@@ -1,12 +1,9 @@
 <?php
-// pb imports
-require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
-
 // wcf imports
 require_once(WCF_DIR.'lib/system/cache/CacheBuilder.class.php');
 
 /**
- * Caches packages within a specific source.
+ * Caches package dependency within a given source.
  *
  * @author	Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
@@ -15,26 +12,27 @@ require_once(WCF_DIR.'lib/system/cache/CacheBuilder.class.php');
  * @subpackage	cache
  * @category 	PackageBuilder
  */
-class CacheBuilderPackages implements CacheBuilder {
+class CacheBuilderPackageDependency implements CacheBuilder {
 	/**
 	 * @see CacheBuilder::getData()
 	 */
 	public function getData($cacheResource) {
-		list($cache, $sourceID) = explode('-', $cacheResource['cache']);
+		list($dummy, $dummy2, $sourceID) = explode('-', $cacheResource['cache']);
 		$data = array();
 
-		// get associated packages
-		$sql = "SELECT	packageName,version,directory
-				FROM	pb".PB_N."_sources_packages
-				WHERE	sourceID = ".intval($sourceID)."
-				ORDER	BY packageName";
+		// get referenced packages
+		$sql = "SELECT	*
+			FROM	pb".PB_N."_referenced_packages
+			WHERE	sourceID = ".intval($sourceID)."
+			AND	file != ''";
 		$result = WCF::getDB()->sendQuery($sql);
 
 		// assign data ordered by package name
 		while ($row = WCF::getDB()->fetchArray($result)) {
-			$hash = PackageHelper::getHash($sourceID, $row['packageName'], $row['directory']);
-			$data['packages'][$hash] = $row;
-			$data['hashes'][$row['packageName']][] = $hash;
+			$hash = $row['hash'];
+			unset($row['hash']);
+
+			$data[$hash][] = $row;
 		}
 
 		return $data;
