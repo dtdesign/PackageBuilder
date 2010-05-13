@@ -32,13 +32,15 @@
 				{lang}pb.build.selectDirectories{/lang}
 			</p>
 
-			{foreach from=$packages key=packageName item=package}
+			{foreach from=$packages key=packageName item=packageData}
 				<div class="type-select">
-					<label for="{$package.simpleHash}">{$packageName}</label>
-					<input type="hidden" name="packages[]" value="{$package.simpleHash}-{$packageName}" />
+					<label for="{$packageData.hash}">{$packageName}</label>
+					<input type="hidden" name="packages[]" value="{$packageData.hash}-{$packageName}" />
 
-					<select name="{$package.simpleHash}">
-						{htmloptions options=$package.directories selected=$selectedPackages.$packageName}
+					<select name="{$packageData.hash}" id="{$packageData.hash}">
+						{foreach from=$packageData.directories key=directory item=version}
+							<option value="{$directory}">{$version} - {$directory}</option>
+						{/foreach}
 					</select>
 				</div>
 			{/foreach}
