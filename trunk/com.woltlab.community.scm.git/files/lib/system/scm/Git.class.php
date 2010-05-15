@@ -49,16 +49,24 @@ class Git implements SCM {
 	 * @see	SCM::getHeadRevision()
 	 */
 	public static function getHeadRevision($url, Array $loginDetails = array(), Array $options = array()) {
-		self::validateGitPath();
-		// not very nice or fast method to find out, but it should work
-		self::checkout($url, GIT_TEMPORARY_DIRECTORY, $loginDetails, $options);
-		$dir = explode('/', $url);
-		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
-		$headdir = explode(" ", file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/HEAD'));
-		$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.trim($headdir[1]));
-		$dir = DirectoryUtil::getInstance(FileUtil::addTrailingSlash(GIT_TEMPORARY_DIRECTORY).$dir);
-		$dir->removeComplete();
-		return $return;
+		try {
+			self::validateGitPath();
+			// not very nice or fast method to find out, but it should work
+			self::checkout($url, GIT_TEMPORARY_DIRECTORY, $loginDetails, $options);
+			$dir = explode('/', $url);
+			$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
+			$headdir = explode(" ", file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/HEAD'));
+			$return = file_get_contents(FileUtil::addTrailingSlash(FileUtil::unifyDirSeperator(GIT_TEMPORARY_DIRECTORY)).$dir.'/.git/'.trim($headdir[1]));
+			$dir = DirectoryUtil::getInstance(FileUtil::addTrailingSlash(GIT_TEMPORARY_DIRECTORY).$dir);
+			$dir->removeComplete();
+			return $return;
+		}
+		catch(GitException $e) {
+			throw $e;
+		}
+		catch(SystemException $e) {
+			
+		}
 	}
 
 	/**
