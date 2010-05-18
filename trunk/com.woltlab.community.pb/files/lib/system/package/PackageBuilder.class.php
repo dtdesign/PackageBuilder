@@ -20,7 +20,8 @@ require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 class PackageBuilder {
 	private $archive = null;
 	private $excludeFiles = array('.', '..');
-	private $ignoreDoFiles = true;
+	private $allowedDotFiles = array('.htaccess');
+	private $ignoreDotFiles = true;
 	private $filename = '';
 	private $location = '';
 	private $package = array();
@@ -37,7 +38,7 @@ class PackageBuilder {
 	 * @param	boolean		$ignoreDotFiles		should files beginning with a dot be ignored
 	 * @param	boolean		$removeAfter		should temporary files be removed afterwards
 	 */
-	public function __construct($source, PackageReader $package, $directory, $filename, $excludeFiles = array(), $ignoreDotFiles = true, $removeAfter = false) {
+	public function __construct($source, PackageReader $package, $directory, $filename, $excludeFiles = array(), $ignoreDotFiles = true, $removeAfter = false, $allowedDotFiles = array()) {
 		// read source
 		$this->source = ($source instanceof Source) ? $source : new Source($source);
 
@@ -47,6 +48,15 @@ class PackageBuilder {
 			throw new SystemException('Missing package name in "'.$directory.'", package.xml is not valid');
 		}
 		$this->ignoreDotFiles = $ignoreDotFiles;
+		
+		// add additional files whitch should be allowed
+		if (!empty($allowedDotFiles)) {
+			if (!is_array($allowedDotFiles)) {
+				$allowedDotFiles = array($allowedDotFiles);
+			}
+
+			$this->allowedDotFiles = array_merge($this->allowedDotFiles, $allowedDotFiles);
+		}
 		
 		// add additional files whitch should be excluded
 		if (!empty($excludeFiles)) {
@@ -161,7 +171,8 @@ class PackageBuilder {
 		foreach($dir->getFiles() as $filename) {
 			// skip directories
 			if (in_array($filename, $this->excludeFiles)) continue;
-			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.') continue;
+			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
+			
 			// handle files
 			if (!is_dir($directory.$filename)) {
 				// add file
