@@ -71,7 +71,7 @@ class SourceViewPage extends AbstractPage {
 		$this->buildDirectory = $this->source->buildDirectory;
 
   		if (WCF::getUser()->getPermission('admin.source.canEditSources')) {
-  			$this->buildDirectory = str_replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->buildDirectory);
+  			$this->buildDirectory = StringUtil::replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->buildDirectory);
 		}
 
 		// set current sourceDirectory
@@ -95,7 +95,7 @@ class SourceViewPage extends AbstractPage {
 					if (strrpos($file, '.tar.gz') !== false) {
 						$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
 						$data = $package->getPackageData();
-						$link = str_replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
+						$link = StringUtil::replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
 
 						$this->builds[] = array(
 							'link' => $link.$file,
@@ -110,35 +110,6 @@ class SourceViewPage extends AbstractPage {
 			}
 		}
 		asort($this->builds);
-	}
-
-	/**
-	 * Recursivly search folders for package.xml
-	 *
-	 * @param	string	$directory
-	 * @param	integer	$maxDimension
-	 */
-	private function readDirectories($directory, $maxDimension) {
-		// scan current dir for package.xml
-		if (file_exists($directory.'/package.xml')) {
-			$directory = str_replace($this->source->sourceDirectory, '', $directory);;
-			$this->directories[$directory] = $directory;
-		}
-		else if ($maxDimension) {
-			if (is_dir($directory)) {
-				if ($dh = opendir($directory)) {
-					$maxDimension--;
-
-					while (($file = readdir($dh)) !== false) {
-						if (!in_array($file, array('.', '..', '.svn'))) {
-							$this->readDirectories($directory.'/'.$file, $maxDimension);
-						}
-					}
-
-					closedir($dh);
-				}
-			}
-		}
 	}
 
 	/**
