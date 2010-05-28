@@ -47,5 +47,6 @@ CREATE TABLE pb1_1_user_preferences (
 	sourceID INT(10) NOT NULL,
 	userID INT(10) NOT NULL,
 	directory MEDIUMTEXT NOT NULL,
-	UNIQUE KEY userID (userID)
+	PRIMARY KEY (userID, sourceID),
+	KEY sourceID (sourceID)
 ) ENGINE=MyISAM CHARACTER SET=utf8;

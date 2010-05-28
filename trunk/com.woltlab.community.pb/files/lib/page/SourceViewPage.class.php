@@ -83,6 +83,15 @@ class SourceViewPage extends AbstractPage {
 		if ($currentDirectory !== null) {
 			$this->currentDirectory = $currentDirectory;
 		}
+		else {
+			$sql = "SELECT directory
+				FROM pb".PB_N."_user_preferences
+				WHERE 	userID = ".WCF::getUser()->userID."
+				&&	sourceID = ".$this->source->sourceID;
+			$result = WCF::getDB()->getFirstRow();
+			$this->currentDirectory = $result['directory'];
+			WCF::getSession()->register('source'.$this->sourceID, $result['directory']);
+		}
 
 		if ($currentFilename !== null) {
 			$this->currentFilename = $currentFilename;

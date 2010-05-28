@@ -17,10 +17,11 @@
 	<ul>
 		<li id="system"><a onclick="tabMenu.showSubTabMenu('system');"><span>{lang}pb.acp.index.system{/lang}</span></a></li>
 		<li id="credits"><a onclick="tabMenu.showSubTabMenu('credits');"><span>{lang}pb.acp.index.credits{/lang}</span></a></li>
+		{if $additionalTabs|isset}{@$additionalTabs}{/if}
 	</ul>
 </div>
 <div class="subTabMenu">
-	<div class="containerHead"><div> </div></div>
+	<div class="containerHead"><div></div></div>
 </div>
 
 <div class="border tabMenuContent system" id="system-content">
@@ -62,5 +63,19 @@
 		{/if}
 	</div>
 </div>
+
+<div class="border tabMenuContent system" id="credits-content">
+	<div class="container-1">
+		<h3 class="subHeadline">
+			{lang}pb.acp.index.credits{/lang}
+		</h3>
+		<div class="formElement">
+			<p class="formFieldLabel">{lang}pb.acp.index.credits.developedBy{/lang}</p>
+			<p class="formField"><a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={"http://community.woltlab.com"|rawurlencode}" class="externalURL">WoltLab&reg; Community&trade;</a></p>
+		</div>
+	</div>
+</div>
+
+{if $additionalTabContents|isset}{@$additionalTabContents}{/if}
 
 {include file='footer'}
