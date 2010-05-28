@@ -40,8 +40,9 @@ class CheckoutAction extends AbstractAction {
 		// fetch data
 		$source = new SourceEditor($this->sourceID);
 		if (!$source->sourceID) throw new IllegalLinkException();
+		if (!$source->hasAccess()) throw new PermissionDeniedException();
 		WCF::getUser()->checkPermission('user.source.general.canViewSources');
-		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$source->sourceID);
+		
 		
 		// load scm driver
 		$className = ucfirst(Source::validateSCM($source->scm));
@@ -51,7 +52,7 @@ class CheckoutAction extends AbstractAction {
 		call_user_func(array($className, 'checkout'), $source->url, $source->sourceDirectory, array($source->username, $source->password));
 
 		// set revision
-		$revision = call_user_func(array($className, 'getHeadRevision'), $source->url, array($source->username, $source->password));
+		$revision = $source->getHeadRevision();
 		$source->update(null, null, null, null, null, null, null, $revision);
 
 		// rebuild package data if requested
