@@ -147,7 +147,7 @@ class PackageHelper {
 	 * @return	string
 	 */
 	public static function getHash($sourceID, $packageName, $directory) {
-		return sha1($sourceID.':'.$packageName.':'.$directory);
+		return StringUtil::getHash($sourceID.':'.$packageName.':'.$directory);
 	}
 
 	/**
