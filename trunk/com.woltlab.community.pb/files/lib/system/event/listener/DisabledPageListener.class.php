@@ -17,7 +17,7 @@ class DisabledPageListener implements EventListener {
 	 * @see	EventListener::execute()
 	 */
 	public function execute($eventObj, $className, $eventName) {
-		throw new IllegalLinkException;
+		throw new IllegalLinkException();
 	}
 }
 ?>

@@ -53,6 +53,12 @@
 				<defaultvalue>1</defaultvalue>
 				<showorder>4</showorder>
 			</option>
+			<option name="show_version_number">
+				<categoryname>general.page</categoryname>
+				<optiontype>boolean</optiontype>
+				<defaultvalue>1</defaultvalue>
+				<showorder>5</showorder>
+			</option>
 			<!-- /general.page -->			
 		</options>
 	</import>

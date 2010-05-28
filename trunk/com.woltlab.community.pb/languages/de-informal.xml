@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language languagecode="de-informal" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
+	<!-- build related -->
+	<category name="pb.build">
+		<item name="pb.build.existingArchives"><![CDATA[Erzeugte Pakete]]></item>
+		<item name="pb.build.filename"><![CDATA[Archivname]]></item>
+		<item name="pb.build.packageName"><![CDATA[Paketbezeichner]]></item>
+		<item name="pb.build.packageVersion"><![CDATA[Paketversion]]></item>
+		<item name="pb.build.option.title"><![CDATA[Einstellungen]]></item>
+		<item name="pb.build.option.buildDirectory"><![CDATA[Ausgabeverzeichnis]]></item>
+		<item name="pb.build.option.revision"><![CDATA[Revision]]></item>
+		<item name="pb.build.option.revision.current"><![CDATA[Aktuell]]></item>
+		<item name="pb.build.option.revision.outdated"><![CDATA[<strong>Veraltet</strong>]]></item>
+		<item name="pb.build.option.directories"><![CDATA[Verfügbare Pakete]]></item>
+		<item name="pb.build.option.change"><![CDATA[Einstellungen übernehmen]]></item>
+		<item name="pb.build.title"><![CDATA[Paket erzeugen]]></item>
+		<item name="pb.build.option.filename"><![CDATA[Archivname]]></item>
+		<item name="pb.build.do"><![CDATA[Paket erzeugen]]></item>
+		<item name="pb.build.packageSelection"><![CDATA[Abhängigkeiten auswählen]]></item>
+		<item name="pb.build.packageSelection.save"><![CDATA[Auswahl speichern]]></item>
+	</category>
+
+	<!-- global -->
+	<category name="pb.global">
+		<item name="pb.global.action"><![CDATA[Aktion]]></item>
+		<item name="pb.global.action.delete"><![CDATA[Löschen]]></item>
+		<item name="pb.global.action.delete.sure"><![CDATA[Möchtest du {$itemName} wirklich löschen?]]></item>
+		<item name="pb.global.index.title"><![CDATA[Paketquellen]]></item>
+		<item name="pb.global.copyright"><![CDATA[<a href="http://community.woltlab.com"><strong>PackageBuilder{if SHOW_VERSION_NUMBER} {@PACKAGE_VERSION}{/if}</strong>, entwickelt von <strong>WoltLab&reg; Community&trade;</strong></a>]]></item>
+	</category>
+
+	<!-- header menu -->
+	<category name="pb.header">
+		<item name="pb.header.menu.index"><![CDATA[Paketquellen]]></item>
+		<item name="pb.header.userMenu.acp"><![CDATA[Administration]]></item>
+	</category>
+
+	<!-- source related -->
+	<category name="pb.source">
+		<item name="pb.source.name"><![CDATA[Bezeichnung]]></item>
+		<item name="pb.source.sourceDirectory"><![CDATA[Lokales Repository]]></item>
+		<item name="pb.source.scm"><![CDATA[Versionsverwaltung]]></item>
+		<item name="pb.source.revision"><![CDATA[Revision]]></item>
+		<item name="pb.source.go"><![CDATA[Paketquelle aufrufen]]></item>
+		<item name="pb.source.checkout.title"><![CDATA[Lokales Repository]]></item>
+		<item name="pb.source.checkout.isCurrent"><![CDATA[Die Revision des lokalen Repository entspricht der aktuellen Version des entfernten Repository.]]></item>
+		<item name="pb.source.rebuildPackageData"><![CDATA[Paketinformationen aktualisieren]]></item>
+		<item name="pb.source.checkout.do"><![CDATA[Lokales Repository aktualisieren]]></item>
+	</category>
+
+	<!-- ACP group options -->
+	<category name="wcf.acp.group">
+		<item name="wcf.acp.group.option.user.source.dynamic"><![CDATA[Zugriffsrechte]]></item>
+		<item name="wcf.acp.group.option.user.source.dynamic.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.user.source.dynamic.default"><![CDATA[Kann "#sourceName#" benutzen]]></item>
+		<item name="wcf.acp.group.option.user.source.dynamic.default.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Paketquelle "#sourceName#" benutzen.]]></item>
+	</category>
+</language>
