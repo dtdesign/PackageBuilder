@@ -24,7 +24,7 @@
 		</legend>
 
 		{if $packages|empty}
-			<p class="note">
+			<p class="info">
 				{lang}pb.build.continue{/lang}
 			</p>
 		{else}

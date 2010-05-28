@@ -9,6 +9,8 @@
 		<item name="pb.build.option.title"><![CDATA[Einstellungen]]></item>
 		<item name="pb.build.option.buildDirectory"><![CDATA[Ausgabeverzeichnis]]></item>
 		<item name="pb.build.option.revision"><![CDATA[Revision]]></item>
+		<item name="pb.build.option.revision.current"><![CDATA[Aktuell]]></item>
+		<item name="pb.build.option.revision.outdated"><![CDATA[<strong>Veraltet</strong>]]></item>
 		<item name="pb.build.option.directories"><![CDATA[Verfügbare Pakete]]></item>
 		<item name="pb.build.option.change"><![CDATA[Einstellungen übernehmen]]></item>
 		<item name="pb.build.title"><![CDATA[Paket erzeugen]]></item>
@@ -23,6 +25,8 @@
 		<item name="pb.global.action"><![CDATA[Aktion]]></item>
 		<item name="pb.global.action.delete"><![CDATA[Löschen]]></item>
 		<item name="pb.global.action.delete.sure"><![CDATA[Möchten Sie {$itemName} wirklich löschen?]]></item>
+		<item name="pb.global.index.title"><![CDATA[Paketquellen]]></item>
+		<item name="pb.global.copyright"><![CDATA[<a href="http://community.woltlab.com"><strong>PackageBuilder{if SHOW_VERSION_NUMBER} {@PACKAGE_VERSION}{/if}</strong>, entwickelt von <strong>WoltLab&reg; Community&trade;</strong></a>]]></item>
 	</category>
 
 	<!-- header menu -->

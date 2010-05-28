@@ -40,7 +40,7 @@
 							{lang}pb.build.packageVersion{/lang}
 						</th>
 						<th>
-							{lang}pb.build.action{/lang}
+							{lang}pb.global.action{/lang}
 						</th>
 					</tr>
 				</thead>
@@ -72,24 +72,24 @@
 
 <form method="post" action="index.php?action=SetBuildOptions" class="yform columnar">
 	<fieldset>
-		<legend>{lang}pb.source.buildOptions{/lang}</legend>
+		<legend>{lang}pb.build.option.title{/lang}</legend>
 
 		<div class="type-text">
-			<label for="buildDirectory">{lang}pb.source.buildDirectory{/lang}</label>
+			<label for="buildDirectory">{lang}pb.build.option.buildDirectory{/lang}</label>
 
 			{$source->buildDirectory}
 		</div>
 
 		{if $source->scm != 'none'}
 		<div class="type-text">
-			<label for="revision">{lang}pb.source.revision{/lang}</label>
+			<label for="revision">{lang}pb.build.option.revision{/lang}</label>
 
-			{lang}pb.source.revision.{if $source->revision == $source->getHeadRevision()}current{else}outdated{/if}{/lang}
+			{lang}pb.build.option.revision.{if $source->revision == $source->getHeadRevision()}current{else}outdated{/if}{/lang}
 		</div>
 		{/if}
 
 		<div class="type-select">
-			<label for="directory">{lang}pb.source.directories{/lang}</label>
+			<label for="directory">{lang}pb.build.option.directories{/lang}</label>
 
 			{if $directories|empty}
 				{lang}pb.source.error.directories.noData{/lang}
@@ -103,7 +103,7 @@
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}
-			<input type="submit" name="changeBuildOptions" value="{lang}pb.source.changeBuildOptions{/lang}" />
+			<input type="submit" name="changeBuildOptions" value="{lang}pb.build.option.change{/lang}" />
 
 		</div>
 	</fieldset>
@@ -111,7 +111,7 @@
 
 <form method="post" action="index.php?action=Checkout" class="yform columnar">
 	<fieldset>
-		<legend>{lang}pb.source.checkout{/lang}</legend>
+		<legend>{lang}pb.source.checkout.title{/lang}</legend>
 		{if $source->revision == $source->getHeadRevision()}<div class="warning">{lang}pb.source.checkout.isCurrent{/lang}</div>{/if}
 		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
@@ -121,7 +121,7 @@
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}
-			<input type="submit" name="changeBuildOptions" value="{lang}pb.source.checkout{/lang}" />
+			<input type="submit" name="changeBuildOptions" value="{lang}pb.source.checkout.do{/lang}" />
 
 		</div>
 	</fieldset>
@@ -130,10 +130,10 @@
 {if !$currentDirectory|empty}
 <form method="post" action="index.php?form=PreferredPackage" class="yform columnar">
 	<fieldset>
-		<legend>{lang}pb.source.build{/lang}</legend>
+		<legend>{lang}pb.build.title{/lang}</legend>
 
 		<div class="type-select">
-			<label for="filename">{lang}pb.source.filename{/lang}</label>
+			<label for="filename">{lang}pb.build.option.filename{/lang}</label>
 
 			<select name="filename" id="filename">
     				{htmloptions options=$filenames selected=$currentFilename}
@@ -143,7 +143,7 @@
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}
-			<input type="submit" name="buildPackage" value="{lang}pb.source.build{/lang}" />
+			<input type="submit" name="buildPackage" value="{lang}pb.build.do{/lang}" />
 			<input type="reset" />
 		</div>
 	</fieldset>
