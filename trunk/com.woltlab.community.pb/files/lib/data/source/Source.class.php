@@ -28,7 +28,7 @@ class Source extends DatabaseObject {
 	 */
 	public function __construct($sourceID, $row = null) {
 		if ($sourceID !== null) self::getSource($sourceID);
-		if ($row !== null) parent::__construct($row);
+		else if ($row !== null) parent::__construct($row);
 	}
 
 	/**
