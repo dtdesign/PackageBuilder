@@ -7,7 +7,7 @@
 		<packagedescription language="de"><![CDATA[Stellt eine allgemeine API zum Zugriff auf verschiedene Versionsverwaltungs-Systeme bereit.]]></packagedescription>
 		<packagedescription language="de-informal"><![CDATA[Stellt eine allgemeine API zum Zugriff auf verschiedene Versionsverwaltungs-Systeme bereit.]]></packagedescription>
 		<packagedescription language="en"><![CDATA[Provides a general API to access source code management systems.]]></packagedescription>
-		<version>1.0.0 Alpha 2</version>
+		<version>1.0.0 Alpha 3</version>
 		<isunique>1</isunique>
 		<standalone>0</standalone>
 		<date>2010-02-25</date>
@@ -31,13 +31,13 @@
 		<files>files.tar</files>
 		<groupoptions>groupoptions.xml</groupoptions>
 		<languages languagecode="de">languages/de.xml</languages>
+		<languages languagecode="de-informal">languages/de-informal.xml</languages>
 		<options>options.xml</options>
 		<packageinstallationplugins>pip.tar</packageinstallationplugins>
 		<sql>install.sql</sql>
 	</instructions>
 
-	<instructions type="update" fromversion="1.0.0 Alpha 1">
-		<packageinstallationplugins>pip.tar</packageinstallationplugins>
-		<sql>install.sql</sql>
+	<instructions type="update" fromversion="1.0.0 Alpha 2">
+		<languages languagecode="de-informal">languages/de-informal.xml</languages>
 	</instructions>
 </package>

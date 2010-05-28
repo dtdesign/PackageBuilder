@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language languagecode="de-informal" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
+	<category name="wcf.acp.option">
+		<item name="wcf.acp.option.category.scm.git"><![CDATA[Git]]></item>
+		<item name="wcf.acp.option.category.scm.git.description"><![CDATA[]]></item>
+		<item name="wcf.acp.option.git_path"><![CDATA[Git-Executable]]></item>
+		<item name="wcf.acp.option.git_path.description"><![CDATA[Bitte gib hier den vollen Pfad zu der Git-Executable an, z.B. /usr/bin/git]]></item>
+		<item name="wcf.acp.option.git_temporary_directory"><![CDATA[Temporäres Verzeichnis]]></item>
+		<item name="wcf.acp.option.git_temporary_directory.description"><![CDATA[Gib hier ein beliebiges Verzeichnis an, es sollte sich jedoch an einer nicht-öffentlich zugänglichen Stelle befinden. Dieses Verzeichnis dient zur temporären Speicherung aller für Git relevanten Daten.]]></item>
+	</category>
+	<category name="wcf.scm">
+		<item name="wcf.scm.git">Git</item>
+	</category>
+</language>

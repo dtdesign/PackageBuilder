@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language languagecode="de-informal" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
+	<category name="wcf.acp.option">
+		<item name="wcf.acp.option.category.scm"><![CDATA[Versionsverwaltung]]></item>
+		<item name="wcf.acp.option.category.scm.description"><![CDATA[]]></item>
+	</category>
+	<category name="wcf.acp.group">
+		<item name="wcf.acp.group.option.category.admin.system.scm"><![CDATA[Versionsverwaltung]]></item>
+		<item name="wcf.acp.group.option.category.admin.system.scm.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.admin.system.scm.canEdit"><![CDATA[Kann Versionsverwaltungen bearbeiten]]></item>
+		<item name="wcf.acp.group.option.admin.system.scm.canEdit.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Einstellungen für Versionsverwaltungssoftware bearbeiten.]]></item>
+	</category>
+	<category name="wcf.acp.package">
+		<item name="wcf.acp.package.step.install.SCMPackageInstallationPlugin"><![CDATA[SCM wird installiert]]></item>
+		<item name="wcf.acp.package.step.uninstall.SCMPackageInstallationPlugin"><![CDATA[SCM wird deinstalliert]]></item>
+		<item name="wcf.acp.package.step.update.SCMPackageInstallationPlugin"><![CDATA[SCM wird aktualisiert]]></item>
+	</category>
+	<category name="wcf.scm">
+		<item name="wcf.scm.none">---</item>
+	</category>
+</language>

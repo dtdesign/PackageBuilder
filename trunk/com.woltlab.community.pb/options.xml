@@ -51,13 +51,13 @@
 				<categoryname>general.page</categoryname>
 				<optiontype>boolean</optiontype>
 				<defaultvalue>1</defaultvalue>
-				<showorder>4</showorder>
+				<showorder>5</showorder>
 			</option>
 			<option name="show_version_number">
 				<categoryname>general.page</categoryname>
 				<optiontype>boolean</optiontype>
 				<defaultvalue>1</defaultvalue>
-				<showorder>5</showorder>
+				<showorder>6</showorder>
 			</option>
 			<!-- /general.page -->			
 		</options>
