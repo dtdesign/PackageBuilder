@@ -45,13 +45,15 @@ class IndexPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		parent::readData();
+		
 
 		$this->requiredFunctions = array(
 			'filesystem'	=> array('copy'),
 			'system'	=> array('escapeshellcmd', 'exec')
 		);
-
+		
+		parent::readData();
+		
 		// mark all disabled functions
 		foreach ($this->requiredFunctions as $functionType => $functions) {
 			foreach ($functions as $function) {

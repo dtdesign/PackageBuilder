@@ -27,6 +27,7 @@ class IndexPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
+		parent::readData();
 		$this->sourceList = new SourceList();
 		$this->sourceList->readObjects();
 	}
