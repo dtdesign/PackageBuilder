@@ -83,7 +83,7 @@ class PBCore extends WCF implements PageMenuContainer, UserCPMenuContainer, User
 	}
 
 	/**
-	 * Loads default cache resources of burning board.
+	 * Loads default cache resources of package builder.
 	 * Can be called statically from other applications or plugins.
 	 */
 	public static function loadDefaultPBCacheResources() {
@@ -126,10 +126,6 @@ class PBCore extends WCF implements PageMenuContainer, UserCPMenuContainer, User
 	 * Initialises the style system.
 	 */
 	protected function initStyle() {
-		if (isset($_GET['styleID'])) {
-			self::getSession()->setStyleID(intval($_GET['styleID']));
-		}
-
 		StyleManager::changeStyle(self::getSession()->getStyleID());
 	}
 
@@ -200,10 +196,6 @@ class PBCore extends WCF implements PageMenuContainer, UserCPMenuContainer, User
 	protected function assignDefaultTemplateVariables() {
 		parent::assignDefaultTemplateVariables();
 		self::getTPL()->registerPrefilter('icon');
-		self::getTPL()->assign(array(
-			'timezone' => DateUtil::getTimezone(),
-			'availableStyles' => (SHOW_STYLE_CHOOSER ? StyleManager::getAvailableStyles() : array())
-		));
 	}
 }
 ?>
