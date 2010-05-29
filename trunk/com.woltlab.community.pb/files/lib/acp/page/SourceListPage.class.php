@@ -1,6 +1,6 @@
 <?php
 // pb imports
-require_once(PB_DIR.'lib/data/source/Source.class.php');
+require_once(PB_DIR.'lib/data/source/SourceList.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
@@ -30,14 +30,8 @@ class SourceListPage extends AbstractPage {
 	public function readData() {
 		parent::readData();
 
-		$sql = "SELECT	*
-			FROM	pb".PB_N."_sources
-			ORDER BY position ASC";
-		$result = WCF::getDB()->sendQuery($sql);
-
-		while ($row = WCF::getDB()->fetchArray($result)) {
-			$this->sources[] = new Source('', $row);
-		}
+		$this->sourceList = new SourceList();
+		$this->sourceList->readObjects();
 	}
 
 	/**
@@ -45,11 +39,10 @@ class SourceListPage extends AbstractPage {
 	 */
 	public function assignVariables() {
 		parent::assignVariables();
-
 		WCF::getTPL()->assign(array(
 			'deletedSourceID' => $this->deletedSourceID,
-			'maxPosition' => count($this->sources),
-			'sources' => $this->sources,
+			'maxPosition' => $this->sourceList->countObjects(),
+			'sources' => $this->sourceList->getObjects(),
 			'successfulSorting' => $this->successfulSorting
 		));
 	}

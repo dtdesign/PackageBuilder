@@ -27,10 +27,6 @@ class IndexPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		$sql = "SELECT *
-			FROM	pb".PB_N."_sources
-			ORDER BY position ASC";
-		$result = WCF::getDB()->sendQuery($sql);
 		$this->sourceList = new SourceList();
 		$this->sourceList->readObjects();
 	}

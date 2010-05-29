@@ -24,7 +24,7 @@
 	<div class="containerHead"><div></div></div>
 </div>
 
-<div class="border tabMenuContent system" id="system-content">
+<div class="border tabMenuContent" id="system-content">
 	<div class="container-1">
 		<h3 class="subHeadline">
 			{lang}pb.acp.index.system.status{/lang}
@@ -64,7 +64,7 @@
 	</div>
 </div>
 
-<div class="border tabMenuContent system" id="credits-content">
+<div class="border tabMenuContent hidden" id="credits-content">
 	<div class="container-1">
 		<h3 class="subHeadline">
 			{lang}pb.acp.index.credits{/lang}
