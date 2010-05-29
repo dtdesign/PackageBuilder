@@ -1,8 +1,8 @@
 <?php
 // pb imports
 require_once(PB_DIR.'lib/data/source/Source.class.php');
+require_once(PB_DIR.'lib/data/source/SourceList.class.php');
 require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
-// require_once(PB_DIR.'lib/system/package/SimplePackage.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
@@ -25,9 +25,11 @@ class PreferredPackageForm extends AbstractForm {
 	public $cachedPackages = array();
 	public $errors = array();
 	public $filename = '';
+	public $otherSources = false;
 	public $packageDependencies = array();
 	public $packages = array();
 	public $source = null;
+	public $sources = array();
 	public $requestedPackageName = '';
 	public $requestedPackageHash = '';
 	public $saveSelection = 0;
@@ -39,6 +41,7 @@ class PreferredPackageForm extends AbstractForm {
 		parent::readFormParameters();
 
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
+		if (isset($_POST['otherSources'])) $this->otherSources = (bool) $_POST['otherSources'];
 		
 		// read source
 		if ($this->readSource() === false) throw new IllegalLinkException();
@@ -55,6 +58,24 @@ class PreferredPackageForm extends AbstractForm {
 
   		// get all dependent packages
   		$this->packageDependencies = $this->getCache('package-dependency-'.$this->source->sourceID, 'PackageDependency');
+  		
+  		foreach($this->sources as $source) {
+  			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $source->sourceDirectory);
+  			
+  			// packages
+  			$packages = $this->getCache('packages-'.$source->sourceID, 'Packages');
+	  		foreach($packages['packages'] as $key => $val) {
+				$packages['packages'][$key]['directory'] = $directory.$packages['packages'][$key]['directory'];
+			}
+			
+			$this->cachedPackages = array(
+				'hashes' => array_merge($this->cachedPackages['hashes'], $packages['hashes']),
+				'packages' => array_merge($this->cachedPackages['packages'], $packages['packages'])
+			);
+			
+			// dependencies
+			$this->packageDependencies = array_merge($this->packageDependencies, $this->getCache('package-dependency-'.$source->sourceID, 'PackageDependency'));
+	  	}
 
 		// get package information
 		$this->getRequestedPackage();
@@ -166,7 +187,16 @@ class PreferredPackageForm extends AbstractForm {
 		}
 
 		// check permission
-		return $this->source->hasAccess();
+		if(!$this->source->hasAccess()) return false;
+		
+		// other sources
+		if($this->otherSources) {
+			$sourceList = new SourceList();
+			$sourceList->checkHasAccess = true;
+			$sourceList->sqlConditions = 'sourceID != '.$this->source->sourceID;
+			$sourceList->readObjects();
+			$this->sources = $sourceList->getObjects();
+		}
 	}
 
 	public function assignVariables() {

@@ -10,7 +10,7 @@ require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 /**
  * Builds a package.
  *
- * @author	Tim Düsterhus, Alexander Ebert
+ * @author	Tim DÃ¼sterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -126,7 +126,13 @@ class PackageBuilder {
 			$minVersion = (isset($package['minversion'])) ? $package['minversion'] : null;
 
 			// search within cached packages
-			$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
+			try {
+				$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
+			}
+			catch(SystemException $e) {
+				// catch Exception to get a better one later
+				$location = null;
+			}
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);
 				$pb = new PackageBuilder($this->source, $packageData, $location, 'pn', array(), true, true);

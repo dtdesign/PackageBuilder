@@ -21,7 +21,7 @@ class CacheBuilderPackages implements CacheBuilder {
 	 */
 	public function getData($cacheResource) {
 		list($cache, $sourceID) = explode('-', $cacheResource['cache']);
-		$data = array();
+		$data = array('packages' => array(), 'hashes' => array());
 
 		// get associated packages
 		$sql = "SELECT	packageName,version,directory

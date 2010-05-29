@@ -31,6 +31,13 @@ class SourceList extends DatabaseObjectList {
 	public $sqlOrderBy = 'position ASC';
 	
 	/**
+	 * should hasAccess be checked
+	 *
+	 * @var boolean
+	 */
+	public $hasAccessCheck = false;
+	
+	/**
 	 * @see DatabaseObjectList::countObjects()
 	 */
 	public function countObjects() {
@@ -53,7 +60,8 @@ class SourceList extends DatabaseObjectList {
 			".(!empty($this->sqlOrderBy) ? "ORDER BY ".$this->sqlOrderBy : '');
 		$result = WCF::getDB()->sendQuery($sql, $this->sqlLimit, $this->sqlOffset);
 		while ($row = WCF::getDB()->fetchArray($result)) {
-			$this->sources[] = new Source(null, $row);
+			$source = new Source(null, $row);
+			if(!$this->hasAccessCheck || $source->hasAccess) $this->sources[] = $source;
 		}
 	}
 	

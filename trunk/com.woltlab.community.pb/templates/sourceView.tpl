@@ -59,7 +59,7 @@
 							{$build.version}
 						</td>
 						<td class="sourceGo">
-							<a href="index.php?action=DeleteArchive&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang}pb.build.action.delete{/lang}" title="{lang}pb.build.action.delete{/lang}" longdesc="{lang}pb.build.action.delete.sure{/lang}" /></a>
+							<a href="index.php?action=DeleteArchive&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang itemName=$build.name}pb.global.action.delete.sure{/lang}" title="{lang itemName=$build.name}pb.global.action.delete.sure{/lang}" longdesc="{lang itemName=$build.name}pb.global.action.delete.sure{/lang}" /></a>
 						</td>
 					</tr>
 					{/foreach}
@@ -139,7 +139,10 @@
     				{htmloptions options=$filenames selected=$currentFilename}
 			</select>
 		</div>
-
+		<div class="type-check">
+			<input type="checkbox" name="otherSources" id="otherSources" value="1" />
+			<label for="otherSources">{lang}pb.build.option.otherSources{/lang}</label>
+		</div>
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}

@@ -88,9 +88,9 @@ class SourceViewPage extends AbstractPage {
 				FROM pb".PB_N."_user_preferences
 				WHERE 	userID = ".WCF::getUser()->userID."
 				&&	sourceID = ".$this->source->sourceID;
-			$result = WCF::getDB()->getFirstRow();
+			$result = WCF::getDB()->getFirstRow($sql);
 			$this->currentDirectory = $result['directory'];
-			WCF::getSession()->register('source'.$this->sourceID, $result['directory']);
+			WCF::getSession()->register('source'.$this->source->sourceID, $result['directory']);
 		}
 
 		if ($currentFilename !== null) {
