@@ -10,7 +10,7 @@ require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 /**
  * Builds a package.
  *
- * @author	Tim DÃ¼sterhus, Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
