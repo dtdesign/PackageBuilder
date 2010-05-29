@@ -49,13 +49,13 @@
 						<col width="80%" />
 					</colgroup>
 					<tbody>
-				{foreach from=$functions item=function}
+					{foreach from=$functions item=function}
 						<tr class="{cycle values="container-1,container-2"}">
 							{assign var=phpManualEntry value="http://www.php.net/$function"}
 							<td><a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={$phpManualEntry|rawurlencode}" class="externalURL">{$function}</a></td>
 							<td>{lang}pb.acp.index.system.status.function.{$functionType}.{$function}{/lang}</td>
 						</tr>
-				{/foreach}
+					{/foreach}
 					</tbody>
 				</table>
 			</div>

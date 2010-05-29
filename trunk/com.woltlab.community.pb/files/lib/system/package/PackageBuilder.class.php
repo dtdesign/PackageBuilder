@@ -175,7 +175,7 @@ class PackageBuilder {
 		$package = new TarWriter($location, true);
 
 		foreach($dir->getFiles() as $filename) {
-			// skip directories
+			// skip files
 			if (in_array($filename, $this->excludeFiles)) continue;
 			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
 			
@@ -245,9 +245,9 @@ class PackageBuilder {
 		$dir = DirectoryUtil::getInstance($directory.$file, false);
 		// proceed with directory content
 		foreach($dir->getFiles() as $filename) {
-			if (!in_array($filename, $this->excludeFiles) && (!$this->ignoreDotFiles || substr($filename, 0,1) != '.')) {
-				$this->addFilesRecursive($archive, $directory, $file.$filename, $removeDir);
-			}
+			if (in_array($filename, $this->excludeFiles)) continue;
+			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
+			$this->addFilesRecursive($archive, $directory, $file.$filename, $removeDir);
 		}
 	}
 
