@@ -25,14 +25,7 @@ class SourceEditForm extends SourceAddForm {
 		parent::readParameters();
 
 		if (isset($_REQUEST['sourceID'])) $this->source = new SourceEditor($_REQUEST['sourceID']);
-	}
-
-	/**
-	 * @see	Form::validate()
-	 */
-	public function validate() {
-		parent::validate();
-
+		
 		if (!$this->source->sourceID) throw new IllegalLinkException;
 	}
 
