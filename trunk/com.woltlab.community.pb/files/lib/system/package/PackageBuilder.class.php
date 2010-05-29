@@ -247,6 +247,7 @@ class PackageBuilder {
 		foreach($dir->getFiles() as $filename) {
 			if (in_array($filename, $this->excludeFiles)) continue;
 			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
+			
 			$this->addFilesRecursive($archive, $directory, $file.$filename, $removeDir);
 		}
 	}

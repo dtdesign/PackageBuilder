@@ -15,7 +15,7 @@ require_once(WCF_DIR.'lib/system/style/StyleManager.class.php');
  * @subpackage	system
  * @category 	PackageBuilder
  */
-class PBCore extends WCF {
+class PBCore extends WCF implements PageMenuContainer, UserCPMenuContainer, UserProfileMenuContainer {
 	protected static $pageMenuObj = null;
 	protected static $userCPMenuObj = null;
 	protected static $userProfileMenuObj = null;
@@ -40,7 +40,7 @@ class PBCore extends WCF {
 		$this->initCronjobs();
 
 		// check offline mode
-		if (OFFLINE && !self::getUser()->getPermission('user.board.canViewBoardOffline')) {
+		if (OFFLINE && !self::getUser()->getPermission('admin.general.canViewPBOffline')) {
 			$showOfflineError = true;
 			foreach (self::$availablePagesDuringOfflineMode as $type => $names) {
 				if (isset($_REQUEST[$type])) {
