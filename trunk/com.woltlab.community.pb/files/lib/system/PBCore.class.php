@@ -202,7 +202,7 @@ class PBCore extends WCF implements PageMenuContainer, UserCPMenuContainer, User
 		self::getTPL()->registerPrefilter('icon');
 		self::getTPL()->assign(array(
 			'timezone' => DateUtil::getTimezone(),
-			'availableStyles' => (SHOW_STYLE_CHOOSER ? StyleManager::getAvailableStyles() : array())
+			'stylePickerOptions' => (SHOW_STYLE_CHOOSER ? StyleManager::getAvailableStyles() : array())
 		));
 	}
 }
