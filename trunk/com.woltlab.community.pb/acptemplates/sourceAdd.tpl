@@ -22,13 +22,13 @@
 			case "none":
 				hideOptions('scmSettingsFieldset');
 				break;
-			case "git":
+			{if 'git'|in_array:$availableSCM}case "git":
 				showOptions('scmSettingsFieldset', 'urlDiv');
 				hideOptions('passwordDiv', 'trustServerCertDiv', 'usernameDiv');
-				break;
-			case "subversion":
+				break;{/if}
+			{if 'subversion'|in_array:$availableSCM}case "subversion":
 				showOptions('passwordDiv', 'scmSettingsFieldset', 'trustServerCertDiv', 'urlDiv', 'usernameDiv');
-				break;
+				break;{/if}
 		}
 	}
 	onloadEvents.push(function() { setSCM('{@$scm}'); });
@@ -119,8 +119,8 @@
 				<div class="formElement{if $errorField == 'scm'} formError{/if}">
 					<ul class="formOptions">
 						<li><label><input onclick="if (IS_SAFARI) setSCM('none')" onfocus="setSCM('none')" type="radio" name="scm" value="none" {if $scm == 'none'}checked="checked" {/if}/> {lang}pb.acp.source.scm.none{/lang}</label></li>
-						<li><label><input onclick="if (IS_SAFARI) setSCM('git)" onfocus="setSCM('git')" type="radio" name="scm" value="git" {if $scm == 'git'}checked="checked" {/if}/> {lang}pb.acp.source.scm.git{/lang}</label></li>
-						<li><label><input onclick="if (IS_SAFARI) setSCM('subversion')" onfocus="setSCM('subversion')" type="radio" name="scm" value="subversion" {if $scm == 'subversion'}checked="checked" {/if}/> {lang}pb.acp.source.scm.subversion{/lang}</label></li>
+						{if 'git'|in_array:$availableSCM}<li><label><input onclick="if (IS_SAFARI) setSCM('git)" onfocus="setSCM('git')" type="radio" name="scm" value="git" {if $scm == 'git'}checked="checked" {/if}/> {lang}pb.acp.source.scm.git{/lang}</label></li>{/if}
+						{if 'subversion'|in_array:$availableSCM}<li><label><input onclick="if (IS_SAFARI) setSCM('subversion')" onfocus="setSCM('subversion')" type="radio" name="scm" value="subversion" {if $scm == 'subversion'}checked="checked" {/if}/> {lang}pb.acp.source.scm.subversion{/lang}</label></li>{/if}
 					</ul>
 					{if $errorField == 'scm'}
 						<p class="innerError">
