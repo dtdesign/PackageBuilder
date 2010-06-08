@@ -4,11 +4,12 @@ require_once(PB_DIR.'lib/data/source/SourceEditor.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/acp/form/ACPForm.class.php');
+require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * A form to create new sources.
  *
- * @author	Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -20,6 +21,8 @@ class SourceAddForm extends ACPForm {
 	public $templateName = 'sourceAdd';
 	public $action = 'add';
 	public $activeMenuItem = 'pb.acp.menu.link.content.source.add';
+
+	public $availableSCM = array();
 
 	// data
 	public $name = '';
@@ -50,6 +53,15 @@ class SourceAddForm extends ACPForm {
 		if (isset($_POST['username'])) $this->username = StringUtil::trim($_POST['username']);
 		if (isset($_POST['password'])) $this->password = StringUtil::trim($_POST['password']);
 		if (isset($_POST['trustServerCert'])) $this->trustServerCert = intval($_POST['trustServerCert']);
+	}
+
+	/**
+	 * @see	Page::readData()
+	 */
+	public function readData() {
+		parent::readData();
+
+		$this->availableSCM = SCMHelper::getSCM();
 	}
 
 	/**
@@ -125,7 +137,8 @@ class SourceAddForm extends ACPForm {
 			'scm' => $this->scm,
 			'url' => $this->url,
 			'username' => $this->username,
-			'trustServerCert' => $this->trustServerCert
+			'trustServerCert' => $this->trustServerCert,
+			'availableSCM' => $this->'availableSCM
 		));
 	}
 
