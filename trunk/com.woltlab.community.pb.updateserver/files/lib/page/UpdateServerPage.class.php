@@ -30,6 +30,8 @@ class UpdateServerPage extends AbstractPage {
 	 */
 	public $type = 'stable';
 	
+	public $validTypes = array('stable', 'all', 'unstable', 'testing', 'nightly');
+	
 	/**
 	 * @see Page::readParameters
 	 */
@@ -54,6 +56,7 @@ class UpdateServerPage extends AbstractPage {
 		$sourceID = 0;
 		if (isset($_REQUEST['sourceID'])) $sourceID = $_REQUEST['sourceID'];
 		if (isset($_REQUEST['type'])) $this->type = StringUtil::trim($_REQUEST['type']);
+		if (!in_array($this->type, $this->validTypes)) throw new IllegalLinkException();
 		
 		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
