@@ -166,9 +166,20 @@ class PackageReader {
 
 	/**
 	 * Returns all gathered package data
+	 *
+	 * @return array<array>
 	 */
 	public function getPackageData() {
 		return $this->package;
+	}
+	
+	/**
+	 * returns the package.xml
+	 *
+	 * @return XML
+	 */
+	public function getXML() {
+		return $this->xml;
 	}
 }
 ?>

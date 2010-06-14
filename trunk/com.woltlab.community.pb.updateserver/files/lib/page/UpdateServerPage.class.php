@@ -24,7 +24,7 @@ class UpdateServerPage extends AbstractPage {
 	
 	/**
 	 * Type of packages wanted
-	 * can be stable, unstable or testing
+	 * can be all, stable, unstable or testing (and nightly)
 	 *
 	 * @var string
 	 */
@@ -84,9 +84,9 @@ class UpdateServerPage extends AbstractPage {
 			0,
 			3600
 		);
-		$xml = WCF::getCache()->get('update-'.$this->source->sourceID.'-'.$this->type);
+		
 		@header('Content-Type: text/xml');
-		echo $xml->asXML();
+		echo WCF::getCache()->get('update-'.$this->source->sourceID.'-'.$this->type);
 		exit;
 	}
 }
