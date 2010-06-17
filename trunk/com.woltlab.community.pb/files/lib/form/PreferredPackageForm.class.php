@@ -52,7 +52,10 @@ class PreferredPackageForm extends AbstractForm {
 	 */
 	public function readData() {
 		parent::readData();
-
+		
+		// avoid problems when submit() is not called
+		if ($this->source === null) throw new IllegalLinkException();
+		
 		// get available packages
 		$this->cachedPackages = $this->getCache('packages-'.$this->source->sourceID, 'Packages');
 
