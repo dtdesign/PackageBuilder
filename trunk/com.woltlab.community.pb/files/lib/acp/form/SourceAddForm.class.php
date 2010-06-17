@@ -138,7 +138,7 @@ class SourceAddForm extends ACPForm {
 			'url' => $this->url,
 			'username' => $this->username,
 			'trustServerCert' => $this->trustServerCert,
-			'availableSCM' => $this->'availableSCM
+			'availableSCM' => $this->availableSCM
 		));
 	}
 
