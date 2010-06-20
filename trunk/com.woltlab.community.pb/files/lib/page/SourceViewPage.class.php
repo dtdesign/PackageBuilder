@@ -55,7 +55,13 @@ class SourceViewPage extends AbstractPage {
 			PB_DIR.'cache/cache.packages-'.$this->source->sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
-		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID, 'packages');
+	 	try {
+	 		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID, 'packages');
+	 	}
+	 	catch(SystemException $e) {
+	 		// fallback if no cache available
+	 		$packages = array();
+	 	}
 
 		// handle packages
 		foreach ($packages as $package) {
