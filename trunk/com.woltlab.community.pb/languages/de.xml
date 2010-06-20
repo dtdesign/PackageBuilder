@@ -49,6 +49,25 @@
 		<item name="pb.source.rebuildPackageData"><![CDATA[Paketinformationen aktualisieren]]></item>
 		<item name="pb.source.checkout.do"><![CDATA[Lokales Repository aktualisieren]]></item>
 	</category>
+	
+	<!-- ACP index -->
+	<category name="pb.acp.index">
+		<item name="pb.acp.index.title"><![CDATA[PackageBuilder Administrationsoberfläche]]></item>
+		<item name="pb.acp.index.system"><![CDATA[System]]></item>
+		<item name="pb.acp.index.system.status.working"><![CDATA[Alle erforderlichen Systemkomponente sind vorhanden und ausreichend konfiguriert.]]></item>
+		<item name="pb.acp.index.credits"><![CDATA[Über PackageBuilder]]></item>
+		<item name="pb.acp.index.credits.developedBy"><![CDATA[Entwickelt von]]></item>
+		<item name="pb.acp.index.credits.productManager"><![CDATA[Projektleitung]]></item>
+		<item name="pb.acp.index.credits.developer"><![CDATA[Programmierung]]></item>
+		<item name="pb.acp.index.credits.license"><![CDATA[Lizenz]]></item>
+	</category>
+	
+	<!-- ACP navigation -->
+	<category name="pb.acp.menu.link">
+		<item name="pb.acp.menu.link.content.source"><![CDATA[Paketquellen]]></item>
+		<item name="pb.acp.menu.link.content.source.add"><![CDATA[Paketquelle hinzufügen]]></item>
+		<item name="pb.acp.menu.link.content.source.list"><![CDATA[Paketquellen auflisten]]></item>
+	</category>
 
 	<!-- ACP group options -->
 	<category name="wcf.acp.group">

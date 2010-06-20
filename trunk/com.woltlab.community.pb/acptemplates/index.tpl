@@ -7,7 +7,7 @@
 	//]]>
 </script>
 <div class="mainHeadline">
-	<img src="{RELATIVE_PB_DIR}/icon/acpL.png" alt="" />
+	<img src="{@RELATIVE_PB_DIR}icon/acpL.png" alt="" />
 	<div class="headlineContainer">
 		<h2>{lang}pb.acp.index.title{/lang}</h2>
 	</div>
@@ -27,7 +27,7 @@
 <div class="border tabMenuContent" id="system-content">
 	<div class="container-1">
 		<h3 class="subHeadline">
-			{lang}pb.acp.index.system.status{/lang}
+			{lang}pb.acp.index.system{/lang}
 		</h3>
 
 		{if $disabledFunctions|empty}
@@ -72,6 +72,33 @@
 		<div class="formElement">
 			<p class="formFieldLabel">{lang}pb.acp.index.credits.developedBy{/lang}</p>
 			<p class="formField"><a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={"http://community.woltlab.com"|rawurlencode}" class="externalURL">WoltLab&reg; Community&trade;</a></p>
+		</div>
+		<div class="formElement">
+			<p class="formFieldLabel">{lang}pb.acp.index.credits.productManager{/lang}</p>
+			<p class="formField">Alexander Ebert</p>
+		</div>
+		<div class="formElement">
+			<p class="formFieldLabel">{lang}pb.acp.index.credits.developer{/lang}</p>
+			<p class="formField">Tim D&uuml;sterhus, Alexander Ebert</p>
+		</div>
+		<div class="formGroup">
+			<div class="formGroupLabel">{lang}pb.acp.index.credits.license{/lang}</div>
+			<div class="formGroupField container-2">
+				<fieldset>
+					This program is free software: you can redistribute it and/or modify
+					it under the terms of the GNU Lesser General Public License as published by
+					the Free Software Foundation, either version 3 of the License, or
+					(at your option) any later version.<br /><br />
+					
+					This program is distributed in the hope that it will be useful,
+					but WITHOUT ANY WARRANTY; without even the implied warranty of
+					MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+					GNU Lesser General Public License for more details.<br /><br />
+					
+					You should have received a copy of the GNU Lesser General Public License
+					along with this program.  If not, see <a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={"http://www.gnu.org/licenses/lgpl.html"|rawurlencode}" class="externalURL">http://www.gnu.org</a>
+				</fieldset>
+			</div>
 		</div>
 	</div>
 </div>
