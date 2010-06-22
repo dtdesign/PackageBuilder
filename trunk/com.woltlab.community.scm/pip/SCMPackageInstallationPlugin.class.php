@@ -29,8 +29,6 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 			return;
 		}
 
-		$instanceNo = WCF_N.'_'.$this->installation->getPackage()->getParentPackage()->getInstanceNo();
-
 		$scmXML = $xml->getElementTree('data');
 
 		foreach ($scmXML['children'] as $key => $block) {
@@ -98,24 +96,6 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 				}
 			}
 		}
-	}
-
-	/**
-	 * Determine wether data needs to be removed
-	 *
-	 * @see	PackageInstallationPlugin::hasUninstall()
-	 */
-	public function hasUninstall() {
-		return false;
-	}
-
-	/**
-	 * Removes associated data from database
-	 *
-	 * @see	PackageInstallationPlugin::uninstall()
-	 */
-	public function uninstall() {
-		return null;
 	}
 }
 ?>
