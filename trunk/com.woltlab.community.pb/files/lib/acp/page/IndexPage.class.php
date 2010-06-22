@@ -97,8 +97,17 @@ class IndexPage extends AbstractPage {
 		else {
 			$functionErrorType = 'error';
 		}
+		$functions = array();
+		foreach ($this->disabledFunctions as $key => $val) {
+			if (isset($this->recommendFunctions[$key])) $functions[$key] = array_merge($this->disabledFunctions[$key], $this->recommendFunctions[$key]);
+			else $functions[$key] = $this->disabledFunctions[$key];
+		}
+		foreach ($this->recommendFunctions as $key => $val) {
+			if (isset($this->disabledFunctions[$key])) $functions[$key] = array_merge($this->disabledFunctions[$key], $this->recommendFunctions[$key]);
+			else $functions[$key] = $this->recommendFunctions[$key];
+		}
 		WCF::getTPL()->assign(array(
-			'disabledFunctions' => array_merge($this->disabledFunctions, $this->recommendFunctions),
+			'disabledFunctions' => $functions,
 			'functionErrorType' => $functionErrorType,
 			'size' => $this->size
 		));
