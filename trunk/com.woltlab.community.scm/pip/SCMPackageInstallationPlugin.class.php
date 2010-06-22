@@ -57,8 +57,8 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 
 							// insert into db
 							$sql = "INSERT INTO	wcf".WCF_N."_".$this->tableName."
-									   	(scm)
-								VALUES		('".strtolower($scmName)."')
+									   	(packageID, scm)
+								VALUES		(".$this->installation->getPackageID().", '".strtolower($scmName)."')
 								ON DUPLICATE KEY UPDATE scm = VALUES(scm)";
 							WCF::getDB()->sendQuery($sql);
 
