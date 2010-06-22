@@ -54,7 +54,12 @@
 	<category name="pb.acp.index">
 		<item name="pb.acp.index.title"><![CDATA[PackageBuilder Administrationsoberfläche]]></item>
 		<item name="pb.acp.index.system"><![CDATA[System]]></item>
-		<item name="pb.acp.index.system.status.working"><![CDATA[Alle erforderlichen Systemkomponente sind vorhanden und ausreichend konfiguriert.]]></item>
+		<item name="pb.acp.index.system.status.working"><![CDATA[Alle erforderlichen Systemkomponenten sind vorhanden und ausreichend konfiguriert.]]></item>
+		<item name="pb.acp.index.system.status.disabledFunctions"><![CDATA[Es sind nicht erforderlichen Systemkomponenten vorhanden.]]></item>
+		<item name="pb.acp.index.system.status.recommendFunctions"><![CDATA[Es sind nicht alle empfohlenen Systemkomponenten vorhanden.]]></item>
+		<item name="pb.acp.index.system.status.function.filesystem.copy"><![CDATA[Diese Funktion wird benötigt um die erstellten Pakete in die richtigen Ordner zu verschieben.]]></item>
+		<item name="pb.acp.index.system.status.function.system.escapeshellcmd"><![CDATA[Diese Funktion wird von den Versionsverwaltungen benötigt um die Befehle abzusichern, der PackageBuilder selbst benötigt sie nicht.]]></item>
+		<item name="pb.acp.index.system.status.function.system.exec"><![CDATA[Diese Funktion wird von den Versionsverwaltungen benötigt um beispielsweise den Checkout durchzuführen, der PackageBuilder selbst benötigt sie nicht.]]></item>
 		<item name="pb.acp.index.credits"><![CDATA[Über PackageBuilder]]></item>
 		<item name="pb.acp.index.credits.developedBy"><![CDATA[Entwickelt von]]></item>
 		<item name="pb.acp.index.credits.productManager"><![CDATA[Projektleitung]]></item>

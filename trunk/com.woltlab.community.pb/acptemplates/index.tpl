@@ -1,5 +1,5 @@
 {include file='header'}
-<script src="../../wcf/js/TabMenu.class.js" type="text/javascript"></script>
+<script src="{@RELATIVE_WCF_DIR}js/TabMenu.class.js" type="text/javascript"></script>
 <script type="text/javascript">
 	//<![CDATA[
 	var tabMenu = new TabMenu();
@@ -30,10 +30,14 @@
 			{lang}pb.acp.index.system{/lang}
 		</h3>
 
-		{if $disabledFunctions|empty}
+		{if $functionErrorType == 'success'}
 			<p class="success">{lang}pb.acp.index.system.status.working{/lang}</p>
 		{else}
-			<p class="error">{lang}pb.acp.index.system.status.disabledFunctions{/lang}</p>
+			{if $functionErrorType == 'warning'}
+				<p class="warning">{lang}pb.acp.index.system.status.recommendFunctions{/lang}</p>
+			{else}
+				<p class="error">{lang}pb.acp.index.system.status.disabledFunctions{/lang}</p>
+			{/if}
 
 			{foreach from=$disabledFunctions key=functionType item=functions}
 			<div class="border titleBarPanel">
@@ -50,10 +54,10 @@
 					</colgroup>
 					<tbody>
 					{foreach from=$functions item=function}
-						<tr class="{cycle values="container-1,container-2"}">
-							{assign var=phpManualEntry value="http://www.php.net/$function"}
-							<td><a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={$phpManualEntry|rawurlencode}" class="externalURL">{$function}</a></td>
-							<td>{lang}pb.acp.index.system.status.function.{$functionType}.{$function}{/lang}</td>
+						<tr class="{@$function['type']}" style="background-image: none;">
+							{assign var=phpManualEntry value="http://www.php.net/"|concat:$function['function']}
+							<td><a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={$phpManualEntry|rawurlencode}" class="externalURL">{$function['function']}</a></td>
+							<td>{lang}pb.acp.index.system.status.function.{$functionType}.{$function['function']}{/lang}</td>
 						</tr>
 					{/foreach}
 					</tbody>

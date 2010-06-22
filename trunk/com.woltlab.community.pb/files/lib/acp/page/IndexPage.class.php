@@ -19,6 +19,13 @@ class IndexPage extends AbstractPage {
 	 * @var	array
 	 */
 	public $disabledFunctions = array();
+	
+	/**
+	 * Holds all recommend and disabled functions
+	 *
+	 * @var	array
+	 */
+	public $recommendFunctions = array();
 
 	/**
 	 * Holds all required functions
@@ -48,16 +55,26 @@ class IndexPage extends AbstractPage {
 		
 
 		$this->requiredFunctions = array(
-			'filesystem'	=> array('copy'),
-			'system'	=> array('escapeshellcmd', 'exec')
+			'required' => array(
+				'filesystem'	=> array('copy')
+			),
+			'recommend' => array (
+				'system'	=> array('escapeshellcmd', 'exec')
+			)
 		);
 		
 		parent::readData();
 		
 		// mark all disabled functions
-		foreach ($this->requiredFunctions as $functionType => $functions) {
+		foreach ($this->requiredFunctions['required'] as $functionType => $functions) {
 			foreach ($functions as $function) {
-				if (!function_exists($function)) $this->disabledFunctions[$functionType][] = $function;
+				if (!function_exists($function)) $this->disabledFunctions[$functionType][] = array('type' => 'error', 'function' => $function);
+			}
+		}
+		
+		foreach ($this->requiredFunctions['recommend'] as $functionType => $functions) {
+			foreach ($functions as $function) {
+				if (!function_exists($function)) $this->recommendFunctions[$functionType][] = array('type' => 'warning', 'function' => $function);
 			}
 		}
 		/*
@@ -71,8 +88,18 @@ class IndexPage extends AbstractPage {
 	public function assignVariables() {
 		parent::assignVariables();
 
+		if (empty($this->disabledFunctions) && empty($this->recommendFunctions)) {
+			$functionErrorType = 'success';
+		}
+		else if (empty($this->disabledFunctions)) {
+			$functionErrorType = 'warning';
+		}
+		else {
+			$functionErrorType = 'error';
+		}
 		WCF::getTPL()->assign(array(
-			'disabledFunctions' => $this->disabledFunctions,
+			'disabledFunctions' => array_merge($this->disabledFunctions, $this->recommendFunctions),
+			'functionErrorType' => $functionErrorType,
 			'size' => $this->size
 		));
 	}
