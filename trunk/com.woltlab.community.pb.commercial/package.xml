@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="com.woltlab.community.pb.commercial" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/package.xsd">
+	<packageinformation>
+		<packagename languagecode="de"><![CDATA[PackageBuilder - Kommerzielle Pakete]]></packagename>
+		<packagename languagecode="de-informal"><![CDATA[PackageBuilder - Kommerzielle Pakete]]></packagename>
+		<packagename languagecode="en"><![CDATA[PackageBuilder - Commercial Packages]]></packagename>
+		<packagedescription languagecode="de"><![CDATA[Kommerzielle Pakete]]></packagedescription>
+		<packagedescription languagecode="de-informal"><![CDATA[Kommerzielle Pakete]]></packagedescription>
+		<packagedescription languagecode="en"><![CDATA[Commercial Packages]]></packagedescription>
+		<version>1.0.0 Alpha 1</version>
+		<isunique>0</isunique>
+		<standalone>0</standalone>
+		<date>2010-05-13</date>
+		<plugin>com.woltlab.community.pb</plugin>
+	</packageinformation>
+
+	<authorinformation>
+		<author><![CDATA[WoltLab Community]]></author>
+		<authorurl><![CDATA[http://community.woltlab.com]]></authorurl>
+	</authorinformation>
+
+	<requiredpackages>		
+		<!-- acp -->
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.acp.user.avatar</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.acp.user.rank</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.acp.content.smiley</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.acp.content.bbcode</requiredpackage>
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.acp.user.option</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.acp.display.language</requiredpackage>
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.acp.system.db</requiredpackage>
+		<requiredpackage minversion="1.1.1">com.woltlab.wcf.acp.display.template</requiredpackage>
+		<requiredpackage minversion="1.1.0">com.woltlab.wcf.acp.display.style</requiredpackage>
+		<requiredpackage minversion="1.0.2">com.woltlab.wcf.acp.system.stats</requiredpackage>
+		<requiredpackage minversion="1.0.1">com.woltlab.wcf.acp.content.attachment</requiredpackage>
+		<requiredpackage minversion="1.0.0">com.woltlab.wcf.acp.content.help</requiredpackage>
+		<requiredpackage minversion="1.0.0">com.woltlab.wcf.acp.display.pageMenu</requiredpackage>
+	</requiredpackages>
+
+	<instructions type="install">
+		<x></x>
+	</instructions>
+</package>

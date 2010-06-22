@@ -60,6 +60,9 @@
 		<item name="pb.acp.index.system.status.function.filesystem.copy"><![CDATA[Diese Funktion wird benötigt um die erstellten Pakete in die richtigen Ordner zu verschieben.]]></item>
 		<item name="pb.acp.index.system.status.function.system.escapeshellcmd"><![CDATA[Diese Funktion wird von den Versionsverwaltungen benötigt um die Befehle abzusichern, der PackageBuilder selbst benötigt sie nicht.]]></item>
 		<item name="pb.acp.index.system.status.function.system.exec"><![CDATA[Diese Funktion wird von den Versionsverwaltungen benötigt um beispielsweise den Checkout durchzuführen, der PackageBuilder selbst benötigt sie nicht.]]></item>
+		<item name="pb.acp.index.stat"><![CDATA[Statistiken]]></item>
+		<item name="pb.acp.index.stat.repository"><![CDATA[Repository-Größe]]></item>
+		<item name="pb.acp.index.stat.build"><![CDATA[Build-Größe]]></item>
 		<item name="pb.acp.index.credits"><![CDATA[Über PackageBuilder]]></item>
 		<item name="pb.acp.index.credits.developedBy"><![CDATA[Entwickelt von]]></item>
 		<item name="pb.acp.index.credits.productManager"><![CDATA[Projektleitung]]></item>
