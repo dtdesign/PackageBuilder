@@ -16,6 +16,7 @@
 <div class="tabMenu">
 	<ul>
 		<li id="system"><a onclick="tabMenu.showSubTabMenu('system');"><span>{lang}pb.acp.index.system{/lang}</span></a></li>
+		<li id="stat"><a onclick="tabMenu.showSubTabMenu('stat');"><span>{lang}pb.acp.index.stat{/lang}</span></a></li>
 		<li id="credits"><a onclick="tabMenu.showSubTabMenu('credits');"><span>{lang}pb.acp.index.credits{/lang}</span></a></li>
 		{if $additionalTabs|isset}{@$additionalTabs}{/if}
 	</ul>
@@ -65,6 +66,23 @@
 			</div>
 			{/foreach}
 		{/if}
+	</div>
+</div>
+
+<div class="border tabMenuContent hidden" id="stat-content">
+	<div class="container-1">
+		<h3 class="subHeadline">
+			{lang}pb.acp.index.stat{/lang}
+		</h3>
+
+		<div class="formElement">
+			<p class="formFieldLabel">{lang}pb.acp.index.stat.repository{/lang}</p>
+			<p class="formField">{@$size['repository']}</p>
+		</div>
+		<div class="formElement">
+			<p class="formFieldLabel">{lang}pb.acp.index.stat.build{/lang}</p>
+			<p class="formField">{@$size['build']}</p>
+		</div>
 	</div>
 </div>
 

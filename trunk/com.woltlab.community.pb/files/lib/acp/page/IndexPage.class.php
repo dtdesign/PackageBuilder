@@ -77,9 +77,9 @@ class IndexPage extends AbstractPage {
 				if (!function_exists($function)) $this->recommendFunctions[$functionType][] = array('type' => 'warning', 'function' => $function);
 			}
 		}
-		/*
+		
 		$this->size['build'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'build')->getSize());
-		$this->size['repository'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'repository')->getSize());*/
+		$this->size['repository'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'repository')->getSize());
 	}
 
 	/**
