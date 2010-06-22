@@ -7,7 +7,7 @@
 		<packagedescription languagecode="de"><![CDATA[Automatische Paketerzeugung]]></packagedescription>
 		<packagedescription languagecode="de-informal"><![CDATA[Automatische Paketerzeugung]]></packagedescription>
 		<packagedescription languagecode="en"><![CDATA[Automatic package-building]]></packagedescription>
-		<version>2.0.0 Alpha 14</version> <!-- Codename Prometheus -->
+		<version>2.0.0 Alpha 15</version> <!-- Codename Prometheus -->
 		<isunique>0</isunique>
 		<standalone>1</standalone>
 		<date>2010-05-13</date>
@@ -71,11 +71,12 @@
 		<templates>templates.tar</templates>
 	</instructions>
 
-	<instructions type="update" fromversion="2.0.0 Alpha 13">
+	<instructions type="update" fromversion="2.0.0 Alpha 14">
 		<files>files.tar</files>
 		<languages languagecode="de">languages/de.xml</languages>
 		<languages languagecode="de-informal">languages/de-informal.xml</languages>
 		<templates>templates.tar</templates>
 		<options>options.xml</options>
+		<acptemplates>acptemplates.tar</acptemplates>
 	</instructions>
 </package>
