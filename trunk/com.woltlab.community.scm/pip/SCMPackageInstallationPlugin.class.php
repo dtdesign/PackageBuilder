@@ -1,7 +1,9 @@
 <?php
 // wcf imports
 require_once(WCF_DIR.'lib/acp/package/plugin/AbstractXMLPackageInstallationPlugin.class.php');
-if(file_exists(WCF_DIR.'lib/system/scm/SCMHelper.class.php')) require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
+
+// bad workaround
+if (file_exists(WCF_DIR.'lib/system/scm/SCMHelper.class.php')) require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 
 /**
  * Provides PIP for source code management systems.
@@ -85,7 +87,8 @@ class SCMPackageInstallationPlugin extends AbstractXMLPackageInstallationPlugin 
 
 							if (!empty($itemNames)) {
 								$sql = "DELETE FROM	wcf".WCF_N."_".$this->tableName."
-							 		WHERE		scm IN (".$itemNames.")";
+							 		WHERE		scm IN (".$itemNames.")
+										&&	packageID = ".$this->installation->getPackageID();
 								WCF::getDB()->sendQuery($sql);
 
 								// clear cache
