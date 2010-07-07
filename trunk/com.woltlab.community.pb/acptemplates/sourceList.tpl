@@ -62,7 +62,7 @@
 								{if $this->user->getPermission('admin.source.canEditSources')}
 									<select name="sourceListPositions[{@$source->sourceID}]">
 										{section name='positions' loop=$maxPosition}
-											<option value="{@$positions+1}"{if $positions+1 == $source->position+1} selected="selected"{/if}>{@$positions+1}</option>
+											<option value="{@$positions+1}"{if $positions+1 == $source->position} selected="selected"{/if}>{@$positions+1}</option>
 										{/section}
 									</select>
 								{/if}

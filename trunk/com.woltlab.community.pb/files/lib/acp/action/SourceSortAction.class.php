@@ -37,7 +37,7 @@ class SourceSortAction extends AbstractAction {
 		WCF::getUser()->checkPermission('admin.source.canEditSources');
 		// sort them
 		asort($this->positions);
-		$position = 0;
+		$position = 1;
 		// set the position for each of them
 		foreach($this->positions as $key => $val) {
 			$sql = "UPDATE	pb".PB_N."_sources

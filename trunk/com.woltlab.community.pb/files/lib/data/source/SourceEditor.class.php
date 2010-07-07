@@ -197,7 +197,11 @@ class SourceEditor extends Source {
 	 *
 	 * @param	integer	$position	Position to remove
 	 */
-	public function removePosition($position = null) {
+	public static function removePosition($position = null) {
+		if ($position === null) {
+			return;
+		}
+		
 		$sql = "UPDATE	pb".PB_N."_sources
 			SET	position = position - 1
 			WHERE 	position > ".$position;
@@ -223,7 +227,7 @@ class SourceEditor extends Source {
 		if ($position) $sql .= " WHERE position <= ".$position;
 		$row = WCF::getDB()->getFirstRow($sql);
 		$position = $row['position'];
-
+		
 		// save position
 		$sql = "UPDATE	pb".PB_N."_sources
 			SET	position = ".$position."
@@ -282,7 +286,7 @@ class SourceEditor extends Source {
 		if ($trustServerCert !== null) $fields['trustServerCert'] = intval($trustServerCert);
 		if ($position !== null) $fields['position'] = intval($position);
 
-		self::updateData($fields);
+		$this->updateData($fields);
 	}
 
 	/**
@@ -323,7 +327,7 @@ class SourceEditor extends Source {
 			}
 			catch(SystemException $e) { }
 		}
-		$this->removePosition($this->position);
+		self::removePosition($this->position);
 		
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
