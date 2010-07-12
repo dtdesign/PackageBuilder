@@ -90,7 +90,7 @@ class SourceAddForm extends ACPForm {
 		if (empty($directory)) throw new UserInputException($fieldName, 'empty');
 
 		// create directory
-		@mkdir($directory, 0770);
+		@mkdir($directory, 0770, true);
 
 		// verify previously created directory
 		if (!is_dir($directory) || !is_writeable($directory)) {
