@@ -179,13 +179,30 @@ class PackageBuilder {
 			if (in_array($filename, $this->excludeFiles)) continue;
 			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
 			
+			/* easteregg
+				if ($filename == 'package.xml') {
+					copy($directory.$filename, $directory.$filename.'.bak');
+					$new = file_get_contents($directory.$filename);
+					$new = str_replace('</packageinformation>', '<!--meta name="generator" content="PackageBuilder '.(SHOW_VERSION_NUMBER ? 'v'.PACKAGE_VERSION : '').'"--></packageinformation>', $new);
+					file_put_contents($directory.$filename, $new);
+				}
+			*/
+			
 			// handle files
 			if (!is_dir($directory.$filename)) {
 				// add file
 				$package->add($directory.$filename, '', $directory);
+				
+				/* easteregg
+					if ($filename == 'package.xml') {
+						unlink($directory.$filename);
+						rename($directory.$filename.'.bak', $directory.$filename);
+					}
+				*/
+				
 				continue;
 			}
-
+			
 			// skip directories
 			if (in_array($filename, $directories)) {
 				// create tarball from special directories
@@ -204,7 +221,7 @@ class PackageBuilder {
 
 		// create complete package
 		$package->create();
-
+		
 		// cleanup, remove previous created tarballs
 		DirectoryUtil::destroy($this->source->buildDirectory);
 		$dir = DirectoryUtil::getInstance($this->source->buildDirectory);
