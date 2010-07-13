@@ -48,7 +48,7 @@ class PackageBuilder {
 			throw new SystemException('Missing package name in "'.$directory.'", package.xml is not valid');
 		}
 		$this->ignoreDotFiles = $ignoreDotFiles;
-		
+
 		// add additional files whitch should be allowed
 		if (!empty($allowedDotFiles)) {
 			if (!is_array($allowedDotFiles)) {
@@ -57,7 +57,7 @@ class PackageBuilder {
 
 			$this->allowedDotFiles = array_merge($this->allowedDotFiles, $allowedDotFiles);
 		}
-		
+
 		// add additional files whitch should be excluded
 		if (!empty($excludeFiles)) {
 			if (!is_array($excludeFiles)) {
@@ -67,7 +67,7 @@ class PackageBuilder {
 			$this->excludeFiles = array_merge($this->excludeFiles, $excludeFiles);
 		}
 
-		
+
 		// get data for filename
 		$data = array(
 			'pn' => $this->package['name'],
@@ -82,7 +82,7 @@ class PackageBuilder {
 		$buildDirectory = $this->source->buildDirectory.'/';
 		$location = $buildDirectory.$this->filename;
 		PackageHelper::addPackageData($this->package['name'], $location);
-		
+
 		// check requirements
 		$this->verifyPackages('requiredpackage', $directory);
 		$this->verifyPackages('optionalpackage', $directory);
@@ -178,31 +178,31 @@ class PackageBuilder {
 			// skip files
 			if (in_array($filename, $this->excludeFiles)) continue;
 			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
-			
+
 			/* easteregg
 				if ($filename == 'package.xml') {
 					copy($directory.$filename, $directory.$filename.'.bak');
 					$new = file_get_contents($directory.$filename);
-					$new = str_replace('</packageinformation>', '<!--meta name="generator" content="PackageBuilder '.(SHOW_VERSION_NUMBER ? 'v'.PACKAGE_VERSION : '').'"--></packageinformation>', $new);
+					$new = str_replace('</packageinformation>', '<!--meta name="generator" content="PackageBuilder'.(SHOW_VERSION_NUMBER ? ' v'.PACKAGE_VERSION : '').'"--></packageinformation>', $new);
 					file_put_contents($directory.$filename, $new);
 				}
 			*/
-			
+
 			// handle files
 			if (!is_dir($directory.$filename)) {
 				// add file
 				$package->add($directory.$filename, '', $directory);
-				
+
 				/* easteregg
 					if ($filename == 'package.xml') {
 						unlink($directory.$filename);
 						rename($directory.$filename.'.bak', $directory.$filename);
 					}
 				*/
-				
+
 				continue;
 			}
-			
+
 			// skip directories
 			if (in_array($filename, $directories)) {
 				// create tarball from special directories
@@ -221,12 +221,12 @@ class PackageBuilder {
 
 		// create complete package
 		$package->create();
-		
+
 		// cleanup, remove previous created tarballs
 		DirectoryUtil::destroy($this->source->buildDirectory);
 		$dir = DirectoryUtil::getInstance($this->source->buildDirectory);
 		$dir->removePattern('/.*\.tar$/');
-		
+
 		if($removeAfter) PackageHelper::registerTemporaryFile($location);
 		return $location;
 	}
@@ -264,7 +264,7 @@ class PackageBuilder {
 		foreach($dir->getFiles() as $filename) {
 			if (in_array($filename, $this->excludeFiles)) continue;
 			if ($this->ignoreDotFiles && substr($filename, 0,1) == '.' && !in_array($filename, $this->allowedDotFiles)) continue;
-			
+
 			$this->addFilesRecursive($archive, $directory, $file.$filename, $removeDir);
 		}
 	}
