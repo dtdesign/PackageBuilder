@@ -51,9 +51,9 @@
 				</td>
 				<td>
 					{assign var=length value=$source->sourceDirectory|strlen}
-					{if $length > 60}
-						{assign var=trimLength value=$length-41}
-						{$source->sourceDirectory|substr:0:20}&hellip;{$source->sourceDirectory|substr:$trimLength}
+					{if $length > 40}
+						{assign var=trimLength value=$length-25}
+						{$source->sourceDirectory|substr:0:15}&hellip;<strong>{$source->sourceDirectory|substr:$trimLength}</strong>
 					{else}
 						{$source->sourceDirectory}
 					{/if}
