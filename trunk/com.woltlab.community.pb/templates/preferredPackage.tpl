@@ -45,11 +45,11 @@
 				</div>
 			{/foreach}
 
-			<div class="type-check">
+			{* <div class="type-check">
 				<input type="checkbox" name="saveSelection" id="saveSelection" value="1"{if $saveSelection} checked="checked"{/if} />
 
 				<label for="saveSelection">{lang}pb.build.saveSelection{/lang}</label>
-			</div>
+			</div> *}
 		{/if}
 
 		<div class="type-button">
