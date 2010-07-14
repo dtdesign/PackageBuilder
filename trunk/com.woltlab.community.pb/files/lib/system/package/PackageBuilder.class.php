@@ -78,6 +78,7 @@ class PackageBuilder {
 
 		// set archive name
 		$this->filename = PackageHelper::getArchiveName($filename, $data);
+
 		// mark package as built
 		$buildDirectory = $this->source->buildDirectory.'/';
 		$location = $buildDirectory.$this->filename;

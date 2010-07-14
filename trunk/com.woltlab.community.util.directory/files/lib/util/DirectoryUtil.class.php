@@ -120,7 +120,7 @@ class DirectoryUtil {
 
 		return self::$instances[$recursive][$directory];
 	}
-	
+
 	/**
 	 * Executes a callback on each file
 	 *
@@ -133,7 +133,7 @@ class DirectoryUtil {
 
 		foreach ($this->files as $filename) {
 			if (!empty($pattern) && !preg_match($pattern, $filename)) continue;
-			
+
 			call_user_func($callback, $filename);
 		}
 
@@ -246,7 +246,7 @@ class DirectoryUtil {
 		}
 
 		rmdir($this->directory);
-		unset(self::$instances[$this->recursive][$this->directory]);
+		self::destroy($this->directory, $this->recursive);
 	}
 
 	/**
@@ -284,12 +284,13 @@ class DirectoryUtil {
 	/**
 	 * calculates the size of the directory
 	 *
-	 * @return mixed	directorysize
+	 * @param	boolean	$cache		should the size be cached (defaults to true)
+	 * @return 	integer			directorysize
 	 */
-	public function getSize() {
+	public function getSize($cache = true) {
 		if (!$this->recursive) return false;
 
-		if ($this->size) return $this->size;
+		if ($cache && $this->size) return $this->size;
 
 		$files = $this->getFilesObj(SORT_DESC);
 		foreach ($files as $filename => $obj) {
