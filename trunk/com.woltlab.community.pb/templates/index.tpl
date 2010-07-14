@@ -50,7 +50,13 @@
 					<a href="index.php?page=SourceView&amp;sourceID={$source->sourceID}">{$source->name}</a>
 				</td>
 				<td>
-					{$source->sourceDirectory}
+					{assign var=length value=$source->sourceDirectory|strlen}
+					{if $length > 60}
+						{assign var=trimLength value=$length-41}
+						{$source->sourceDirectory|substr:0:20}&hellip;{$source->sourceDirectory|substr:$trimLength}
+					{else}
+						{$source->sourceDirectory}
+					{/if}
 				</td>
 				<td>
 					{lang}wcf.scm.{$source->scm|strtolower}{/lang}
