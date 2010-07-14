@@ -248,7 +248,7 @@ class PackageBuilder {
 		}
 
 		// add trailing slash
-		$file .= '/';
+		$file = FileUtil::addTrailingSlash($file);
 
 		// write directory header
 		$directoryHeader = str_replace($removeDir, '', $file);
@@ -260,6 +260,7 @@ class PackageBuilder {
 			}
 		}
 		$dir = DirectoryUtil::getInstance($directory.$file, false);
+
 		// proceed with directory content
 		foreach($dir->getFiles() as $filename) {
 			if (in_array($filename, $this->excludeFiles)) continue;
