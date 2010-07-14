@@ -26,8 +26,12 @@ class SourceRenameAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_GET['sourceID'])) $this->sourceID = intval($_GET['sourceID']);
-		if (isset($_POST['title'])) $this->title = trim($_POST['title']);
-		else throw new IllegalLinkException();
+		if (isset($_POST['title'])) {
+			$this->title = StringUtil::trim($_POST['title']);
+		}
+		else {
+			throw new IllegalLinkException();
+		}
 	}
 
 	/**
@@ -44,11 +48,11 @@ class SourceRenameAction extends AbstractAction {
 		$source->update(
   			$this->title
 		);
-		
+
 
 		// call executed event
 		$this->executed();
-		
+
 		// only called via ajax, so no header location
 		exit;
 	}

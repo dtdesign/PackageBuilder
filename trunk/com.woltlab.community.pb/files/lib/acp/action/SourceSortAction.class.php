@@ -25,7 +25,7 @@ class SourceSortAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_POST['sourceListPositions']) && is_array($_POST['sourceListPositions'])) $this->positions = ArrayUtil::toIntegerArray($_POST['sourceListPositions']);
-		
+
 	}
 
 	/**
@@ -35,11 +35,13 @@ class SourceSortAction extends AbstractAction {
 		// call execute event
 		parent::execute();
 		WCF::getUser()->checkPermission('admin.source.canEditSources');
+
 		// sort them
 		asort($this->positions);
 		$position = 1;
+
 		// set the position for each of them
-		foreach($this->positions as $key => $val) {
+		foreach ($this->positions as $key => $val) {
 			$sql = "UPDATE	pb".PB_N."_sources
 				SET	position = ".$position."
 				WHERE	sourceID = ".$key;

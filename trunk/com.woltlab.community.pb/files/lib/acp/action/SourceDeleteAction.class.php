@@ -25,7 +25,6 @@ class SourceDeleteAction extends AbstractAction {
 		parent::readParameters();
 
 		if (isset($_GET['sourceID'])) $this->sourceID = intval($_GET['sourceID']);
-		
 	}
 
 	/**

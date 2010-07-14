@@ -65,9 +65,7 @@ class BuildPackageAction extends AbstractAction {
 
 		if (isset($_POST['sourceID'])) $this->source = new Source($_POST['sourceID']);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
-
-		WCF::getUser()->checkPermission('user.source.general.canViewSources');
-		WCF::getUser()->checkPermission('user.source.dynamic.canUseSource'.$this->source->sourceID);
+		if (!$source->hasAccess()) throw new PermissionDeniedException();
 
 		// read selected resources
 		$this->readPackageSelection();

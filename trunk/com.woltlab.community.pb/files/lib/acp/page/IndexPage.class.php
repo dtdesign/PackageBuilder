@@ -19,7 +19,7 @@ class IndexPage extends AbstractPage {
 	 * @var	array
 	 */
 	public $disabledFunctions = array();
-	
+
 	/**
 	 * Holds all recommend and disabled functions
 	 *
@@ -40,7 +40,7 @@ class IndexPage extends AbstractPage {
 	 * @var	string
 	 */
 	public $templateName = 'index';
-	
+
 	/**
 	 * Directorysizes
 	 *
@@ -52,7 +52,7 @@ class IndexPage extends AbstractPage {
 	 * @see	Page::readData()
 	 */
 	public function readData() {
-		
+
 
 		$this->requiredFunctions = array(
 			'required' => array(
@@ -62,22 +62,22 @@ class IndexPage extends AbstractPage {
 				'system'	=> array('escapeshellcmd', 'exec')
 			)
 		);
-		
+
 		parent::readData();
-		
+
 		// mark all disabled functions
 		foreach ($this->requiredFunctions['required'] as $functionType => $functions) {
 			foreach ($functions as $function) {
 				if (!function_exists($function)) $this->disabledFunctions[$functionType][] = array('type' => 'error', 'function' => $function);
 			}
 		}
-		
+
 		foreach ($this->requiredFunctions['recommend'] as $functionType => $functions) {
 			foreach ($functions as $function) {
 				if (!function_exists($function)) $this->recommendFunctions[$functionType][] = array('type' => 'warning', 'function' => $function);
 			}
 		}
-		
+
 		$this->size['build'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'build')->getSize());
 		$this->size['repository'] = FileUtil::formatFilesize(DirectoryUtil::getInstance(PB_DIR . 'repository')->getSize());
 	}
@@ -97,15 +97,25 @@ class IndexPage extends AbstractPage {
 		else {
 			$functionErrorType = 'error';
 		}
+
 		$functions = array();
 		foreach ($this->disabledFunctions as $key => $val) {
-			if (isset($this->recommendFunctions[$key])) $functions[$key] = array_merge($this->disabledFunctions[$key], $this->recommendFunctions[$key]);
-			else $functions[$key] = $this->disabledFunctions[$key];
+			if (isset($this->recommendFunctions[$key])) {
+				$functions[$key] = array_merge($this->disabledFunctions[$key], $this->recommendFunctions[$key]);
+			}
+			else {
+				$functions[$key] = $this->disabledFunctions[$key];
+			}
 		}
 		foreach ($this->recommendFunctions as $key => $val) {
-			if (isset($this->disabledFunctions[$key])) $functions[$key] = array_merge($this->disabledFunctions[$key], $this->recommendFunctions[$key]);
-			else $functions[$key] = $this->recommendFunctions[$key];
+			if (isset($this->disabledFunctions[$key])) {
+				$functions[$key] = array_merge($this->disabledFunctions[$key], $this->recommendFunctions[$key]);
+			}
+			else {
+				$functions[$key] = $this->recommendFunctions[$key];
+			}
 		}
+
 		WCF::getTPL()->assign(array(
 			'disabledFunctions' => $functions,
 			'functionErrorType' => $functionErrorType,
