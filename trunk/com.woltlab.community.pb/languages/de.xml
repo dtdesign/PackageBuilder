@@ -35,6 +35,7 @@
 	<category name="pb.header">
 		<item name="pb.header.menu.index"><![CDATA[Paketquellen]]></item>
 		<item name="pb.header.userMenu.acp"><![CDATA[Administration]]></item>
+		<item name="pb.header.userMenu.register"><![CDATA[Registrierung]]></item>
 	</category>
 
 	<!-- source related -->

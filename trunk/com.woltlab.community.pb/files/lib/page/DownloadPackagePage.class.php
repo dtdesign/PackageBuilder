@@ -19,7 +19,7 @@ class DownloadPackagePage extends AbstractPage {
 	// system
 	public $templateName = '';
 	public $neededPermissions = 'user.source.general.canViewSources';
-	
+
 	// data
 	public $filename = '';
 
@@ -29,14 +29,21 @@ class DownloadPackagePage extends AbstractPage {
 	public function readParameters() {
 		$sourceID = 0;
 		if (isset($_GET['sourceID'])) $sourceID = $_GET['sourceID'];
-		
+
 		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
 		if (!$this->source->hasAccess()) throw new PermissionDeniedException();
-		
-		if(isset($_GET['filename'])) $this->filename = $_GET['filename'];
-		else throw new IllegalLinkException();
-		if(!file_exists($this->source->buildDirectory.$this->filename)) throw new IllegalLinkException();
+
+		if (isset($_GET['filename'])) {
+			$this->filename = $_GET['filename'];
+		}
+		else {
+			throw new IllegalLinkException();
+		}
+
+		if (!file_exists($this->source->buildDirectory.$this->filename)) {
+			throw new IllegalLinkException();
+		}
 	}
 
 	/**
@@ -47,6 +54,7 @@ class DownloadPackagePage extends AbstractPage {
 		@header('Content-Type: application/x-gzip');
 		@header('Content-length: '.filesize($this->source->buildDirectory.$this->filename));
 		@header('Content-disposition: attachment; filename="'.$this->filename.'"');
+
 		readfile($this->source->buildDirectory.$this->filename);
 		exit;
 	}

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @deprecated This class is currently nowhere needed. It will maybe be deleted in a further version
+ */
 class SimplePackage {
 	public $packageData = array();
 
