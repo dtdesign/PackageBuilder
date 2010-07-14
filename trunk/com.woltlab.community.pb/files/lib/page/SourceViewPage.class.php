@@ -71,7 +71,10 @@ class SourceViewPage extends AbstractPage {
 				'version' => $package['version']
 			);
 		}
-		foreach($this->directories as $key => $val) asort($this->directories[$key]);
+
+		foreach ($this->directories as $key => $val) {
+			asort($this->directories[$key]);
+		}
 
 		// set build directory
 		$this->buildDirectory = $this->source->buildDirectory;
@@ -104,6 +107,7 @@ class SourceViewPage extends AbstractPage {
 		}
 
 		// read current builds
+		// TODO: Use DirectoryUtil
 		if (is_dir($this->source->buildDirectory)) {
 			if ($dh = opendir($this->source->buildDirectory)) {
 				while (($file = readdir($dh)) !== false) {
@@ -178,7 +182,7 @@ class SourceViewPage extends AbstractPage {
 			$data = array(
 				'pn' => 'packageName',
 				'pv' => 'packageVersion',
-				'pr' => 'revision',
+				'pr' => 'r'.$this->source->revision,
 				't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
 			);
 		}
