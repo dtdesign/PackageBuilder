@@ -45,7 +45,8 @@
 				</div>
 			{/foreach}
 
-			{* <div class="type-check">
+			{* FIXME: Re-Enable Saving
+			<div class="type-check">
 				<input type="checkbox" name="saveSelection" id="saveSelection" value="1"{if $saveSelection} checked="checked"{/if} />
 
 				<label for="saveSelection">{lang}pb.build.saveSelection{/lang}</label>

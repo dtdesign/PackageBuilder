@@ -42,7 +42,8 @@ class PreferredPackageForm extends AbstractForm {
 
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
 		if (isset($_POST['otherSources'])) $this->otherSources = (bool) $_POST['otherSources'];
-		
+		// FIXME: Re-Enable Saving
+
 		// read source
 		if ($this->readSource() === false) throw new IllegalLinkException();
 	}
@@ -52,30 +53,30 @@ class PreferredPackageForm extends AbstractForm {
 	 */
 	public function readData() {
 		parent::readData();
-		
+
 		// avoid problems when submit() is not called
 		if ($this->source === null) throw new IllegalLinkException();
-		
+
 		// get available packages
 		$this->cachedPackages = $this->getCache('packages-'.$this->source->sourceID, 'Packages');
 
   		// get all dependent packages
   		$this->packageDependencies = $this->getCache('package-dependency-'.$this->source->sourceID, 'PackageDependency');
-  		
+
   		foreach($this->sources as $source) {
   			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $source->sourceDirectory);
-  			
+
   			// packages
   			$packages = $this->getCache('packages-'.$source->sourceID, 'Packages');
 	  		foreach($packages['packages'] as $key => $val) {
 				$packages['packages'][$key]['directory'] = $directory.$packages['packages'][$key]['directory'];
 			}
-			
+
 			$this->cachedPackages = array(
 				'hashes' => array_merge($this->cachedPackages['hashes'], $packages['hashes']),
 				'packages' => array_merge($this->cachedPackages['packages'], $packages['packages'])
 			);
-			
+
 			// dependencies
 			$this->packageDependencies = array_merge($this->packageDependencies, $this->getCache('package-dependency-'.$source->sourceID, 'PackageDependency'));
 	  	}
@@ -152,7 +153,7 @@ class PreferredPackageForm extends AbstractForm {
 
 		return WCF::getCache()->get($cacheName);
 	}
-	
+
 	/**
 	 * gets the name and the hash of the requested package
 	 *
@@ -191,7 +192,7 @@ class PreferredPackageForm extends AbstractForm {
 
 		// check permission
 		if(!$this->source->hasAccess()) return false;
-		
+
 		// other sources
 		if($this->otherSources) {
 			$sourceList = new SourceList();
