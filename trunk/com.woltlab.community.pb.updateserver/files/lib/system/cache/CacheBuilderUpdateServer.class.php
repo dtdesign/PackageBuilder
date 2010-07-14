@@ -18,21 +18,21 @@ require_once(WCF_DIR.'lib/acp/package/Package.class.php');
  * @category 	PackageBuilder
  */
 class CacheBuilderUpdateServer implements CacheBuilder {
-	
+
 	/**
 	 * Source Object
 	 *
 	 * @var Source
 	 */
 	public $source = NULL;
-	
+
 	/**
 	 * the packages found in build directory
 	 *
 	 * @var array<array>
 	 */
 	public $packages = array();
-	
+
 	/**
 	 * Type of packages wanted
 	 * can be all, stable, unstable or testing (and nigthly when NIGHTLY_TYPE_ACTIVE)
@@ -61,7 +61,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 	 * @var boolean
 	 */
 	const NIGTLY_TYPE_ACTIVE = true;
-	
+
 	/**
 	 * @see CacheBuilder::getData()
 	 */
@@ -69,10 +69,10 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 		list($cache, $sourceID, $this->type) = explode('-', $cacheResource['cache']);
 		$this->source = new Source($sourceID);
 		$this->readPackages();
-		
+
 		return $this->renderXML();
 	}
-	
+
 	/**
 	 * builds the XML out of the provided data
 	 *
@@ -81,7 +81,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 	public function renderXML() {
 		$w = new XMLWriter();
 		$w->openMemory();
-		
+
 		// only indent when NICE_XML is true
 		$w->setIndent(self::NICE_XML);
 		// use tabs as indents
@@ -99,7 +99,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 						// if package has no valid versions just continue
 						if (self::countValidVersions($package, $this->type) == 0) continue;
 						$generalData = self::getPackageData($package);
-						
+
 						$w->startElement('package');
 						$w->writeAttribute('name', $generalData['packageIdentifier']);
 							$w->startElement('packageinformation');
@@ -125,7 +125,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 								}
 							// packageinformation
 							$w->endElement();
-	
+
 							$w->startElement('authorinformation');
 								if ($generalData['author'] !== null) {
 									$w->startElement('author');
@@ -139,17 +139,17 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 								}
 							// authorinformation
 							$w->endElement();
-							
+
 							$w->startElement('versions');
 							// list each version
 							foreach ($package as $key => $val) {
 								// get type, dont display if this type is not wanted
 								if (self::getTypeByVersion($key) != $this->type && $this->type != 'all') continue;
 								$data = self::getPackageData($package, $key);
-	
+
 								$w->startElement('version');
 								$w->writeAttribute('name', $key);
-	
+
 									if (!empty($data['fromVersions'])) {
 										$w->startElement('fromversions');
 										foreach($data['fromVersions'] as $fromVersion) {
@@ -160,7 +160,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 										// fromversions
 										$w->endElement();
 									}
-	
+
 									if (!empty($data['requirements'])) {
 										$w->startElement('requiredpackages');
 										foreach($data['requirements'] as $required) {
@@ -174,7 +174,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 										// requiredpackages
 										$w->endElement();
 									}
-	
+
 									// determine updatetype
 									if ($data['isUpdate'] && stripos($key, 'pl')) {
 										$updateType = 'security';
@@ -188,20 +188,20 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 									$w->startElement('updatetype');
 										$w->writeCData($updateType);
 									$w->endElement();
-	
+
 									// use the build time of that package as timestamp
 									$w->startElement('timestamp');
 										$w->writeCData(filemtime($this->source->buildDirectory.$val['file']));
 									$w->endElement();
-	
+
 									$w->startElement('versiontype');
 										$w->writeCData(self::getTypeByVersion($key));
 									$w->endElement();
-	
+
 									$w->startElement('file');
 										$w->writeCData(PAGE_URL.'/index.php?page=DownloadPackage&sourceID='.$this->source->sourceID.'&filename='.$val['file']);
 									$w->endElement();
-	
+
 								// version
 								$w->endElement();
 							}
@@ -250,7 +250,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 		else {
 			$type = 'stable';
 		}
-		
+
 		return $type;
 	}
 
@@ -280,7 +280,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 	 */
 	public static function getPackageData(Array $package, $version = null, $field = null) {
 		$data = array();
-		
+
 		if ($version === null) {
 			// read firest package for general information
 			$key = array_keys($package);
@@ -346,7 +346,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 				break;
 			}
 		}
-		
+
 		if ($field === null) return $data;
 		else return $data[$field];
 	}
@@ -358,23 +358,17 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
 		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID);
-		
-		// read current builds
-		// TODO: Use DirectoryUtil
-		if (is_dir($this->source->buildDirectory)) {
-			if ($dh = opendir($this->source->buildDirectory)) {
-				while (($file = readdir($dh)) !== false) {
-					if (strrpos($file, '.tar.gz') !== false) {
-						$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
-						$data = $package->getPackageData();
-						$this->packages[$data['name']][$data['version']] = array(
-							'file' => $file,
-							'xml' => $package->getXML()
-						);
-					}
-				}
 
-				closedir($dh);
+		// read current builds
+		$files = DirectoryUtil::getInstance($this->source->buildDirectory, false)->getFiles();
+		foreach($files as $file) {
+			if (strrpos($file, '.tar.gz') !== false) {
+				$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
+				$data = $package->getPackageData();
+				$this->packages[$data['name']][$data['version']] = array(
+					'file' => $file,
+					'xml' => $package->getXML()
+				);
 			}
 		}
 	}

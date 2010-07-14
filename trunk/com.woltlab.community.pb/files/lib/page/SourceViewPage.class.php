@@ -55,6 +55,7 @@ class SourceViewPage extends AbstractPage {
 			PB_DIR.'cache/cache.packages-'.$this->source->sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
+
 	 	try {
 	 		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID, 'packages');
 	 	}
@@ -107,27 +108,22 @@ class SourceViewPage extends AbstractPage {
 		}
 
 		// read current builds
-		// TODO: Use DirectoryUtil
-		if (is_dir($this->source->buildDirectory)) {
-			if ($dh = opendir($this->source->buildDirectory)) {
-				while (($file = readdir($dh)) !== false) {
-					if (strrpos($file, '.tar.gz') !== false) {
-						$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
-						$data = $package->getPackageData();
-						$link = StringUtil::replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
+		$files = DirectoryUtil::getInstance($this->source->buildDirectory, false)->getFiles();
+		foreach($files as $file) {
+			if (strrpos($file, '.tar.gz') !== false) {
+				$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
+				$data = $package->getPackageData();
+				$link = StringUtil::replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
 
-						$this->builds[] = array(
-							'link' => $link.$file,
-							'filename' => $file,
-							'name' => $data['name'],
-							'version' => $data['version']
-						);
-					}
-				}
-
-				closedir($dh);
+				$this->builds[] = array(
+					'link' => $link.$file,
+					'filename' => $file,
+					'name' => $data['name'],
+					'version' => $data['version']
+				);
 			}
 		}
+
 		asort($this->builds);
 	}
 
