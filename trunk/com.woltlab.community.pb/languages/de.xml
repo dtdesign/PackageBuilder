@@ -42,7 +42,10 @@
 		<item name="pb.source.name"><![CDATA[Bezeichnung]]></item>
 		<item name="pb.source.sourceDirectory"><![CDATA[Lokales Repository]]></item>
 		<item name="pb.source.scm"><![CDATA[Versionsverwaltung]]></item>
+		<item name="pb.source.scm.disabled"><![CDATA[---]]></item>
+		<item name="pb.source.scm.higherRevisionAvailable"><![CDATA[{$source->revision} (Veraltet)]]></item>
 		<item name="pb.source.revision"><![CDATA[Revision]]></item>
+		<item name="pb.source.revision.description"><![CDATA[<sup>1</sup> Die aktuell ausgecheckte Revision. ]]></item>
 		<item name="pb.source.go"><![CDATA[Paketquelle aufrufen]]></item>
 		<item name="pb.source.checkout.title"><![CDATA[Lokales Repository]]></item>
 		<item name="pb.source.checkout.isCurrent"><![CDATA[Die Revision des lokalen Repository entspricht der aktuellen Version des entfernten Repository.]]></item>
