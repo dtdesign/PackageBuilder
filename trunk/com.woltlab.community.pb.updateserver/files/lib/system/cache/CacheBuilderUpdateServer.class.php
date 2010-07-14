@@ -229,9 +229,7 @@ class CacheBuilderUpdateServer implements CacheBuilder {
 	 * @return	string			an string like self::$type
 	 */
 	public static function getTypeByVersion($version) {
-		if (	stripos($version, 'a') !== false
-		||	stripos($version, 'alpha') !== false
-		||	stripos($version, 'b') !== false
+		if (	stripos($version, 'alpha') !== false
 		||	stripos($version, 'beta') !== false
 		||	stripos($version, 'dev') !== false) {
 			$type = 'unstable';
