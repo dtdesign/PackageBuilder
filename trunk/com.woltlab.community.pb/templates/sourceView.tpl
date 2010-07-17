@@ -117,7 +117,7 @@
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
 			<label for="rebuildPackageData">{lang}pb.source.rebuildPackageData{/lang}</label>
 		</div>
-		
+
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}
@@ -127,7 +127,7 @@
 	</fieldset>
 </form>
 
-{if !$currentDirectory|empty}
+{if $currentDirectory === null}
 <form method="post" action="index.php?form=PreferredPackage" class="yform columnar">
 	<fieldset>
 		<legend>{lang}pb.build.title{/lang}</legend>

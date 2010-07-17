@@ -174,7 +174,7 @@ class SourceViewPage extends AbstractPage {
 		}
 
 		// dummy values
-		if (empty($this->currentDirectory) || !isset($this->packages[$this->currentDirectory])) {
+		if ($this->currentDirectory === null || !isset($this->packages[$this->currentDirectory])) {
 			$data = array(
 				'pn' => 'packageName',
 				'pv' => 'packageVersion',
