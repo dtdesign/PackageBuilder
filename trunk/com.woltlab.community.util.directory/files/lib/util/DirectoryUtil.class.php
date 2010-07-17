@@ -2,7 +2,7 @@
 /**
  * Provides functions for handling directories
  *
- * @author	Tim Düsterhus
+ * @author	Tim DÃ¼sterhus
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -191,11 +191,15 @@ class DirectoryUtil {
 			$it = new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST);
 
 			foreach ($it as $filename => $obj) {
+				if ($it->isDot()) continue;
+
 				$this->files[] = $filename;
 			}
 		}
 		else {
 			foreach ($this->obj as $filename => $obj) {
+				if ($this->obj->isDot()) continue;
+
 				$this->files[] = $obj->getFilename();
 			}
 		}
@@ -213,11 +217,15 @@ class DirectoryUtil {
 			$it = new RecursiveIteratorIterator($this->obj, RecursiveIteratorIterator::CHILD_FIRST);
 
 			foreach ($it as $filename => $obj) {
+				if ($it->isDot()) continue;
+
 				$this->filesObj[$filename] = $obj;
 			}
 		}
 		else {
 			foreach ($this->obj as $filename => $obj) {
+				if ($this->obj->isDot()) continue;
+
 				$this->filesObj[$obj->getFilename()] = $obj;
 			}
 		}
@@ -246,7 +254,7 @@ class DirectoryUtil {
 		}
 
 		rmdir($this->directory);
-		self::destroy($this->directory, $this->recursive);
+		unset(self::$instances[$this->recursive][$this->directory]);
 	}
 
 	/**
@@ -284,13 +292,12 @@ class DirectoryUtil {
 	/**
 	 * calculates the size of the directory
 	 *
-	 * @param	boolean	$cache		should the size be cached (defaults to true)
-	 * @return 	integer			directorysize
+	 * @return mixed	directorysize
 	 */
-	public function getSize($cache = true) {
+	public function getSize() {
 		if (!$this->recursive) return false;
 
-		if ($cache && $this->size) return $this->size;
+		if ($this->size) return $this->size;
 
 		$files = $this->getFilesObj(SORT_DESC);
 		foreach ($files as $filename => $obj) {
