@@ -98,20 +98,21 @@ class PackageHelper {
 			$hashes[] = "'".$hash."'";
 		}
 
-		// build complete sql query
-		$sql = "INSERT INTO	pb".PB_N."_sources_packages
-					(sourceID, hash, packageName, version, directory)
-			VALUES		".$sql."
-			ON DUPLICATE KEY UPDATE version=VALUES(version)";
-		// update data
-		WCF::getDB()->sendQuery($sql);
+		if (!empty($sql)) {
+			// build complete sql query
+			$sql = "INSERT INTO	pb".PB_N."_sources_packages
+						(sourceID, hash, packageName, version, directory)
+				VALUES		".$sql."
+				ON DUPLICATE KEY UPDATE version=VALUES(version)";
+			// update data
+			WCF::getDB()->sendQuery($sql);
 
-		// remove data for each hash
-		$sql = "DELETE FROM	pb".PB_N."_referenced_packages
-			WHERE		hash IN (".implode(',', $hashes).")
-			AND		sourceID = ".self::$source->sourceID;
-		WCF::getDB()->sendQuery($sql);
-
+			// remove data for each hash
+			$sql = "DELETE FROM	pb".PB_N."_referenced_packages
+				WHERE		hash IN (".implode(',', $hashes).")
+				AND		sourceID = ".self::$source->sourceID;
+			WCF::getDB()->sendQuery($sql);
+		}
 		// insert referenced packages
 		$sql = '';
 
@@ -126,10 +127,12 @@ class PackageHelper {
 			}
 		}
 
-		$sql = "INSERT INTO	pb".PB_N."_referenced_packages
-					(sourceID, hash, packageName, minVersion, file)
-			VALUES		".$sql;
-		WCF::getDB()->sendQuery($sql);
+		if (!empty($sql)) {
+			$sql = "INSERT INTO	pb".PB_N."_referenced_packages
+						(sourceID, hash, packageName, minVersion, file)
+				VALUES		".$sql;
+			WCF::getDB()->sendQuery($sql);
+		}
 
 		// clear cache
 		self::registerCache();
