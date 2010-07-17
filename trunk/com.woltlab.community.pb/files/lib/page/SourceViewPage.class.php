@@ -137,12 +137,12 @@ class SourceViewPage extends AbstractPage {
 		$this->generateArchiveName(array(
 			'pn',		// packageName.tar.gz
 			'pn_pv',	// packageName_packageVersion.tar.gz
-			'pn_pr',	// packageName_packageRevision.tar.gz
-			'pn_pv_pr',	// packageName_packageVersion_packageRevision.tar.gz
+			(($this->source->revision) ? 'pn_pr' : ''),	// packageName_packageRevision.tar.gz
+			(($this->source->revision) ? 'pn_pv_pr' : ''),	// packageName_packageVersion_packageRevision.tar.gz
 			'pn_t',		// packageName_time.tar.gz
 			'pn_pv_t',	// packageName_packageVersion_time.tar.gz
-			'pn_pr_t',	// packageName_packageRevision_time.tar.gz
-			'pn_pv_pr_t'	// packageName_packageVersion_packageRevision_time.tar.gz
+			(($this->source->revision) ? 'pn_pr_t' : ''),	// packageName_packageRevision_time.tar.gz
+			(($this->source->revision) ? 'pn_pv_pr_t': '')	// packageName_packageVersion_packageRevision_time.tar.gz
 		));
 
 		// assign variables to template
@@ -167,6 +167,8 @@ class SourceViewPage extends AbstractPage {
 		// recursively call method if pattern is an array
 		if (is_array($pattern)) {
 			foreach ($pattern as $filename) {
+				if (!$filename) continue;
+
 				$this->generateArchiveName($filename);
 			}
 
