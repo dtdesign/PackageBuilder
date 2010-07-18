@@ -102,6 +102,11 @@ class SourceEditor extends Source {
 		Language::clearCache();
 	}
 
+	/**
+	 * Updates the name of the permissions
+	 *
+	 * @param 	string $newName	the new name
+	 */
 	public function updatePermissions($newName) {
 		// remove language items
 		$sql = "DELETE	FROM wcf".WCF_N."_language_item

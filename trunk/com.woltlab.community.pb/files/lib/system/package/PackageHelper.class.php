@@ -107,12 +107,19 @@ class PackageHelper {
 			// update data
 			WCF::getDB()->sendQuery($sql);
 
+			// remove removed packages
+			$sql = "DELETE FROM	pb".PB_N."_sources_packages
+				WHERE		hash NOT IN (".implode(',', $hashes).")
+				AND		sourceID = ".self::$source->sourceID;
+			WCF::getDB()->sendQuery($sql);
+
 			// remove data for each hash
 			$sql = "DELETE FROM	pb".PB_N."_referenced_packages
 				WHERE		hash IN (".implode(',', $hashes).")
 				AND		sourceID = ".self::$source->sourceID;
 			WCF::getDB()->sendQuery($sql);
 		}
+
 		// insert referenced packages
 		$sql = '';
 
