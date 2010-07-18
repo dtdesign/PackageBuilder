@@ -102,13 +102,67 @@ class SourceEditor extends Source {
 		Language::clearCache();
 	}
 
+	public function updatePermissions($newName) {
+		// remove language items
+		$sql = "DELETE	FROM wcf".WCF_N."_language_item
+			WHERE	languageItem IN
+				(
+					'wcf.acp.group.option.user.source.dynamic.canUseSource".$this->sourceID."',
+					'wcf.acp.group.option.user.source.dynamic.canUseSource".$this->sourceID.".description'
+				)
+			AND	packageID = ".PACKAGE_ID;
+		WCF::getDB()->sendQuery($sql);
+
+		// reset cache
+		Language::clearCache();
+
+		// get available languages
+		$languageCodes = Language::getLanguageCodes();
+
+		// create language variables
+		$sql = "SELECT	languageID, languageItem, languageItemValue
+			FROM	wcf".WCF_N."_language_item
+			WHERE	languageItem IN
+				(
+					'wcf.acp.group.option.user.source.dynamic.default',
+					'wcf.acp.group.option.user.source.dynamic.default.description'
+				)
+			AND	packageID = ".PACKAGE_ID;
+		$result = WCF::getDB()->sendQuery($sql);
+
+		$languageData = array();
+		// create language variables for each language
+		while ($row = WCF::getDB()->fetchArray($result)) {
+			$key = 'option.user.source.dynamic.canUseSource'.$this->sourceID;
+
+			if ($row['languageItem'] == 'wcf.acp.group.option.user.source.dynamic.default.description') {
+				$key .= '.description';
+			}
+
+			$value = str_replace('#sourceName#', $newName, $row['languageItemValue']);
+
+			$languageCode = $languageCodes[$row['languageID']];
+			$languageData[$languageCode]['wcf.acp.group'][$key] = $value;
+		}
+
+		// import language variables
+		foreach ($languageData as $languageCode => $data) {
+			//create XML string
+			$xml = LanguagesXMLPIP::create(array($languageCode => $data), true);
+
+			// parse xml
+			$xmlObj = new XML();
+			$xmlObj->loadString($xml);
+
+			// import language xml
+			LanguageEditor::importFromXML($xmlObj, PACKAGE_ID);
+		}
+	}
+
 	/**
 	 * Creates permissions for this source
 	 */
 	public function createPermissions() {
-		// break if no sourceID given
-		if (!$this->sourceID) throw new IllegalLinkException();
-
 		// determine position for next group option
 		$sql = "SELECT	IFNULL(MAX(showOrder), 0) + 1 AS showOrder
 			FROM	wcf".WCF_N."_group_option
@@ -149,7 +203,8 @@ class SourceEditor extends Source {
 			WCF::getDB()->sendQuery($sql);
 		}
 		WCF::getCache()->clear(WCF_DIR.'cache/', 'cache.group-option-*.php');
-		//get available languages
+
+		// get available languages
 		$languageCodes = Language::getLanguageCodes();
 
 		// create language variables
@@ -162,7 +217,7 @@ class SourceEditor extends Source {
 				)
 			AND	packageID = ".PACKAGE_ID;
 		$result = WCF::getDB()->sendQuery($sql);
-		
+
 		$languageData = array();
 		// create language variables for each language
 		while ($row = WCF::getDB()->fetchArray($result)) {
@@ -191,7 +246,7 @@ class SourceEditor extends Source {
 			LanguageEditor::importFromXML($xmlObj, PACKAGE_ID);
 		}
 	}
-	
+
 	/**
 	 * Removes a position
 	 *
@@ -201,13 +256,13 @@ class SourceEditor extends Source {
 		if ($position === null) {
 			return;
 		}
-		
+
 		$sql = "UPDATE	pb".PB_N."_sources
 			SET	position = position - 1
 			WHERE 	position > ".$position;
 		WCF::getDB()->sendQuery($sql);
 	}
-	
+
 	/**
 	 * Sets new position
 	 *
@@ -227,7 +282,7 @@ class SourceEditor extends Source {
 		if ($position) $sql .= " WHERE position <= ".$position;
 		$row = WCF::getDB()->getFirstRow($sql);
 		$position = $row['position'];
-		
+
 		// save position
 		$sql = "UPDATE	pb".PB_N."_sources
 			SET	position = ".$position."
@@ -301,6 +356,11 @@ class SourceEditor extends Source {
 			$updates .= $key.'=';
 			if (is_int($value)) $updates .= $value;
 			else $updates .= "'".escapeString($value)."'";
+
+			// update permissions
+			if ($key == 'name') {
+				$this->updatePermissions($value);
+			}
 		}
 
 		if (!empty($updates)) {
@@ -328,7 +388,7 @@ class SourceEditor extends Source {
 			catch(SystemException $e) { }
 		}
 		self::removePosition($this->position);
-		
+
 		// remove main database entry
 		$sql = "DELETE	FROM pb".PB_N."_sources
 			WHERE	sourceID = ".$this->sourceID;
@@ -348,7 +408,7 @@ class SourceEditor extends Source {
 		$sql = "DELETE	FROM pb".PB_N."_selected_packages
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
-		
+
 		$this->removePermissions();
 	}
 }
