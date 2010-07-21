@@ -65,7 +65,7 @@ class BuildPackageAction extends AbstractAction {
 
 		if (isset($_POST['sourceID'])) $this->source = new Source($_POST['sourceID']);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
-		if (!$source->hasAccess()) throw new PermissionDeniedException();
+		if (!$this->source->hasAccess()) throw new PermissionDeniedException();
 
 		// read selected resources
 		$this->readPackageSelection();
