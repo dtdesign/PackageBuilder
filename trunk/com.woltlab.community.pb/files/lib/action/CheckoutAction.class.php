@@ -42,14 +42,14 @@ class CheckoutAction extends AbstractAction {
 		if (!$source->sourceID) throw new IllegalLinkException();
 		if (!$source->hasAccess()) throw new PermissionDeniedException();
 		WCF::getUser()->checkPermission('user.source.general.canViewSources');
-		
-		
+
+
 		// load scm driver
 		$className = ucfirst(Source::validateSCM($source->scm));
 
 		// check out repository
 		require_once(WCF_DIR.'lib/system/scm/'.$className.'.class.php');
-		call_user_func(array($className, 'checkout'), $source->url, $source->sourceDirectory, array($source->username, $source->password));
+		call_user_func(array($className, 'checkout'), $source->url, $source->sourceDirectory, array('username' => $source->username, 'password' => $source->password));
 
 		// set revision
 		$revision = $source->getHeadRevision();
