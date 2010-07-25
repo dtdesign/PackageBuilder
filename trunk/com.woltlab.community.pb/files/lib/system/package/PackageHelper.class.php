@@ -316,6 +316,12 @@ class PackageHelper {
 			PB_DIR.'cache/cache.packages-'.$sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
+
+		WCF::getCache()->addResource(
+			'package-dependency-'.$sourceID,
+			PB_DIR.'cache/cache.package-dependency-'.$sourceID.'.php',
+			PB_DIR.'lib/system/cache/CacheBuilderPackageDependency.class.php'
+		);
 	}
 
 	/**
