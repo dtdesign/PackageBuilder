@@ -156,6 +156,9 @@ class PackageHelper {
 
 		WCF::getCache()->clearResource('packages-'.self::$source->sourceID);
 		WCF::getCache()->clear(PB_DIR.'cache/', 'cache.packages-'.self::$source->sourceID.'.php');
+
+		WCF::getCache()->clearResource('package-dependency-'.self::$source->sourceID);
+		WCF::getCache()->clear(PB_DIR.'cache/', 'cache.package-dependency-'.self::$source->sourceID.'.php');
 	}
 
 	/**
