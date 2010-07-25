@@ -74,7 +74,17 @@ class PackageHelper {
 		self::readDirectories(self::$source->sourceDirectory);
 
 		// break if no packages are available
-		if (empty(self::$packages)) return;
+		if (empty(self::$packages)) {
+			$sql = "TRUNCATE TABLE pb".PB_N."_sources_packages";
+			WCF::getDB()->sendQuery($sql);
+
+			// clear cache
+			self::registerCache();
+
+			WCF::getCache()->clearResource('packages-'.self::$source->sourceID);
+			WCF::getCache()->clear(PB_DIR.'cache/', 'cache.packages-'.self::$source->sourceID.'.php');
+			return;
+		}
 
 		$hashes = array();
 		$referencedPackages = array();
