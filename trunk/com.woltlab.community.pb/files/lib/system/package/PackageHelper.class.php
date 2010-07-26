@@ -6,7 +6,7 @@ require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 /**
  * Providing methods for packages.
  *
- * @author	Alexander Ebert
+ * @author	Tim Düsterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -75,7 +75,7 @@ class PackageHelper {
 
 		// break if no packages are available
 		if (empty(self::$packages)) {
-			$sql = "TRUNCATE TABLE pb".PB_N."_sources_packages";
+			$sql = "DELETE FROM pb".PB_N."_sources_packages WHERE sourceID = ".self::$source->sourceID;
 			WCF::getDB()->sendQuery($sql);
 
 			// clear cache
