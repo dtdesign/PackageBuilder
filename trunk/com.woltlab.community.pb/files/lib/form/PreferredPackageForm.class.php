@@ -70,6 +70,7 @@ class PreferredPackageForm extends AbstractForm {
   			$packages = $this->getCache('packages-'.$source->sourceID, 'Packages');
 	  		foreach($packages['packages'] as $key => $val) {
 				$packages['packages'][$key]['directory'] = $directory.$packages['packages'][$key]['directory'];
+				$packages['packages'][$key]['source'] = $source;
 			}
 
 			$this->cachedPackages = array(
@@ -118,7 +119,15 @@ class PreferredPackageForm extends AbstractForm {
 
 		// add current package
 		$this->packages[$packageName]['hash'] = $packageHash;
-		$this->packages[$packageName]['directories'][$cachedPackage['directory']] = $cachedPackage['version'];
+		if (isset($cachedPackage['source'])) {
+			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $source->sourceDirectory);
+			$directoryShown = $source->name.'::'.str_replace($directory, '', $cachedPackage['directory']);
+		}
+		else {
+			$directoryShown = $this->source->name.'::'.$cachedPackage['directory'];
+		}
+
+		$this->packages[$packageName]['directories'][$cachedPackage['directory']] = array('directoryShown' => $directoryShown, 'version' => $cachedPackage['version']);
 
 		$this->fetchDependencies($packageHash);
 	}

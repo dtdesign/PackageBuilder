@@ -38,8 +38,8 @@
 					<input type="hidden" name="packages[]" value="{$packageData.hash}-{$packageName}" />
 
 					<select name="{$packageData.hash}" id="{$packageData.hash}">
-						{foreach from=$packageData.directories key=directory item=version}
-							<option value="{$directory}">{$version} - {$directory}</option>
+						{foreach from=$packageData.directories key=directory item=data}
+							<option value="{$directory}">{$data.version} - {$data.directoryShown}</option>
 						{/foreach}
 					</select>
 				</div>
