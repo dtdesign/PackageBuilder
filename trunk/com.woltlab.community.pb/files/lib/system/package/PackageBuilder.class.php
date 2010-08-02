@@ -137,6 +137,10 @@ class PackageBuilder {
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);
 				$pb = new PackageBuilder($this->source, $packageData, $location, 'pn', array(), true, true);
+
+				// add directory if it does not exist
+				FileUtil::makePath(dirname($directory.$package['file']), 0777);
+
 				// copy archive
 				if (!@copy($pb->getArchiveLocation(), $directory.$package['file'])) {
 					throw new SystemException('Unable to copy archive ('.$package['file'].'), check permissions for directory '.$directory);
