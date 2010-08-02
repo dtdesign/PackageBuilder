@@ -10,7 +10,7 @@ require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 /**
  * Builds a package.
  *
- * @author	Tim Düsterhus, Alexander Ebert
+ * @author	Tim DÃ¼sterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -73,7 +73,7 @@ class PackageBuilder {
 			'pn' => $this->package['name'],
 			'pv' => $this->package['version'],
 			'pr' => 'r'.$this->source->revision,
-			't' => 	DateUtil::formatTime('%Y-%m-%d %H:%M:%S', TIME_NOW, false)
+			't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
 		);
 
 		// set archive name
@@ -168,12 +168,42 @@ class PackageBuilder {
 		// skip if no directory was given
 		if (!is_dir($directory)) throw new SystemException('Given directory "'.$directory.'" is not valid.');
 
-		// try to open directory
-		$dir = DirectoryUtil::getInstance($directory, false);
-
 		$buildDirectory = $this->source->buildDirectory.'/';
 		$location = $buildDirectory.$filename;
 		$package = new TarWriter($location, true);
+
+		// read correct directory for languages
+		$languagesInRoot = true;
+		$languagesExist = false;
+		if (file_exists($directory.'languages') && is_dir($directory.'languages')) {
+			$languagesExist = true;
+			$xml = new XML($directory.'package.xml');
+			$nodes = $xml->getChildren();
+			foreach ($nodes as $node) {
+				if ($node->getName() != 'instructions') continue;
+				$subNodes = $xml->getChildren($node);
+				foreach ($subNodes as $subNode) {
+					if ($subNode->getName() != 'languages') continue;
+					if (substr($xml->getCDATA($subNode), 0, 10) == 'languages/') {
+						$languagesInRoot = false;
+					}
+				}
+			}
+		}
+
+		// if files should be in root skip languages directory and copy language files into root
+		if ($languagesExist && $languagesInRoot) {
+			$this->excludeFiles[] = 'languages';
+			$languageDir = DirectoryUtil::getInstance($directory.'languages/', false);
+			foreach ($languageDir->getFiles() as $filename) {
+				copy($directory.'languages/'.$filename, $directory.$filename);
+				// register them for removing
+				PackageHelper::registerTemporaryFile($directory.$filename);
+			}
+		}
+
+		// try to open directory
+		$dir = DirectoryUtil::getInstance($directory, false);
 
 		foreach($dir->getFiles() as $filename) {
 			// skip files
