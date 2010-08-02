@@ -16,7 +16,7 @@
 <div class="tabMenu">
 	<ul>
 		<li id="system"><a onclick="tabMenu.showSubTabMenu('system');"><span>{lang}pb.acp.index.system{/lang}</span></a></li>
-		<li id="stat"><a onclick="tabMenu.showSubTabMenu('stat');"><span>{lang}pb.acp.index.stat{/lang}</span></a></li>
+		{*<li id="stat"><a onclick="tabMenu.showSubTabMenu('stat');"><span>{lang}pb.acp.index.stat{/lang}</span></a></li>*}
 		<li id="credits"><a onclick="tabMenu.showSubTabMenu('credits');"><span>{lang}pb.acp.index.credits{/lang}</span></a></li>
 		{if $additionalTabs|isset}{@$additionalTabs}{/if}
 	</ul>
@@ -69,7 +69,7 @@
 	</div>
 </div>
 
-<div class="border tabMenuContent hidden" id="stat-content">
+{*<div class="border tabMenuContent hidden" id="stat-content">
 	<div class="container-1">
 		<h3 class="subHeadline">
 			{lang}pb.acp.index.stat{/lang}
@@ -84,7 +84,7 @@
 			<p class="formField">{@$size['build']}</p>
 		</div>
 	</div>
-</div>
+</div>*}
 
 <div class="border tabMenuContent hidden" id="credits-content">
 	<div class="container-1">
@@ -111,12 +111,12 @@
 					it under the terms of the GNU Lesser General Public License as published by
 					the Free Software Foundation, either version 3 of the License, or
 					(at your option) any later version.<br /><br />
-					
+
 					This program is distributed in the hope that it will be useful,
 					but WITHOUT ANY WARRANTY; without even the implied warranty of
 					MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 					GNU Lesser General Public License for more details.<br /><br />
-					
+
 					You should have received a copy of the GNU Lesser General Public License
 					along with this program.  If not, see <a href="{@RELATIVE_WCF_DIR}acp/dereferrer.php?url={"http://www.gnu.org/licenses/lgpl.html"|rawurlencode}" class="externalURL">http://www.gnu.org</a>
 				</fieldset>
