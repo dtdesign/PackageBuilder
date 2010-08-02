@@ -73,7 +73,7 @@ class PackageBuilder {
 			'pn' => $this->package['name'],
 			'pv' => $this->package['version'],
 			'pr' => 'r'.$this->source->revision,
-			't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
+			't' => 	DateUtil::formatTime('%Y-%m-%d %H:%M:%S', TIME_NOW, false)
 		);
 
 		// set archive name

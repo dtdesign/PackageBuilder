@@ -10,7 +10,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
 /**
  * Shows details for a given source.
  *
- * @author	Tim Düsterhus, Alexander Ebert
+ * @author	Tim DÃ¼sterhus, Alexander Ebert
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
@@ -181,7 +181,7 @@ class SourceViewPage extends AbstractPage {
 				'pn' => 'packageName',
 				'pv' => 'packageVersion',
 				'pr' => 'r'.$this->source->revision,
-				't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
+				't' => 	DateUtil::formatTime('%Y-%m-%d %H:%M:%S', TIME_NOW, false)
 			);
 		}
 		else {
@@ -189,7 +189,7 @@ class SourceViewPage extends AbstractPage {
 				'pn' => $this->packages[$this->currentDirectory]['packageName'],
 				'pv' => $this->packages[$this->currentDirectory]['version'],
 				'pr' => 'r'.$this->source->revision,
-				't' => 	DateUtil::formatTime('%D %T', TIME_NOW, false)
+				't' => 	DateUtil::formatTime('%Y-%m-%d %H:%M:%S', TIME_NOW, false)
 			);
 		}
 
