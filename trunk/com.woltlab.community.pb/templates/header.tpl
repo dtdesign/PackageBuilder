@@ -1,7 +1,7 @@
 <div class="page_margins">
 	<div class="page">
 		<div id="header">
-			<a href="{RELATIVE_PB_DIR}index.php?page=Index"><img src="style/yaml/screen/images/packageBuilder.png" alt="PackageBuilder" title="PackageBuilder" /></a>
+			<a href="{@RELATIVE_PB_DIR}index.php?page=Index"><img src="style/yaml/screen/images/packageBuilder.png" alt="{PAGE_TITLE}" title="{PAGE_TITLE}" /></a>
 			<div id="topnav">
 				<!-- start: skip link navigation -->
 				<a class="skip" title="skip link" href="#navigation">Skip to the navigation</a><span class="hideme">.</span>

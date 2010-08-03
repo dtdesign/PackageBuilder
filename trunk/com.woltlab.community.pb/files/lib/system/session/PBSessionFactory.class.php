@@ -14,6 +14,7 @@ require_once(WCF_DIR.'lib/system/session/CookieSessionFactory.class.php');
  * @package	com.woltlab.community.pb
  * @subpackage	session
  * @category 	PackageBuilder
+ * @deprecated  This is not needed anymore when PBSession is deprecated
  */
 class PBSessionFactory extends CookieSessionFactory {
 	protected $sessionClassName = 'PBSession';

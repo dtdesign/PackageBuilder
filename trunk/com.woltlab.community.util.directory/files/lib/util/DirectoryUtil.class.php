@@ -2,7 +2,7 @@
 /**
  * Provides functions for handling directories
  *
- * @author	Tim DÃ¼sterhus
+ * @author	Tim Düsterhus
  * @copyright	2009-2010 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
