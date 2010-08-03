@@ -129,9 +129,10 @@ class DirectoryUtil {
 	 * @return	boolean 			Returns false if callback is missing or no files available
 	 */
 	public function executeCallback($callback, $pattern = '') {
-		if (!is_array($callback) || empty($this->files)) return false;
+		if (!is_callable($callback) || empty($this->files)) return false;
 
-		foreach ($this->files as $filename) {
+		$files = $this->getFiles();
+		foreach ($files as $filename) {
 			if (!empty($pattern) && !preg_match($pattern, $filename)) continue;
 
 			call_user_func($callback, $filename);
