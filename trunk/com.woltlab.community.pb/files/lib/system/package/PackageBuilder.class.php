@@ -262,7 +262,10 @@ class PackageBuilder {
 		$dir = DirectoryUtil::getInstance($this->source->buildDirectory);
 		$dir->removePattern('/.*\.tar$/');
 
-		if($removeAfter) PackageHelper::registerTemporaryFile($location);
+		if($removeAfter) {
+			PackageHelper::registerTemporaryFile($location);
+		}
+
 		return $location;
 	}
 
@@ -303,6 +306,13 @@ class PackageBuilder {
 
 			$this->addFilesRecursive($archive, $directory, $file.$filename, $removeDir);
 		}
+	}
+
+	/**
+	 * alias for PackageBuilder::getArchiveLocation();
+	 */
+	public function __toString() {
+		return $this->getArchiveLocation();
 	}
 
 	/**
