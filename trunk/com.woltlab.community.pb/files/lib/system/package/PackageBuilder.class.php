@@ -26,6 +26,7 @@ class PackageBuilder {
 	private $location = '';
 	private $package = array();
 	private $source = null;
+	const LANGUAGE_DIR = 'language';
 
 	/**
 	 * Builds a package
@@ -180,7 +181,7 @@ class PackageBuilder {
 		// read correct directory for languages
 		$languagesInRoot = true;
 		$languagesExist = false;
-		if (file_exists($directory.'languages') && is_dir($directory.'languages')) {
+		if (file_exists($directory.LANGUAGE_DIR) && is_dir($directory.LANGUAGE_DIR)) {
 			$languagesExist = true;
 			$xml = new XML($directory.'package.xml');
 			$nodes = $xml->getChildren();
@@ -189,7 +190,7 @@ class PackageBuilder {
 				$subNodes = $xml->getChildren($node);
 				foreach ($subNodes as $subNode) {
 					if ($subNode->getName() != 'languages') continue;
-					if (substr($xml->getCDATA($subNode), 0, 10) == 'languages/') {
+					if (substr($xml->getCDATA($subNode), 0, 10) == LANGUAGE_DIR.'/') {
 						$languagesInRoot = false;
 					}
 				}
@@ -198,10 +199,10 @@ class PackageBuilder {
 
 		// if files should be in root skip languages directory and copy language files into root
 		if ($languagesExist && $languagesInRoot) {
-			$this->excludeFiles[] = 'languages';
-			$languageDir = DirectoryUtil::getInstance($directory.'languages/', false);
+			$this->excludeFiles[] = LANGUAGE_DIR;
+			$languageDir = DirectoryUtil::getInstance($directory.LANGUAGE_DIR.'/', false);
 			foreach ($languageDir->getFiles() as $filename) {
-				copy($directory.'languages/'.$filename, $directory.$filename);
+				copy($directory.LANGUAGE_DIR.'/'.$filename, $directory.$filename);
 				// register them for removing
 				PackageHelper::registerTemporaryFile($directory.$filename);
 			}
