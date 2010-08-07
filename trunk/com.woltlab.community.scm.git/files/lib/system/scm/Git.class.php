@@ -26,9 +26,11 @@ class Git implements SCM {
 		// gets the directory git will create
 		$dir = explode('/', $url);
 		$dir = str_replace('.git', '', $dir[(count($dir) - 1)]);
+		if (file_exists(FileUtil::addTrailingSlash($directory).$dir)) {
+			$dir = DirectoryUtil::getInstance(FileUtil::addTrailingSlash($directory).$dir);
+			$dir->removeComplete();
+		}
 
-		// if there is already a working copy pull new data
-		// otherwise clone a new working copy
 		chdir(FileUtil::addTrailingSlash($directory));
 		$shellCommand = escapeshellarg(GIT_PATH).' clone '.$url.' 2>&1';
 		// execute command
@@ -56,7 +58,7 @@ class Git implements SCM {
 			throw $e;
 		}
 		catch(SystemException $e) {
-			
+
 		}
 	}
 
@@ -105,7 +107,7 @@ class Git implements SCM {
 		if (!file_exists(GIT_PATH)) {
 			throw new GitException('git path seems to be wrong, no file found.');
 		}
-		
+
 		// check wether a temporary directory is given
 		if (!defined('GIT_TEMPORARY_DIRECTORY') || GIT_TEMPORARY_DIRECTORY == '') {
 			throw new GitException('Missing temporary folder for git.');
