@@ -190,7 +190,7 @@ class PackageBuilder {
 				$subNodes = $xml->getChildren($node);
 				foreach ($subNodes as $subNode) {
 					if ($subNode->getName() != 'languages') continue;
-					if (substr($xml->getCDATA($subNode), 0, 10) == self::LANGUAGE_DIR.'/') {
+					if (substr($xml->getCDATA($subNode), 0, strlen(self::LANGUAGE_DIR) + 1) == self::LANGUAGE_DIR.'/') {
 						$languagesInRoot = false;
 					}
 				}
