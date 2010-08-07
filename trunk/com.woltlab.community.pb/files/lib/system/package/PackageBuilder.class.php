@@ -200,8 +200,8 @@ class PackageBuilder {
 		// if files should be in root skip languages directory and copy language files into root
 		if ($languagesExist && $languagesInRoot) {
 			$this->excludeFiles[] = self::LANGUAGE_DIR;
-			$languageDir = DirectoryUtil::getInstance($directory.self::LANGUAGE_DIR.'/', false);
-			foreach ($languageDir->getFilesObj(SORT_DESC) as $filename => $obj) {
+			$files = DirectoryUtil::getInstance($directory.self::LANGUAGE_DIR.'/', false)->getFilesObj(SORT_DESC);
+			foreach ($files as $filename => $obj) {
 				if ($obj->isDir()) continue;
 
 				copy($directory.self::LANGUAGE_DIR.'/'.$filename, $directory.$filename);
