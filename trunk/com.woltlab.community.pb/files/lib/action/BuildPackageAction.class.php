@@ -134,9 +134,15 @@ class BuildPackageAction extends AbstractAction {
 
 		// read package
 		$pr = new PackageReader($this->source->sourceID, $this->directory);
-
-		// build package
-		$pkg = new PackageBuilder($this->source, $pr, $this->directory, $this->filename);
+		try {
+			// build package
+			$pkg = new PackageBuilder($this->source, $pr, $this->directory, $this->filename);
+		}
+		// do cleanup
+		catch (SystemException $e) {
+			PackageHelper::clearTemporaryFiles();
+			throw $e;
+		}
 
 		// clear previously created archives
 		PackageHelper::clearTemporaryFiles();
