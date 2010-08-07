@@ -120,8 +120,8 @@ class PreferredPackageForm extends AbstractForm {
 		// add current package
 		$this->packages[$packageName]['hash'] = $packageHash;
 		if (isset($cachedPackage['source'])) {
-			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $source->sourceDirectory);
-			$directoryShown = $source->name.'::'.str_replace($directory, '', $cachedPackage['directory']);
+			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $cachedPackage['source']->sourceDirectory);
+			$directoryShown = $cachedPackage['source']->name.'::'.str_replace($directory, '', $cachedPackage['directory']);
 		}
 		else {
 			$directoryShown = $this->source->name.'::'.$cachedPackage['directory'];

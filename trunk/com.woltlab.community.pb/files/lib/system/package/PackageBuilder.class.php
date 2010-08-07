@@ -134,6 +134,7 @@ class PackageBuilder {
 				// catch Exception to get a better one later
 				$location = null;
 			}
+
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);
 				$pb = new PackageBuilder($this->source, $packageData, $location, 'pn', array(), true, true);
