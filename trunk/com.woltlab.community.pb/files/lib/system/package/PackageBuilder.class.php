@@ -201,7 +201,9 @@ class PackageBuilder {
 		if ($languagesExist && $languagesInRoot) {
 			$this->excludeFiles[] = self::LANGUAGE_DIR;
 			$languageDir = DirectoryUtil::getInstance($directory.self::LANGUAGE_DIR.'/', false);
-			foreach ($languageDir->getFiles() as $filename) {
+			foreach ($languageDir->getFilesObj(SORT_DESC) as $filename => $obj) {
+				if ($obj->isDir()) continue;
+
 				copy($directory.self::LANGUAGE_DIR.'/'.$filename, $directory.$filename);
 				// register them for removing
 				PackageHelper::registerTemporaryFile($directory.$filename);
