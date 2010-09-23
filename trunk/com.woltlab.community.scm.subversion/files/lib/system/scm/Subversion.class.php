@@ -40,6 +40,15 @@ class Subversion implements SCM {
 		return $tree['children'][0]['attrs']['revision'];
 	}
 
+	public static function getLog($url, Array $loginDetails = array(), Array $options = array()) {
+		$options['asXML'] = true;
+		$output = self::executeCommand('log', $url, $loginDetails, $options);
+		$output = implode($output, '');
+		$xml = new XML();
+		$xml->loadString($output);
+		return $xml;
+	}
+
 	/**
 	 * Executes a subversion command
 	 *
@@ -65,7 +74,7 @@ class Subversion implements SCM {
 		$trustServerCert = (isset($options['trustServerCert'])) ? true : false;
 
 		// handle additional, non-generic parameters
-		if (isset($options['additonalParameters'])) {
+		if (isset($options['additionalParameters'])) {
 			foreach ($options['additionalParameters'] as $parameter) {
 				$additonalParameters .= ' '.$parameter;
 			}
