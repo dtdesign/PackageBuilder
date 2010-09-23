@@ -46,7 +46,7 @@ class Subversion implements SCM {
 		$output = implode($output, '');
 		$xml = new XML();
 		$xml->loadString($output);
-		return $xml;
+		return $xml->getElementTree('');
 	}
 
 	public static function cat($url, Array $loginDetails = array(), Array $options = array()) {
@@ -82,9 +82,7 @@ class Subversion implements SCM {
 
 		// handle additional, non-generic parameters
 		if (isset($options['additionalParameters'])) {
-			foreach ($options['additionalParameters'] as $parameter) {
-				$additonalParameters .= ' '.$parameter;
-			}
+			$additionalParameters = implode(' ', $options['additionalParameters']);
 		}
 
 		// build complete shell command
@@ -95,7 +93,7 @@ class Subversion implements SCM {
 		if ($trustServerCert) $shellCommand .= ' --trust-server-cert';
 		$shellCommand .= ' '.$url;
 		if (!empty($directory)) $shellCommand .= ' '.$directory;
-		if (!empty($additonalParameters)) $shellCommand .= $additonalParameters;
+		if (!empty($additionalParameters)) $shellCommand .= ' '.$additionalParameters;
 		$shellCommand .= ' 2>&1';
 
 		// execute command
