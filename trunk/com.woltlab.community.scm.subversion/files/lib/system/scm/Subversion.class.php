@@ -49,6 +49,13 @@ class Subversion implements SCM {
 		return $xml;
 	}
 
+	public static function cat($url, Array $loginDetails = array(), Array $options = array()) {
+		$options['asXML'] = true;
+		$output = self::executeCommand('log', $url, $loginDetails, $options);
+		$output = implode($output, '');
+		return $output;
+	}
+
 	/**
 	 * Executes a subversion command
 	 *
