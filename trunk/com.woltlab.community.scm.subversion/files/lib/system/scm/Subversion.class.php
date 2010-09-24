@@ -64,6 +64,12 @@ class Subversion implements SCM {
 		return $output;
 	}
 
+	public static function diff($url, Array $loginDetails = array(), Array $options = array()) {
+		$output = self::executeCommand('diff', $url, $loginDetails, $options);
+		$output = implode($output, "\n");
+		return $output;
+	}
+
 	/**
 	 * Executes a subversion command
 	 *
