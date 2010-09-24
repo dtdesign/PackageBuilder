@@ -60,7 +60,7 @@ class Subversion implements SCM {
 
 	public static function cat($url, Array $loginDetails = array(), Array $options = array()) {
 		$output = self::executeCommand('cat', $url, $loginDetails, $options);
-		$output = implode($output, '');
+		$output = implode($output, "\n");
 		return $output;
 	}
 
