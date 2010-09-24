@@ -7,7 +7,7 @@
 		<packagedescription language="de"><![CDATA[Ermöglicht den Zugriff auf Subversion]]></packagedescription>
 		<packagedescription language="de-informal"><![CDATA[Ermöglicht den Zugriff auf Subversion]]></packagedescription>
 		<packagedescription language="en"><![CDATA[Provides Subversion access]]></packagedescription>
-		<version>1.0.0 Alpha 3</version>
+		<version>1.0.0 Alpha 4</version>
 		<isunique>1</isunique>
 		<standalone>0</standalone>
 		<date>2010-02-25</date>
@@ -31,7 +31,7 @@
 		<scm>scm.xml</scm>
 	</instructions>
 	
-	<instructions type="update" fromversion="1.0.0 Alpha 2">
-		<languages languagecode="de-informal">languages/de-informal.xml</languages>
+	<instructions type="update" fromversion="1.0.0 Alpha 3">
+		<files>files.tar</files>
 	</instructions>
 </package>
