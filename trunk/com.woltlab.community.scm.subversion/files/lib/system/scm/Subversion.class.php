@@ -59,7 +59,6 @@ class Subversion implements SCM {
 	}
 
 	public static function cat($url, Array $loginDetails = array(), Array $options = array()) {
-		$options['asXML'] = true;
 		$output = self::executeCommand('cat', $url, $loginDetails, $options);
 		$output = implode($output, '');
 		return $output;
