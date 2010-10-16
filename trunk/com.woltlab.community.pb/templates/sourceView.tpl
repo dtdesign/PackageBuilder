@@ -127,7 +127,7 @@
 	</fieldset>
 </form>
 
-{if $currentDirectory === null}
+{if $currentDirectory !== null}
 <form method="post" action="index.php?form=PreferredPackage" class="yform columnar">
 	<fieldset>
 		<legend>{lang}pb.build.title{/lang}</legend>
