@@ -49,6 +49,8 @@ class DirectoryUtil {
 	 * @var boolean
 	 */
 	protected $recursive = true;
+	
+	const SORT_NONE = -1;
 
 	/**
 	 * All recursive and non-recursive instances
@@ -96,7 +98,7 @@ class DirectoryUtil {
 	 * @return	boolean				successfully killed the instance?
 	 */
 	public static function destroy($directory, $recursive = true) {
-		$directory = realpath(FileUtil::unifyDirSeperator($directory));
+		$directory = realpath($directory);
 		if (!isset(self::$instances[$recursive][$directory])) return false;
 
 		unset (self::$instances[$recursive][$directory]);
@@ -111,7 +113,7 @@ class DirectoryUtil {
 	 * @return 	object				DirectoryUtil object
 	 */
 	public static function getInstance($directory, $recursive = true) {
-		$directory = realpath(FileUtil::unifyDirSeperator($directory));
+		$directory = realpath($directory);
 		if ($directory === false) throw new SystemException('Invalid directory');
 
 		if (!isset(self::$instances[$recursive][$directory])) {
@@ -150,11 +152,14 @@ class DirectoryUtil {
 	public function getFiles($order = SORT_ASC) {
 		$files = $this->files;
 
-		if ($order == SORT_ASC) {
-			asort($files);
+		if ($order == SORT_DESC) {
+			arsort($files, $order);
+		}
+		else if ($order == self::SORT_NONE) {
+			$files = array_reverse($files);
 		}
 		else {
-			arsort($files);
+			asort($files, $order);
 		}
 
 		return $files;
@@ -170,11 +175,14 @@ class DirectoryUtil {
 		$this->scanFilesObj();
 		$objects = $this->filesObj;
 
-		if ($order == SORT_ASC) {
-			ksort($objects);
+		if ($order == SORT_DESC) {
+			krsort($objects, $order);
+		}
+		else if ($order == self::SORT_NONE) {
+			$objects = array_reverse($objects);
 		}
 		else {
-			krsort($objects);
+			ksort($objects, $order);
 		}
 
 		return $objects;
