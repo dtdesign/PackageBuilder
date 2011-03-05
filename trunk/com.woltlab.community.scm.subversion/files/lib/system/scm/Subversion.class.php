@@ -58,9 +58,9 @@ class Subversion implements SCM {
 		return $xml->getElementTree('');
 	}
 
-	public static function cat($url, Array $loginDetails = array(), Array $options = array()) {
-		$output = self::executeCommand('cat', $url, $loginDetails, $options);
-		$output = implode($output, "\n");
+	public static function cat($url, Array $loginDetails = array(), Array $options = array(), $raw = false) {
+		$output = self::executeCommand('cat', $url, $loginDetails, $options, $raw);
+		if (!$raw) $output = implode($output, "\n");
 		return $output;
 	}
 
@@ -79,7 +79,7 @@ class Subversion implements SCM {
 	 * @param	array<array>	$options	Additional options
 	 * @return	array
 	 */
-	protected static function executeCommand($command, $url, $loginDetails, Array $options = array()) {
+	protected static function executeCommand($command, $url, $loginDetails, Array $options = array(), $raw = false) {
 		self::validateSubversionPath();
 
 		// break if repository url is empty
@@ -111,7 +111,14 @@ class Subversion implements SCM {
 		$shellCommand .= ' 2>&1';
 
 		// execute command
-		exec ($shellCommand, $output);
+		if ($raw) {
+			ob_start();
+			passthru($shellCommand);
+			$output = ob_get_contents();
+			ob_end_clean();
+			return $output;
+		}
+		else exec($shellCommand, $output);
 
 		return $output;
 	}
