@@ -216,7 +216,7 @@ class PackageHelper {
 					$maxDimension--;
 
 					while (($file = readdir($dh)) !== false) {
-						if (!in_array($file, array('.', '..', '.svn'))) {
+						if (is_dir($directory.$file) && !in_array($file, array('.', '..', '.svn'))) {
 							self::readDirectories($directory.$file.'/', $maxDimension);
 						}
 					}
