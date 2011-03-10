@@ -11,6 +11,7 @@
 		<isunique>1</isunique>
 		<standalone>0</standalone>
 		<date>2010-02-25</date>
+		<plugin>com.woltlab.community.scm</plugin>
 	</packageinformation>
 
 	<authorinformation>
