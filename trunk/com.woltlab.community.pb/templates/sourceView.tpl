@@ -3,8 +3,15 @@
 	<title>{$source->name} - {PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
-	{* <link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
-	<link rel="alternate" type="application/atom+xml" href="index.php?page=Feed&amp;type=Atom" title="Atom" /> *}
+	
+	<script type="text/javascript" src="{@RELATIVE_PB_DIR}js/DirectoryLoader.class.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		var SOURCE_ID = {@$source->sourceID};
+		
+		var directoryLoader = new DirectoryLoader('packageName', 'directory');
+		//]]>
+	</script>
 </head>
 <body>
 {include file='header' sandbox=false}
@@ -87,19 +94,25 @@
 			{lang}pb.build.option.revision.{if $source->revision == $source->getHeadRevision()}current{else}outdated{/if}{/lang}
 		</div>
 		{/if}
-
+		
 		<div class="type-select">
-			<label for="directory">{lang}pb.build.option.directories{/lang}</label>
+			<label for="packageName">{lang}pb.build.option.packages{/lang}</label>
 
 			{if $directories|empty}
 				{lang}pb.source.error.directories.noData{/lang}
 			{else}
-			<select name="directory" id="directory">
+			<select id="packageName">
     				{htmloptions options=$directories selected=$currentDirectory}
 			</select>
 			{/if}
 		</div>
-
+		
+		<div class="type-select" style="display: none;">
+			<label for="directory">{lang}pb.build.option.directories{/lang}</label>
+			
+			<select name="directory" id="directory"></select>
+		</div>
+		
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}

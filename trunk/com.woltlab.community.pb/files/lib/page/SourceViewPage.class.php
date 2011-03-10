@@ -63,20 +63,19 @@ class SourceViewPage extends AbstractPage {
 	 		// fallback if no cache available
 	 		$packages = array();
 	 	}
-
+		
 		// handle packages
 		foreach ($packages as $package) {
-			$this->directories[$package['packageName']][$package['directory']] = $package['version'].' - '.$package['directory'];
+			$this->directories[$package['packageName']] = $package['packageName'];
 			$this->packages[$package['directory']] = array(
 				'packageName' => $package['packageName'],
 				'version' => $package['version']
 			);
 		}
-
-		foreach ($this->directories as $key => $val) {
-			asort($this->directories[$key]);
-		}
-
+		
+		// remove duplicates and sort directories
+		asort($this->directories);
+		
 		// set build directory
 		$this->buildDirectory = $this->source->buildDirectory;
 
@@ -94,15 +93,15 @@ class SourceViewPage extends AbstractPage {
 			$this->currentDirectory = $currentDirectory;
 		}
 		else {
-			$sql = "SELECT directory
-				FROM pb".PB_N."_user_preferences
+			$sql = "SELECT	directory
+				FROM	pb".PB_N."_user_preferences
 				WHERE 	userID = ".WCF::getUser()->userID."
-				&&	sourceID = ".$this->source->sourceID;
+					AND sourceID = ".$this->source->sourceID;
 			$result = WCF::getDB()->getFirstRow($sql);
 			$this->currentDirectory = $result['directory'];
 			WCF::getSession()->register('source'.$this->source->sourceID, $result['directory']);
 		}
-
+		
 		if ($currentFilename !== null) {
 			$this->currentFilename = $currentFilename;
 		}
