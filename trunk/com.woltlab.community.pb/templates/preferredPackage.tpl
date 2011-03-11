@@ -22,7 +22,7 @@
 		<legend>
 			{lang}pb.build.packageSelection{/lang}
 		</legend>
-
+		
 		{if $packages|empty}
 			<p class="info">
 				{lang}pb.build.continue{/lang}
@@ -31,7 +31,7 @@
 			<p class="important">
 				{lang}pb.build.selectDirectories{/lang}
 			</p>
-
+			
 			{foreach from=$packages key=packageName item=packageData}
 				<div class="type-select">
 					<label for="{$packageData.hash}">{$packageName}</label>
@@ -39,20 +39,19 @@
 
 					<select name="{$packageData.hash}" id="{$packageData.hash}">
 						{foreach from=$packageData.directories key=directory item=data}
-							<option value="{$directory}">{$data.version} - {$data.directoryShown}</option>
+							<option value="{$directory}"{if $preSelection[$packageName] == $directory} selected="selected"{/if}>{$data.version} - {$data.directoryShown}</option>
 						{/foreach}
 					</select>
 				</div>
 			{/foreach}
-
-			{* FIXME: Re-Enable Saving
+			
 			<div class="type-check">
 				<input type="checkbox" name="saveSelection" id="saveSelection" value="1"{if $saveSelection} checked="checked"{/if} />
 
 				<label for="saveSelection">{lang}pb.build.saveSelection{/lang}</label>
-			</div> *}
+			</div>
 		{/if}
-
+		
 		<div class="type-button">
 			<input type="hidden" name="filename" value="{@$filename}" />
 			<input type="hidden" name="sourceID" value="{@$source->sourceID}" />

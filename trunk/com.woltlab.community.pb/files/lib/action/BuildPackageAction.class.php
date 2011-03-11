@@ -52,7 +52,14 @@ class BuildPackageAction extends AbstractAction {
 	 *
 	 * @var	Source
 	 */
-	public $source;
+	public $source = null;
+	
+	/**
+	 * source id
+	 * 
+	 * @var	integer
+	 */
+	public $sourceID = 0;
 
 	/**
 	 * @see Action::readParameters()
@@ -62,8 +69,9 @@ class BuildPackageAction extends AbstractAction {
 
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
-
-		if (isset($_POST['sourceID'])) $this->source = new Source($_POST['sourceID']);
+		if (isset($_POST['sourceID'])) $this->sourceID = intval($_POST['sourceID']);
+		
+		$this->source = new Source($this->sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
 		if (!$this->source->hasAccess()) throw new PermissionDeniedException();
 
@@ -71,8 +79,11 @@ class BuildPackageAction extends AbstractAction {
 		$this->readPackageSelection();
 
 		// handle current directory resource
-		$this->directory = WCF::getSession()->getVar('source'.$this->source->sourceID);
-		if ($this->directory === null) throw new SystemException('Resource directory missing');
+		$sourceData = WCF::getSession()->getVar('source'.$this->source->sourceID);
+		if ($sourceData === null) throw new SystemException('Resource directory missing');
+		
+		$sourceData = unserialize($sourceData);
+		$this->directory = $sourceData['directory'];
 	}
 
 	/**
@@ -104,7 +115,7 @@ class BuildPackageAction extends AbstractAction {
 		// save selection
 		if ($this->saveSelection) {
 			$sql = '';
-
+			
 			foreach ($this->packages as $packageName => $packageData) {
 				if (!empty($sql)) $sql .= ',';
 
@@ -117,14 +128,10 @@ class BuildPackageAction extends AbstractAction {
 			}
 
 			if (!empty($sql)) {
-				$sql = "INSERT INTO	pb".PB_N."_selected_packages
-							(sourceID,
-							directory,
-							packageName,
-							hash,
-							resourceDirectory)
-					VALUES		".$sql."
-					ON DUPLICATE KEY UPDATE resourceDirectory = VALUES(resourceDirectory)";
+				$sql = "INSERT INTO		pb".PB_N."_selected_package
+								(sourceID, directory, packageName, hash, resourceDirectory)
+					VALUES			".$sql."
+					ON DUPLICATE KEY UPDATE	resourceDirectory = VALUES(resourceDirectory)";
 				WCF::getDB()->sendQuery($sql);
 			}
 		}

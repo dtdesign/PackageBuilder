@@ -11,7 +11,7 @@ require_once(WCF_DIR.'lib/form/AbstractForm.class.php');
  * Sets preferred packages for archive creation.
  *
  * @author	Tim Düsterhus, Alexander Ebert
- * @copyright	2009-2010 WoltLab Community
+ * @copyright	2009-2011 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
  * @subpackage	form
@@ -28,11 +28,15 @@ class PreferredPackageForm extends AbstractForm {
 	public $otherSources = false;
 	public $packageDependencies = array();
 	public $packages = array();
-	public $source = null;
 	public $sources = array();
 	public $requestedPackageName = '';
 	public $requestedPackageHash = '';
 	public $saveSelection = 0;
+	
+	public $directory = '';
+	public $preSelection = array();
+	public $source = null;
+	public $sourceID = 0;
 
 	/**
 	 * @see	Form::readFormParameters()
@@ -42,10 +46,11 @@ class PreferredPackageForm extends AbstractForm {
 
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
 		if (isset($_POST['otherSources'])) $this->otherSources = (bool) $_POST['otherSources'];
-		// FIXME: Re-Enable Saving
-
+		if (isset($_POST['sourceID'])) $this->sourceID = intval($_POST['sourceID']);
+		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
+		
 		// read source
-		if ($this->readSource() === false) throw new IllegalLinkException();
+		$this->readSource();
 	}
 
 	/**
@@ -87,8 +92,18 @@ class PreferredPackageForm extends AbstractForm {
 
     		// fetch all required packages
     		$this->fetchDependencies($this->requestedPackageHash);
+    		
+    		// read previously selected packages
+    		$this->readSelectedPackages();
 	}
 
+	/**
+	 * Reads a package.
+	 * 
+	 * @param	string		$packageHash
+	 * @param	string		$packageName
+	 * @param	string		$minVersion
+	 */
 	protected function fetchPackage($packageHash, $packageName, $minVersion = '') {
 		// try to find requested package
 		if (!isset($this->cachedPackages['packages'][$packageHash])) {
@@ -131,7 +146,12 @@ class PreferredPackageForm extends AbstractForm {
 
 		$this->fetchDependencies($packageHash);
 	}
-
+	
+	/**
+	 * Reads dependencies for a given package.
+	 * 
+	 * @param	string		$packageHash
+	 */
 	protected function fetchDependencies($packageHash) {
 		// check for dependencies
   		if (!isset($this->packageDependencies[$packageHash])) return;
@@ -170,48 +190,49 @@ class PreferredPackageForm extends AbstractForm {
 	 */
 	protected function getRequestedPackage() {
 		// get directory
-		$directory = WCF::getSession()->getVar('source'.$this->source->sourceID);
-
+		$sourceData = WCF::getSession()->getVar('source'.$this->source->sourceID);
+		
 		// get package name
-		if ($directory !== null) {
+		if ($sourceData !== null) {
+			$sourceData = unserialize($sourceData);
+			$this->directory = $sourceData['directory'];
+			
 			foreach ($this->cachedPackages['packages'] as $package) {
-				if ($package['directory'] == $directory) {
+				if ($package['directory'] == $this->directory) {
 					$this->requestedPackageName = $package['packageName'];
-					$this->requestedPackageHash = PackageHelper::getHash($this->source->sourceID, $package['packageName'], $directory);
+					$this->requestedPackageHash = PackageHelper::getHash($this->source->sourceID, $package['packageName'], $this->directory);
 					return;
 				}
 			}
 		}
-
+		
 		throw new IllegalLinkException();
 	}
-
+	
 	/**
 	 * Reads-in a source
 	 *
 	 * @return	boolean	source is valid
 	 */
 	public function readSource() {
-		if (!isset($_POST['sourceID'])) return false;
-
-		$this->source = new Source($_POST['sourceID']);
-		if ($this->source->sourceID == 0) {
-			return false;
+		$this->source = new Source($this->sourceID);
+		if (!$this->source->sourceID || !$this->source->hasAccess()) {
+			throw new IllegalLinkException();
 		}
-
-		// check permission
-		if(!$this->source->hasAccess()) return false;
-
+		
 		// other sources
-		if($this->otherSources) {
+		if ($this->otherSources) {
 			$sourceList = new SourceList();
 			$sourceList->checkHasAccess = true;
-			$sourceList->sqlConditions = 'sourceID != '.$this->source->sourceID;
+			$sourceList->sqlConditions = 'source.sourceID != '.$this->source->sourceID;
 			$sourceList->readObjects();
 			$this->sources = $sourceList->getObjects();
 		}
 	}
-
+	
+	/**
+	 * @see	Page::assignVariables()
+	 */
 	public function assignVariables() {
 		parent::assignVariables();
 
@@ -219,9 +240,24 @@ class PreferredPackageForm extends AbstractForm {
 			'errors' => $this->errors,
 			'filename' => $this->filename,
 			'packages' => $this->packages,
+			'preSelection' => $this->preSelection,
 			'saveSelection' => $this->saveSelection,
 			'source' => $this->source
 		));
+	}
+	
+	/**
+	 * Reads previously selected packages.
+	 */
+	protected function readSelectedPackages() {
+		$sql = "SELECT	packageName, resourceDirectory
+			FROM	pb".PB_N."_selected_package
+			WHERE	sourceID = ".$this->sourceID."
+				AND directory = '".escapeString($this->directory)."'";
+		$result = WCF::getDB()->sendQuery($sql);
+		while ($row = WCF::getDB()->fetchArray($result)) {
+			$this->preSelection[$row['packageName']] = $row['resourceDirectory'];
+		}
 	}
 }
 ?>
