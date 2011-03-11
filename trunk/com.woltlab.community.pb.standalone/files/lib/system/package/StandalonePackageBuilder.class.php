@@ -80,32 +80,33 @@ class PackageBuilder {
 	 * @param	string	$filename
 	 */
 	public function createArchive($location, $packages, $readMeFile, $dataBaseStructure, $setupLanguages, $licenses, $templates, $files, $languages) {
+		$baseDir = dirname($location);
 		
-		$package = new TarWriter(dirname($location).'/WCFSetup.tar.gz', true);
-		FileUtil::makePath(dirname($location).'/tmp/upload/setup/db');
-		FileUtil::makePath(dirname($location).'/tmp/upload/setup/lang');
-		FileUtil::makePath(dirname($location).'/tmp/upload/setup/license');
-		FileUtil::makePath(dirname($location).'/tmp/upload/setup/template');
-		FileUtil::makePath(dirname($location).'/tmp/upload/install/lang');
-		FileUtil::makePath(dirname($location).'/tmp/upload/install/packages');
-		copy($dataBaseStructure, dirname($location).'/tmp/upload/setup/db/mysql.sql');
+		$package = new TarWriter($baseDir.'/WCFSetup.tar.gz', true);
+		FileUtil::makePath($baseDir.'/tmp/upload/setup/db');
+		FileUtil::makePath($baseDir.'/tmp/upload/setup/lang');
+		FileUtil::makePath($baseDir.'/tmp/upload/setup/license');
+		FileUtil::makePath($baseDir.'/tmp/upload/setup/template');
+		FileUtil::makePath($baseDir.'/tmp/upload/install/lang');
+		FileUtil::makePath($baseDir.'/tmp/upload/install/packages');
+		copy($dataBaseStructure, $baseDir.'/tmp/upload/setup/db/mysql.sql');
 		foreach($setupLanguages as $setupLanguage) {
-			copy($setupLanguage, dirname($location).'/tmp/upload/setup/lang/'.basename($setupLanguage));
+			copy($setupLanguage, $baseDir.'/tmp/upload/setup/lang/'.basename($setupLanguage));
 		}
 		foreach($licenses as $license) {
-			copy($license, dirname($location).'/tmp/upload/setup/license/'.basename($license));
+			copy($license, $baseDir.'/tmp/upload/setup/license/'.basename($license));
 		}
 		foreach($templates as $template) {
-			copy($template, dirname($location).'/tmp/upload/setup/template/'.basename($template));
+			copy($template, $baseDir.'/tmp/upload/setup/template/'.basename($template));
 		}
-		self::dircopy($files, dirname($location).'/tmp/upload/install/files');
+		self::copyDirectory($files, $baseDir.'/tmp/upload/install/files');
 		foreach($languages as $language) {
-			copy($language, dirname($location).'/tmp/upload/install/lang/'.basename($language));
+			copy($language, $baseDir.'/tmp/upload/install/lang/'.basename($language));
 		}
 		foreach($packages as $package) {
-			copy($package, dirname($location).'/tmp/upload/install/packages/'.basename($package));
+			copy($package, $baseDir.'/tmp/upload/install/packages/'.basename($package));
 		}
-		$package->add(array(dirname($location).'/tmp/upload/setup', dirname($location).'/tmp/upload/install'), '', dirname($location).'/tmp/upload');
+		$package->add(array($baseDir.'/tmp/upload/setup', $baseDir.'/tmp/upload/install'), '', $baseDir.'/tmp/upload');
 		
 		$file = new ZipWriter();
 		
@@ -114,39 +115,60 @@ class PackageBuilder {
 			$file->addFile(file_get_contents($readMe), basename($readMe), filemtime($readMe));
 		}
 		$file->addDir('upload');
-		$file->addFile(file_get_contents(dirname($location).'/WCFSetup.tar.gz'), 'upload/WCFSetup.tar.gz', filemtime(dirname($location).'/WCFSetup.tar.gz'));
+		$file->addFile(file_get_contents($baseDir.'/WCFSetup.tar.gz'), 'upload/WCFSetup.tar.gz', filemtime($baseDir.'/WCFSetup.tar.gz'));
 		
 		file_put_contents($location, $file->getFile());
-		$dir = DirectoryUtil::getInstance(dirname($location).'/tmp');
+		$dir = DirectoryUtil::getInstance($baseDir.'/tmp');
 		$dir->removeAll();
-		unlink(dirname($location).'/WCFSetup.tar.gz');
+		unlink($baseDir.'/WCFSetup.tar.gz');
+		
 		return $location;
 	}
-	public static function dircopy($srcdir, $dstdir, $verbose = false) {
-	  $num = 0;
-	  if(!is_dir($dstdir))FileUtil::makePath($dstdir);
-	  if($curdir = opendir($srcdir)) {
-	   while($file = readdir($curdir)) {
-	     if($file != '.' && $file != '..') {
-	       $srcfile = $srcdir . '/' . $file;
-	       $dstfile = $dstdir . '/' . $file;
-	       if(is_file($srcfile)) {
-	         if(is_file($dstfile)) $ow = filemtime($srcfile) - filemtime($dstfile); else $ow = 1;
-	         if($ow > 0) {
-	           if(copy($srcfile, $dstfile)) {
-	             touch($dstfile, filemtime($srcfile)); $num++;
-	           }
-	           else throw new SystemException('Error: File "'.$srcfile.'" could not be copied!');
-	         }
-	       }
-	       else if(is_dir($srcfile)) {
-	         $num += self::dircopy($srcfile, $dstfile, $verbose);
-	       }
-	     }
-	   }
-	   closedir($curdir);
-	  }
-	  return $num;
+	
+	/**
+	 * Copies a directory.
+	 * 
+	 * @param	string		$sourceDir
+	 * @param	string		$destinationDir
+	 * @return	integer
+	 */
+	public static function copyDirectory($sourceDir, $destinationDir) {
+		$num = 0;
+		
+		if (!is_dir($destinationDir)) FileUtil::makePath($destinationDir);
+		
+		if ($directory = opendir($sourceDir)) {
+			while ($file = readdir($directory)) {
+				if ($file != '.' && $file != '..') {
+					$sourceFile = $sourceDir . '/' . $file;
+					$destinationFile = $destinationDir . '/' . $file;
+					
+					if (is_file($sourceFile)) {
+						if (is_file($destinationFile)) {
+							$ow = filemtime($sourceFile) - filemtime($destinationFile);
+						}
+						else {
+							$ow = 1;
+						}
+						
+						if ($ow > 0) {
+							if (copy($sourceFile, $destinationFile)) {
+								touch($destinationFile, filemtime($sourceFile)); $num++;
+							}
+							else {
+								throw new SystemException('Error: File "'.$sourceFile.'" could not be copied!');
+							}
+						}
+					}
+					else if (is_dir($sourceFile)) {
+						$num += self::copyDirectory($sourceFile, $destinationFile);
+					}
+				}
+			}
+			closedir($directory);
+		}
+		
+		return $num;
 	}
 	
 	/**
