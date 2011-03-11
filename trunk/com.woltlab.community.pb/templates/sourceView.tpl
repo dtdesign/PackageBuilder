@@ -134,10 +134,15 @@
 		<legend>{lang}pb.source.checkout.title{/lang}</legend>
 		
 		<div class="type-check">
+			<input type="checkbox" name="checkoutRepository" id="checkoutRepository" value="1" />
+			<label for="checkoutRepository">{lang}pb.source.checkoutRepository{/lang}</label>
+		</div>
+		
+		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
 			<label for="rebuildPackageData">{lang}pb.source.rebuildPackageData{/lang}</label>
 		</div>
-
+		
 		<div class="type-button">
 			<input type="hidden" name="sourceID" value="{$source->sourceID}" />
 			{@SID_INPUT_TAG}
