@@ -224,7 +224,7 @@ class PreferredPackageForm extends AbstractForm {
 		if ($this->otherSources) {
 			$sourceList = new SourceList();
 			$sourceList->checkHasAccess = true;
-			$sourceList->sqlConditions = 'source.sourceID != '.$this->source->sourceID;
+			$sourceList->sqlConditions = 'source.sourceID <> '.$this->source->sourceID;
 			$sourceList->readObjects();
 			$this->sources = $sourceList->getObjects();
 		}
