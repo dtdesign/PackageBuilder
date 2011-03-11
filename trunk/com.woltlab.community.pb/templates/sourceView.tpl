@@ -5,11 +5,13 @@
 	{include file='headInclude' sandbox=false}
 	
 	<script type="text/javascript" src="{@RELATIVE_PB_DIR}js/DirectoryLoader.class.js"></script>
+	<script type="text/javascript" src="{@RELATIVE_PB_DIR}js/RevisionLoader.class.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
 		var SOURCE_ID = {@$source->sourceID};
 		
 		var directoryLoader = new DirectoryLoader('packageName', 'directory');
+		var revisionLoader = new RevisionLoader();
 		//]]>
 	</script>
 </head>
@@ -88,11 +90,16 @@
 		</div>
 
 		{if $source->scm != 'none'}
-		<div class="type-text">
-			<label for="revision">{lang}pb.build.option.revision{/lang}</label>
-
-			{lang}pb.build.option.revision.{if $source->revision == $source->getHeadRevision()}current{else}outdated{/if}{/lang}
-		</div>
+			<div class="type-text">
+				<label for="revision">{lang}pb.build.option.revision{/lang}</label>
+				
+				<span id="sourceRevision{@$source->sourceID}"><img src="{@RELATIVE_WCF_DIR}images/spinner.gif" alt="" style="height: 12px; width: 12px;" /></span>
+				<script type="text/javascript">
+					//<![CDATA[
+					revisionLoader.registerSource({@$source->sourceID});
+					//]]>
+				</script>
+			</div>
 		{/if}
 		
 		<div class="type-select">

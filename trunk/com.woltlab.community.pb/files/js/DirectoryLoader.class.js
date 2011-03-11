@@ -1,3 +1,8 @@
+/**
+ * @author	Alexander Ebert
+ * @copyright	2009-2011 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ */
 var DirectoryLoader = Class.create({
 	/**
 	 * Initializes class once document is loaded.

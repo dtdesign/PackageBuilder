@@ -3,9 +3,13 @@
 	<title>{lang}pb.global.index.title{/lang} - {PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
-	{* There are currently no feeds...
-	<link rel="alternate" type="application/rss+xml" href="index.php?page=Feed&amp;type=RSS2" title="RSS2" />
-	<link rel="alternate" type="application/atom+xml" href="index.php?page=Feed&amp;type=Atom" title="Atom" />*}
+	
+	<script type="text/javascript" src="{@RELATIVE_PB_DIR}js/RevisionLoader.class.js"></script>
+	<script type="text/javascript">
+		//<![CDATA[
+		var revisionLoader = new RevisionLoader();
+		//]]>
+	</script>
 </head>
 <body>
 {include file='header' sandbox=false}
@@ -64,11 +68,12 @@
 					{if $source->scm == 'none'}
 						{lang}pb.source.scm.disabled{/lang}
 					{else}
-						{if $source->getHeadRevision() != $source->revision}
-							<strong class="red">{lang}pb.source.scm.higherRevisionAvailable{/lang}</strong>
-						{else}
-							{$source->revision}
-						{/if}
+						<span id="sourceRevision{@$source->sourceID}"><img src="{@RELATIVE_WCF_DIR}images/spinner.gif" alt="" style="height: 12px; width: 12px;" /></span>
+						<script type="text/javascript">
+							//<![CDATA[
+							revisionLoader.registerSource({@$source->sourceID});
+							//]]>
+						</script>
 					{/if}
 				</td>
 				<td class="sourceGo">
