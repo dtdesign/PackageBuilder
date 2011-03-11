@@ -22,21 +22,21 @@ class CacheBuilderPackages implements CacheBuilder {
 	public function getData($cacheResource) {
 		list($cache, $sourceID) = explode('-', $cacheResource['cache']);
 		$data = array('packages' => array(), 'hashes' => array());
-
+		
 		// get associated packages
-		$sql = "SELECT	packageName,version,directory
-				FROM	pb".PB_N."_sources_packages
-				WHERE	sourceID = ".intval($sourceID)."
-				ORDER	BY packageName";
+		$sql = "SELECT		packageName, version,directory
+			FROM		pb".PB_N."_source_package
+			WHERE		sourceID = ".intval($sourceID)."
+			ORDER BY	packageName ASC";
 		$result = WCF::getDB()->sendQuery($sql);
-
+		
 		// assign data ordered by package name
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			$hash = PackageHelper::getHash($sourceID, $row['packageName'], $row['directory']);
 			$data['packages'][$hash] = $row;
 			$data['hashes'][$row['packageName']][] = $hash;
 		}
-
+		
 		return $data;
 	}
 }

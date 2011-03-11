@@ -38,7 +38,7 @@ class Source extends DatabaseObject {
 	 */
 	private function getSource($sourceID) {
 		$sql = "SELECT	*
-			FROM	pb".PB_N."_sources
+			FROM	pb".PB_N."_source
 			WHERE	sourceID = ".intval($sourceID);
 		$row = WCF::getDB()->getFirstRow($sql);
 

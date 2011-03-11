@@ -22,7 +22,7 @@ class CacheBuilderPackageDependency implements CacheBuilder {
 
 		// get referenced packages
 		$sql = "SELECT	*
-			FROM	pb".PB_N."_referenced_packages
+			FROM	pb".PB_N."_referenced_package
 			WHERE	sourceID = ".intval($sourceID)."
 			AND	file != ''";
 		$result = WCF::getDB()->sendQuery($sql);

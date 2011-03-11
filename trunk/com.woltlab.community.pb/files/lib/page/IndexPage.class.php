@@ -17,10 +17,15 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
  * @category 	PackageBuilder
  */
 class IndexPage extends AbstractPage {
+	// system
 	public $templateName = 'index';
 	public $neededPermissions = 'user.source.general.canViewSources';
 
-	// data
+	/**
+	 * instace of SourceList
+	 * 
+	 * @var	SourceList
+	 */
 	public $sourceList = null;
 
 	/**
@@ -39,8 +44,8 @@ class IndexPage extends AbstractPage {
 		parent::assignVariables();
 
 		WCF::getTPL()->assign(array(
-				'allowSpidersToIndexThisPage' => false,
-				'sources' => $this->sourceList->getObjects()
+			'allowSpidersToIndexThisPage' => false,
+			'sources' => $this->sourceList->getObjects()
 		));
 	}
 }

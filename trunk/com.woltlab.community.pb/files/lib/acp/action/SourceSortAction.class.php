@@ -42,7 +42,7 @@ class SourceSortAction extends AbstractAction {
 
 		// set the position for each of them
 		foreach ($this->positions as $key => $val) {
-			$sql = "UPDATE	pb".PB_N."_sources
+			$sql = "UPDATE	pb".PB_N."_source
 				SET	position = ".$position."
 				WHERE	sourceID = ".$key;
 			WCF::getDB()->sendQuery($sql);

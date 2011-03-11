@@ -262,7 +262,7 @@ class SourceEditor extends Source {
 			return;
 		}
 
-		$sql = "UPDATE	pb".PB_N."_sources
+		$sql = "UPDATE	pb".PB_N."_source
 			SET	position = position - 1
 			WHERE 	position > ".$position;
 		WCF::getDB()->sendQuery($sql);
@@ -275,7 +275,7 @@ class SourceEditor extends Source {
 	 */
 	public function setPosition($position = null) {
 		if ($position !== null) {
-			$sql = "UPDATE	pb".PB_N."_sources
+			$sql = "UPDATE	pb".PB_N."_source
 				SET	position = position + 1
 				WHERE 	position >= ".$position;
 			WCF::getDB()->sendQuery($sql);
@@ -283,13 +283,13 @@ class SourceEditor extends Source {
 
 		// get final position
 		$sql = "SELECT 	IFNULL(MAX(position), 0) + 1 AS position
-			FROM	pb".PB_N."_sources";
+			FROM	pb".PB_N."_source";
 		if ($position) $sql .= " WHERE position <= ".$position;
 		$row = WCF::getDB()->getFirstRow($sql);
 		$position = $row['position'];
 
 		// save position
-		$sql = "UPDATE	pb".PB_N."_sources
+		$sql = "UPDATE	pb".PB_N."_source
 			SET	position = ".$position."
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
@@ -310,7 +310,7 @@ class SourceEditor extends Source {
 			else $values .= ",'".escapeString($value)."'";
 		}
 
-		$sql = "INSERT INTO	pb".PB_N."_sources
+		$sql = "INSERT INTO	pb".PB_N."_source
 					(name
 					".$keys.")
 			VALUES		('".escapeString($name)."'
@@ -369,7 +369,7 @@ class SourceEditor extends Source {
 		}
 
 		if (!empty($updates)) {
-			$sql = "UPDATE	pb".PB_N."_sources
+			$sql = "UPDATE	pb".PB_N."_source
 				SET	".$updates."
 				WHERE	sourceID = ".$this->sourceID;
 			WCF::getDB()->sendQuery($sql);
@@ -395,22 +395,22 @@ class SourceEditor extends Source {
 		self::removePosition($this->position);
 
 		// remove main database entry
-		$sql = "DELETE	FROM pb".PB_N."_sources
+		$sql = "DELETE	FROM pb".PB_N."_source
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
 
 		// remove cached packages
-		$sql = "DELETE	FROM pb".PB_N."_sources_packages
+		$sql = "DELETE	FROM pb".PB_N."_source_package
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
 
 		// remove cached reference data
-		$sql = "DELETE	FROM pb".PB_N."_referenced_packages
+		$sql = "DELETE	FROM pb".PB_N."_referenced_package
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
 
 		// remove package pre-selections
-		$sql = "DELETE	FROM pb".PB_N."_selected_packages
+		$sql = "DELETE	FROM pb".PB_N."_selected_package
 			WHERE	sourceID = ".$this->sourceID;
 		WCF::getDB()->sendQuery($sql);
 
