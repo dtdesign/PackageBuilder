@@ -10,24 +10,55 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
  * Checks out a repository.
  *
  * @author	Tim Düsterhus, Alexander Ebert
- * @copyright	2009-2010 WoltLab Community
+ * @copyright	2009-2011 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
  * @subpackage	action
  * @category 	PackageBuilder
  */
 class CheckoutAction extends AbstractAction {
+	/**
+	 * Check out repository
+	 * 
+	 * @var	boolean
+	 */
+	public $checkoutRepository = false;
+	
+	/**
+	 * Rebuild package dependencies
+	 * 
+	 * @var	boolean
+	 */
+	public $rebuildPackageData = false;
+	
+	/**
+	 * instance of SourceEditor
+	 * 
+	 * @var	SourceEditor
+	 */
+	public $source = null;
+	
+	/**
+	 * source id
+	 * 
+	 * @var	integer
+	 */
 	public $sourceID = 0;
-	public $rebuildPackageData;
 
 	/**
 	 * @see Action::readParameters()
 	 */
 	public function readParameters() {
 		parent::readParameters();
-
+		
+		if (isset($_REQUEST['checkoutRepository'])) $this->checkoutRepository = true;
 		if (isset($_REQUEST['sourceID'])) $this->sourceID = intval($_REQUEST['sourceID']);
-		if (isset($_REQUEST['rebuildPackageData'])) $this->rebuildPackageData = (boolean) $_REQUEST['rebuildPackageData'];
+		if (isset($_REQUEST['rebuildPackageData'])) $this->rebuildPackageData = true;
+		
+		WCF::getUser()->checkPermission('user.source.general.canViewSources');
+		
+		$this->source = new SourceEditor($this->sourceID);
+		if (!$this->source->sourceID || !$this->source->hasAccess()) throw new IllegalLinkException();
 	}
 
 	/**
@@ -36,36 +67,31 @@ class CheckoutAction extends AbstractAction {
 	public function execute() {
 		// call execute event
 		parent::execute();
-
-		// fetch data
-		$source = new SourceEditor($this->sourceID);
-		if (!$source->sourceID) throw new IllegalLinkException();
-		if (!$source->hasAccess()) throw new PermissionDeniedException();
-		WCF::getUser()->checkPermission('user.source.general.canViewSources');
-
-
-		// load scm driver
-		$className = ucfirst(Source::validateSCM($source->scm));
-
-		// check out repository
-		require_once(WCF_DIR.'lib/system/scm/'.$className.'.class.php');
-		call_user_func(array($className, 'checkout'), $source->url, $source->sourceDirectory, array('username' => $source->username, 'password' => $source->password));
-
-		// set revision
-		$revision = $source->getHeadRevision();
-		$source->update(null, null, null, null, null, null, null, $revision);
-
+		
+		if ($this->checkoutRepository) {
+			// load scm driver
+			$className = ucfirst(Source::validateSCM($this->source->scm));
+			
+			// check out repository
+			require_once(WCF_DIR.'lib/system/scm/'.$className.'.class.php');
+			call_user_func(array($className, 'checkout'), $this->source->url, $this->source->sourceDirectory, array('username' => $this->source->username, 'password' => $this->source->password));
+			
+			// set revision
+			$revision = $this->source->getHeadRevision();
+			$this->source->update(null, null, null, null, null, null, null, $revision);
+		}
+		
 		// rebuild package data if requested
 		if ($this->rebuildPackageData) {
 			require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
-			PackageHelper::readPackages($source);
+			PackageHelper::readPackages($this->source);
 		}
-
+		
 		// call executed event
 		$this->executed();
-
+		
 		// forward
-		HeaderUtil::redirect('index.php?page=SourceView&sourceID='.$source->sourceID.SID_ARG_2ND_NOT_ENCODED);
+		HeaderUtil::redirect('index.php?page=SourceView&sourceID=' . $this->source->sourceID . SID_ARG_2ND_NOT_ENCODED);
 		exit;
 	}
 }
