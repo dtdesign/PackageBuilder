@@ -10,7 +10,7 @@
 		//<![CDATA[
 		var SOURCE_ID = {@$source->sourceID};
 		
-		var directoryLoader = new DirectoryLoader('packageName', 'directory');
+		var directoryLoader = new DirectoryLoader('packageName', 'directory', '{$currentDirectory}');
 		var revisionLoader = new RevisionLoader();
 		//]]>
 	</script>
@@ -108,9 +108,9 @@
 			{if $directories|empty}
 				{lang}pb.source.error.directories.noData{/lang}
 			{else}
-			<select id="packageName">
-    				{htmloptions options=$directories selected=$currentDirectory}
-			</select>
+				<select name="packageName" id="packageName">
+	    				{htmloptions options=$directories}
+				</select>
 			{/if}
 		</div>
 		
@@ -132,7 +132,7 @@
 <form method="post" action="index.php?action=Checkout" class="yform columnar">
 	<fieldset>
 		<legend>{lang}pb.source.checkout.title{/lang}</legend>
-		{if $source->revision == $source->getHeadRevision()}<div class="warning">{lang}pb.source.checkout.isCurrent{/lang}</div>{/if}
+		
 		<div class="type-check">
 			<input type="checkbox" name="rebuildPackageData" id="rebuildPackageData" value="1" />
 			<label for="rebuildPackageData">{lang}pb.source.rebuildPackageData{/lang}</label>

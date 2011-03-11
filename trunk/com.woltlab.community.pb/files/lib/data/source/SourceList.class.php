@@ -42,7 +42,7 @@ class SourceList extends DatabaseObjectList {
 	 */
 	public function countObjects() {
 		$sql = "SELECT	COUNT(*) AS count
-			FROM	pb".PB_N."_sources sources
+			FROM	pb".PB_N."_source source
 			".(!empty($this->sqlConditions) ? "WHERE ".$this->sqlConditions : '');
 		$row = WCF::getDB()->getFirstRow($sql);
 		return $row['count'];
@@ -53,8 +53,8 @@ class SourceList extends DatabaseObjectList {
 	 */
 	public function readObjects() {
 		$sql = "SELECT		".(!empty($this->sqlSelects) ? $this->sqlSelects.',' : '')."
-					sources.*
-			FROM		pb".PB_N."_sources sources
+					source.*
+			FROM		pb".PB_N."_source source
 			".$this->sqlJoins."
 			".(!empty($this->sqlConditions) ? "WHERE ".$this->sqlConditions : '')."
 			".(!empty($this->sqlOrderBy) ? "ORDER BY ".$this->sqlOrderBy : '');

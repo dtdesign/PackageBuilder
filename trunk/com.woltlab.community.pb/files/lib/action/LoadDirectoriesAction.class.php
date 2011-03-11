@@ -45,7 +45,7 @@ class LoadDirectoriesAction extends AbstractAction {
 		
 		$directories = array();
 		$sql = "SELECT	directory, version
-			FROM	pb".PB_N."_sources_packages
+			FROM	pb".PB_N."_source_package
 			WHERE	sourceID = ".$this->sourceID."
 				AND packageName = '".escapeString($this->packageName)."'";
 		$result = WCF::getDB()->sendQuery($sql);

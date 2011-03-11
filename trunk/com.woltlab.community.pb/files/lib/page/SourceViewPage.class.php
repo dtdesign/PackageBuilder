@@ -31,7 +31,13 @@ class SourceViewPage extends AbstractPage {
 	public $filenames = array();
 	public $latestRevision = '';
 	public $packages = array();
-	public $source;
+	
+	/**
+	 * instance of Source
+	 * 
+	 * @var	Source
+	 */
+	public $source = null;
 
 	/**
 	 * @see	Page::readParameters()
@@ -39,7 +45,7 @@ class SourceViewPage extends AbstractPage {
 	public function readParameters() {
 		$sourceID = 0;
 		if (isset($_GET['sourceID'])) $sourceID = $_GET['sourceID'];
-
+		
 		$this->source = new Source($sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
 		if (!$this->source->hasAccess()) throw new PermissionDeniedException();
@@ -55,7 +61,7 @@ class SourceViewPage extends AbstractPage {
 			PB_DIR.'cache/cache.packages-'.$this->source->sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackages.class.php'
 		);
-
+		
 	 	try {
 	 		$packages = WCF::getCache()->get('packages-'.$this->source->sourceID, 'packages');
 	 	}
@@ -105,7 +111,7 @@ class SourceViewPage extends AbstractPage {
 		if ($currentFilename !== null) {
 			$this->currentFilename = $currentFilename;
 		}
-
+		
 		// read current builds
 		$files = DirectoryUtil::getInstance($this->source->buildDirectory, false)->getFiles();
 		foreach($files as $file) {
@@ -122,7 +128,7 @@ class SourceViewPage extends AbstractPage {
 				);
 			}
 		}
-
+		
 		asort($this->builds);
 	}
 
@@ -131,7 +137,7 @@ class SourceViewPage extends AbstractPage {
 	 */
 	public function assignVariables() {
 		parent::assignVariables();
-
+		
 		// assign package name
 		$this->generateArchiveName(array(
 			'pn',		// packageName.tar.gz
@@ -143,7 +149,7 @@ class SourceViewPage extends AbstractPage {
 			(($this->source->revision) ? 'pn_pr_t' : ''),	// packageName_packageRevision_time.tar.gz
 			(($this->source->revision) ? 'pn_pv_pr_t': '')	// packageName_packageVersion_packageRevision_time.tar.gz
 		));
-
+		
 		// assign variables to template
 		WCF::getTPL()->assign(array(
 			'allowSpidersToIndexThisPage' => false,
