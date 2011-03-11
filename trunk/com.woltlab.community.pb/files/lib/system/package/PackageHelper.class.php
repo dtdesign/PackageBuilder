@@ -75,7 +75,8 @@ class PackageHelper {
 
 		// break if no packages are available
 		if (empty(self::$packages)) {
-			$sql = "DELETE FROM pb".PB_N."_sources_packages WHERE sourceID = ".self::$source->sourceID;
+			$sql = "DELETE FROM	pb".PB_N."_source_package
+				WHERE		sourceID = ".self::$source->sourceID;
 			WCF::getDB()->sendQuery($sql);
 
 			// clear cache
@@ -110,21 +111,21 @@ class PackageHelper {
 
 		if (!empty($sql)) {
 			// build complete sql query
-			$sql = "INSERT INTO	pb".PB_N."_sources_packages
-						(sourceID, hash, packageName, version, directory)
-				VALUES		".$sql."
-				ON DUPLICATE KEY UPDATE version=VALUES(version)";
+			$sql = "INSERT INTO		pb".PB_N."_source_package
+							(sourceID, hash, packageName, version, directory)
+				VALUES			".$sql."
+				ON DUPLICATE KEY UPDATE	version = VALUES(version)";
 			// update data
 			WCF::getDB()->sendQuery($sql);
 
 			// remove removed packages
-			$sql = "DELETE FROM	pb".PB_N."_sources_packages
+			$sql = "DELETE FROM	pb".PB_N."_source_package
 				WHERE		hash NOT IN (".implode(',', $hashes).")
 				AND		sourceID = ".self::$source->sourceID;
 			WCF::getDB()->sendQuery($sql);
 
 			// remove data for each hash
-			$sql = "DELETE FROM	pb".PB_N."_referenced_packages
+			$sql = "DELETE FROM	pb".PB_N."_referenced_package
 				WHERE		hash IN (".implode(',', $hashes).")
 				AND		sourceID = ".self::$source->sourceID;
 			WCF::getDB()->sendQuery($sql);
@@ -145,7 +146,7 @@ class PackageHelper {
 		}
 
 		if (!empty($sql)) {
-			$sql = "INSERT INTO	pb".PB_N."_referenced_packages
+			$sql = "INSERT INTO	pb".PB_N."_referenced_package
 						(sourceID, hash, packageName, minVersion, file)
 				VALUES		".$sql;
 			WCF::getDB()->sendQuery($sql);
@@ -216,7 +217,7 @@ class PackageHelper {
 					$maxDimension--;
 
 					while (($file = readdir($dh)) !== false) {
-						if (is_dir($directory.$file) && !in_array($file, array('.', '..', '.svn'))) {
+						if (!in_array($file, array('.', '..', '.svn'))) {
 							self::readDirectories($directory.$file.'/', $maxDimension);
 						}
 					}
