@@ -109,7 +109,7 @@
 				{lang}pb.source.error.directories.noData{/lang}
 			{else}
 				<select name="packageName" id="packageName">
-	    				{htmloptions options=$directories}
+	    				{htmloptions options=$directories selected=$currentPackageName}
 				</select>
 			{/if}
 		</div>

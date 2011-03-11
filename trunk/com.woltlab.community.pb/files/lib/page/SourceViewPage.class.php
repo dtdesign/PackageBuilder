@@ -27,6 +27,7 @@ class SourceViewPage extends AbstractPage {
 	public $builds = array();
 	public $currentDirectory = '';
 	public $currentFilename = 'pn_pv';
+	public $currentPackageName = '';
 	public $directories = array();
 	public $filenames = array();
 	public $latestRevision = '';
@@ -88,26 +89,33 @@ class SourceViewPage extends AbstractPage {
   		if (WCF::getUser()->getPermission('admin.source.canEditSources')) {
   			$this->buildDirectory = StringUtil::replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->buildDirectory);
 		}
-
-		// set current sourceDirectory
-		$currentDirectory = WCF::getSession()->getVar('source'.$this->source->sourceID);
-
-		// set current filename
-		$currentFilename = WCF::getSession()->getVar('filename'.$this->source->sourceID);
-
-		if ($currentDirectory !== null) {
-			$this->currentDirectory = $currentDirectory;
+		
+		// get source configuration
+		$sourceData = WCF::getSession()->getVar('source'.$this->source->sourceID);
+		if ($sourceData !== null) {
+			$sourceData = unserialize($sourceData);
+			
+			$this->currentDirectory = $sourceData['directory'];
+			$this->currentPackageName = $sourceData['packageName'];
 		}
 		else {
-			$sql = "SELECT	directory
+			$sql = "SELECT	directory, packageName
 				FROM	pb".PB_N."_user_preferences
 				WHERE 	userID = ".WCF::getUser()->userID."
 					AND sourceID = ".$this->source->sourceID;
-			$result = WCF::getDB()->getFirstRow($sql);
-			$this->currentDirectory = $result['directory'];
-			WCF::getSession()->register('source'.$this->source->sourceID, $result['directory']);
+			$row = WCF::getDB()->getFirstRow($sql);
+			
+			$this->currentDirectory = $row['directory'];
+			$this->currentPackageName = $row['packageName'];
+			
+			WCF::getSession()->register('source'.$this->source->sourceID, serialize(array(
+				'directory' => $row['directory'],
+				'packageName' => $row['packageName']
+			)));
 		}
 		
+		// set current filename
+		$currentFilename = WCF::getSession()->getVar('filename'.$this->source->sourceID);
 		if ($currentFilename !== null) {
 			$this->currentFilename = $currentFilename;
 		}
@@ -157,6 +165,7 @@ class SourceViewPage extends AbstractPage {
 			'builds' => $this->builds,
 			'currentDirectory' => $this->currentDirectory,
 			'currentFilename' => $this->currentFilename,
+			'currentPackageName' => $this->currentPackageName,
 			'directories' => $this->directories,
 			'filenames' => $this->filenames,
 			'source' => $this->source

@@ -76,7 +76,7 @@ class SetBuildOptionsAction extends AbstractAction {
 						(sourceID, userID, packageName, directory)
 			VALUES			(".$this->sourceID.",
 						".WCF::getUser()->userID.",
-						'".escapeString($this->packageName)."'
+						'".escapeString($this->packageName)."',
 						'".escapeString($this->directory)."')
 			ON DUPLICATE KEY UPDATE	directory = VALUES(directory),
 						packageName = VALUES(packageName)";
