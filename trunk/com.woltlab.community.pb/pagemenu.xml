@@ -6,5 +6,11 @@
 			<link>index.php?page=Index</link>
 			<showorder>1</showorder>
 		</pagemenuitem>
+		
+		<pagemenuitem name="pb.header.menu.profiles">
+			<position>header</position>
+			<link>index.php?page=Profiles</link>
+			<showorder>2</showorder>
+		</pagemenuitem>
 	</import>
 </data>

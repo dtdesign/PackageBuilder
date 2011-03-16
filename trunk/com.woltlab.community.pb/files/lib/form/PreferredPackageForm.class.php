@@ -37,15 +37,17 @@ class PreferredPackageForm extends AbstractForm {
 	public $preSelection = array();
 	public $source = null;
 	public $sourceID = 0;
+	
+	public $profiles = array();
 
 	/**
 	 * @see	Form::readFormParameters()
 	 */
 	public function readFormParameters() {
 		parent::readFormParameters();
-
+		
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
-		if (isset($_POST['otherSources'])) $this->otherSources = (bool) $_POST['otherSources'];
+		if (isset($_POST['otherSources'])) $this->otherSources = true;
 		if (isset($_POST['sourceID'])) $this->sourceID = intval($_POST['sourceID']);
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
 		
@@ -67,6 +69,9 @@ class PreferredPackageForm extends AbstractForm {
 
   		// get all dependent packages
   		$this->packageDependencies = $this->getCache('package-dependency-'.$this->source->sourceID, 'PackageDependency');
+  		
+  		// get all available wcf setup resources
+  		$setupResources = $this->getCache('wcfsetup-resources', 'WcfSetupResource');
 
   		foreach($this->sources as $source) {
   			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $source->sourceDirectory);
@@ -136,7 +141,7 @@ class PreferredPackageForm extends AbstractForm {
 		$this->packages[$packageName]['hash'] = $packageHash;
 		if (isset($cachedPackage['source'])) {
 			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $cachedPackage['source']->sourceDirectory);
-			$directoryShown = $cachedPackage['source']->name.'::'.str_replace($directory, '', $cachedPackage['directory']);
+			$directoryShown = $cachedPackage['source']->name . ' :: ' . str_replace($directory, '', $cachedPackage['directory']);
 		}
 		else {
 			$directoryShown = $this->source->name.'::'.$cachedPackage['directory'];
@@ -145,6 +150,9 @@ class PreferredPackageForm extends AbstractForm {
 		$this->packages[$packageName]['directories'][$cachedPackage['directory']] = array('directoryShown' => $directoryShown, 'version' => $cachedPackage['version']);
 
 		$this->fetchDependencies($packageHash);
+		
+		// read profiles
+		$this->profiles = $this->getCache('build-profiles', 'BuildProfiles');
 	}
 	
 	/**
@@ -165,7 +173,7 @@ class PreferredPackageForm extends AbstractForm {
 			}
 		}
 	}
-
+	
 	/**
 	 * Reads a given cache
 	 *
@@ -182,7 +190,7 @@ class PreferredPackageForm extends AbstractForm {
 
 		return WCF::getCache()->get($cacheName);
 	}
-
+	
 	/**
 	 * gets the name and the hash of the requested package
 	 *
@@ -224,7 +232,7 @@ class PreferredPackageForm extends AbstractForm {
 		if ($this->otherSources) {
 			$sourceList = new SourceList();
 			$sourceList->checkHasAccess = true;
-			$sourceList->sqlConditions = 'source.sourceID <> '.$this->source->sourceID;
+			$sourceList->sqlConditions = 'source.sourceID != '.$this->source->sourceID;
 			$sourceList->readObjects();
 			$this->sources = $sourceList->getObjects();
 		}
@@ -241,6 +249,7 @@ class PreferredPackageForm extends AbstractForm {
 			'filename' => $this->filename,
 			'packages' => $this->packages,
 			'preSelection' => $this->preSelection,
+			'profiles' => $this->profiles,
 			'saveSelection' => $this->saveSelection,
 			'source' => $this->source
 		));

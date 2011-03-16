@@ -14,14 +14,16 @@ CREATE TABLE pb1_1_source (
 	INDEX position (position)
 ) ENGINE=MyISAM CHARACTER SET=utf8;
 
-CREATE TABLE pb1_1_source_packages (
+CREATE TABLE pb1_1_source_package (
 	sourceID INT(10) NOT NULL,
 	hash CHAR(40) NOT NULL,
 	packageName VARCHAR(255) NOT NULL,
 	version VARCHAR(50) NOT NULL,
 	directory MEDIUMTEXT NOT NULL,
-	INDEX (sourceID),
-	UNIQUE (hash)
+	packageType ENUM('standalone', 'plugin') NOT NULL DEFAULT 'plugin',
+	KEY sourceID (sourceID),
+	KEY packageType (packageType),
+	UNIQUE KEY hash (hash)
 ) ENGINE=MyISAM CHARACTER SET=utf8;
 
 CREATE TABLE pb1_1_referenced_package (
@@ -51,3 +53,16 @@ CREATE TABLE pb1_1_user_preference (
 	PRIMARY KEY (userID, sourceID),
 	KEY sourceID (sourceID)
 ) ENGINE=MyISAM CHARACTER SET=utf8;
+
+CREATE TABLE pb1_1_build_profile (
+	packages TEXT NOT NULL,
+	profileName VARCHAR(255) NOT NULL DEFAULT '',
+	resource TEXT NOT NULL,
+	UNIQUE KEY profileName (profileName)
+) ENGINE=MyISAM CHARACTER SET=utf8;
+
+CREATE TABLE pb1_1_setup_resource (
+	sourceID INT(10) NOT NULL DEFAULT 0,
+	directory TEXT NOT NULL,
+	UNIQUE KEY (sourceID, directory(255))
+)

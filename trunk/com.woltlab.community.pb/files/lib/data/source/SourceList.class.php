@@ -61,7 +61,7 @@ class SourceList extends DatabaseObjectList {
 		$result = WCF::getDB()->sendQuery($sql, $this->sqlLimit, $this->sqlOffset);
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			$source = new Source(null, $row);
-			if(!$this->hasAccessCheck || $source->hasAccess) $this->sources[] = $source;
+			if(!$this->hasAccessCheck || $source->hasAccess()) $this->sources[] = $source;
 		}
 	}
 	

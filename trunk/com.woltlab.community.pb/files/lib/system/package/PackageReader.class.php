@@ -58,9 +58,9 @@ class PackageReader {
 			if (!$readReferencedPackages) {
 				$this->skipPackages = true;
 			}
-
-			$this->file = $this->source->sourceDirectory.$this->file.'/package.xml';
-
+			
+			$this->file = FileUtil::getRealPath(FileUtil::addTrailingSlash($this->source->sourceDirectory.$this->file)).'package.xml';
+			
 			if (!file_exists($this->file) || !is_readable($this->file)) {
 				throw new SystemException('package.xml missing in '.str_replace('package.xml', '', $this->file).'.');
 			}
@@ -123,15 +123,31 @@ class PackageReader {
 	 */
 	private function readNode(SimpleXMLElement $node) {
 		$packageType = '';
-
+		
 		// read package version from xml
-		if (!array_key_exists('version', $this->package) && (StringUtil::toLowerCase($node->getName()) == 'packageinformation')) {
+		if (StringUtil::toLowerCase($node->getName()) == 'packageinformation') {
 			$children = $this->xml->getChildren($node);
-
+			
 			foreach ($children as $child) {
-				if (StringUtil::toLowerCase($child->getName()) == 'version') {
-					$this->package['version'] = $this->xml->getCDATA($child);
+				$name = StringUtil::toLowerCase($child->getName());
+				
+				switch ($name) {
+					case 'plugin':
+						$this->package['packageType'] = 'plugin';
+					break;
+					
+					case 'standalone':
+						$this->package['packageType'] = 'standalone';
+					break;
+					
+					case 'version':
+						$this->package['version'] = $this->xml->getCDATA($child);
+					break;
 				}
+			}
+			
+			if (!isset($this->package['packageType'])) {
+				$this->package['packageType'] = 'plugin';
 			}
 		}
 

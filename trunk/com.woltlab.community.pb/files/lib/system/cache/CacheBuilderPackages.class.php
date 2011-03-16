@@ -24,7 +24,7 @@ class CacheBuilderPackages implements CacheBuilder {
 		$data = array('packages' => array(), 'hashes' => array());
 		
 		// get associated packages
-		$sql = "SELECT		packageName, version,directory
+		$sql = "SELECT		packageName, version, directory, packageType
 			FROM		pb".PB_N."_source_package
 			WHERE		sourceID = ".intval($sourceID)."
 			ORDER BY	packageName ASC";

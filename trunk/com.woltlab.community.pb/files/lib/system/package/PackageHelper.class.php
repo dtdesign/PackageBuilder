@@ -13,7 +13,7 @@ require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
  * @subpackage	system
  * @category 	PackageBuilder
  */
-class PackageHelper {
+abstract class PackageHelper {
 	/**
 	 * Holds a list of already built packages with their location
 	 *
@@ -69,7 +69,12 @@ class PackageHelper {
 		if (!is_dir(self::$source->sourceDirectory)) {
 			throw new SystemException('Source directory for sourceID '.self::$source->sourceID.' is invalid.');
 		}
-
+		
+		// clear existing WCFSetup resources
+		$sql = "DELETE FROM	pb".PB_N."_setup_resource
+			WHERE		sourceID = ".self::$source->sourceID;
+		WCF::getDB()->sendQuery($sql);
+		
 		// read available packages
 		self::readDirectories(self::$source->sourceDirectory);
 
@@ -100,8 +105,9 @@ class PackageHelper {
 				'".$hash."',
 				'".escapeString($data['name'])."',
 				'".escapeString($data['version'])."',
-				'".escapeString($directory)."')";
-
+				'".escapeString($directory)."',
+				'".escapeString($data['packageType'])."')";
+			
 			// set all required or optional packages
 			$referencedPackages[$hash] = self::getReferencedPackages($data);
 
@@ -112,7 +118,7 @@ class PackageHelper {
 		if (!empty($sql)) {
 			// build complete sql query
 			$sql = "INSERT INTO		pb".PB_N."_source_package
-							(sourceID, hash, packageName, version, directory)
+							(sourceID, hash, packageName, version, directory, packageType)
 				VALUES			".$sql."
 				ON DUPLICATE KEY UPDATE	version = VALUES(version)";
 			// update data
@@ -160,6 +166,9 @@ class PackageHelper {
 
 		WCF::getCache()->clearResource('package-dependency-'.self::$source->sourceID);
 		WCF::getCache()->clear(PB_DIR.'cache/', 'cache.package-dependency-'.self::$source->sourceID.'.php');
+		
+		WCF::getCache()->clearResource('wcfsetup-resources');
+		WCF::getCache()->clear(PB_DIR . 'cache/', 'cache.wcfsetup-resources.php');
 	}
 
 	/**
@@ -202,7 +211,7 @@ class PackageHelper {
 	/**
 	 * Searching inside directory and sub directories for package.xml
 	 *
-	 * @param	integer	$maxDimension
+	 * @param	integer		$maxDimension
 	 */
 	protected static function readDirectories($directory, $maxDimension = 3) {
 		// scan current dir for package.xml
@@ -211,20 +220,70 @@ class PackageHelper {
 			$pr = new PackageReader(self::$source, $directory);
 			self::$packages[$directory] = $pr->getPackageData();
 		}
-		else if ($maxDimension) {
-			if (is_dir($directory)) {
-				if ($dh = opendir($directory)) {
-					$maxDimension--;
-
-					while (($file = readdir($dh)) !== false) {
-						if (!in_array($file, array('.', '..', '.svn'))) {
-							self::readDirectories($directory.$file.'/', $maxDimension);
+		else {
+			// look for WCFSetup resources
+			$pathinfo = pathinfo(FileUtil::getRealPath($directory));
+			$path = explode('/', $pathinfo['basename']);
+			
+			if (array_pop($path) == 'wcfsetup') {
+				self::addWcfResource($directory);
+			}
+			else if ($maxDimension) {
+				if (is_dir($directory)) {
+					if ($dh = opendir($directory)) {
+						$maxDimension--;
+	
+						while (($file = readdir($dh)) !== false) {
+							if (!in_array($file, array('.', '..', '.svn'))) {
+								self::readDirectories($directory.$file.'/', $maxDimension);
+							}
 						}
+	
+						closedir($dh);
 					}
-
-					closedir($dh);
 				}
 			}
+		}
+	}
+	
+	/**
+	 * Adds WCFSetup resources.
+	 * 
+	 * @param	string		$directory
+	 */
+	protected static function addWcfResource($directory) {
+		$directory = FileUtil::addTrailingSlash($directory);
+		$resources = array();
+		
+		// try to look for child directories, as we may have
+		// encountered a tag or branch
+		if (is_dir($directory . 'install') && is_dir($directory . 'setup')) {
+			$resources[] = $directory;
+		}
+		else {
+			$it = new DirectoryIterator($directory);
+			foreach ($it as $obj) {
+				if ($obj->isDot() || !$obj->isDir()) continue;
+				
+				$subDirectory = $directory . FileUtil::addTrailingSlash($obj->getFilename());
+				if (is_dir($subDirectory . 'install') && is_dir($subDirectory) . 'setup') {
+					$resources[] = $subDirectory;
+				}
+			}
+		}
+		
+		$insertSQL = '';
+		foreach ($resources as $resource) {
+			if (!empty($insertSQL)) $insertSQL .= ',';
+			$insertSQL .= "(".self::$source->sourceID.", '".escapeString($resource)."')";
+		}
+		
+		// insert resource location
+		if (!empty($insertSQL)) {
+			$sql = "INSERT INTO	pb".PB_N."_setup_resource
+						(sourceID, directory)
+				VALUES		".$insertSQL;
+			WCF::getDB()->sendQuery($sql);
 		}
 	}
 
@@ -322,6 +381,12 @@ class PackageHelper {
 			'package-dependency-'.$sourceID,
 			PB_DIR.'cache/cache.package-dependency-'.$sourceID.'.php',
 			PB_DIR.'lib/system/cache/CacheBuilderPackageDependency.class.php'
+		);
+		
+		WCF::getCache()->addResource(
+			'wcfsetup-resources',
+			PB_DIR.'cache/cache.wcfsetup-resources.php',
+			PB_DIR.'lib/system/cache/CacheBuilderWcfSetupResources.class.php'
 		);
 	}
 

@@ -202,7 +202,7 @@ class PackageBuilder {
 			$this->excludeFiles[] = self::LANGUAGE_DIR;
 			$files = DirectoryUtil::getInstance($directory.self::LANGUAGE_DIR.'/', false)->getFilesObj(SORT_DESC);
 			foreach ($files as $filename => $obj) {
-				if ($obj->isDir()) continue;
+				if ($filename == '.svn') continue;# $obj->isDir()) continue;
 
 				copy($directory.self::LANGUAGE_DIR.'/'.$filename, $directory.$filename);
 				// register them for removing

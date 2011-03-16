@@ -60,16 +60,30 @@ class BuildPackageAction extends AbstractAction {
 	 * @var	integer
 	 */
 	public $sourceID = 0;
+	
+	/**
+	 * Create a wcf setup afterwards using the given resource
+	 * 
+	 * @var	string
+	 */
+	public $wcfSetupResource = '';
 
 	/**
 	 * @see Action::readParameters()
 	 */
 	public function readParameters() {
 		parent::readParameters();
-
+		
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
 		if (isset($_POST['sourceID'])) $this->sourceID = intval($_POST['sourceID']);
+		
+		if (isset($_POST['wcfSetupResource'])) {
+			$this->wcfSetupResource = StringUtil::trim($_POST['wcfSetupResource']);
+			
+			// override package name if building WCFSetup
+			$this->filename = 'pn';
+		}
 		
 		$this->source = new Source($this->sourceID);
 		if (!$this->source->sourceID) throw new IllegalLinkException();
@@ -141,9 +155,16 @@ class BuildPackageAction extends AbstractAction {
 
 		// read package
 		$pr = new PackageReader($this->source->sourceID, $this->directory);
+		
 		try {
 			// build package
-			$pkg = new PackageBuilder($this->source, $pr, $this->directory, $this->filename);
+			$pb = new PackageBuilder($this->source, $pr, $this->directory, $this->filename);
+			
+			if ($this->wcfSetupResource) {
+				require_once(PB_DIR.'lib/system/package/StandalonePackageBuilder.class.php');
+				$spb = new StandalonePackageBuilder($this->source, $this->wcfSetupResource);
+				$spb->createWcfSetup($pb->getArchiveLocation());
+			}
 		}
 		// do cleanup
 		catch (SystemException $e) {

@@ -12,9 +12,9 @@ require_once(WCF_DIR.'lib/data/user/User.class.php');
  * @package	com.woltlab.community.pb
  * @subpackage	session
  * @category 	PackageBuilder
- * @deprecated  The function here are not needed, maybe it'll be deleted
  */
 class PBSession extends CookieSession {
+	protected $userSessionClassName = 'PBUserSession';
 	protected $styleID = 0;
 
 	/**
