@@ -8,18 +8,7 @@ var ProfileBuilder = Class.create({
 	 * Initializes the ProfileBuilder.
 	 */
 	initialize: function() {
-		this.createProfile = null;
 		this.packageCache = $H();
-		this.packageTypeSelect = null;
-		this.plugin = null;
-		this.pluginSelect = null;
-		this.profileBuilder = null;
-		this.profileBuilderContent = null;
-		this.saveProfileButton = null;
-		this.standalone = null;
-		this.standaloneSelect = null;
-		this.version = null;
-		this.versionSelect = null;
 		
 		// bind variables and events once DOM is fully loaded
 		document.observe('dom:loaded', this.init.bind(this));
@@ -29,6 +18,8 @@ var ProfileBuilder = Class.create({
 	 */
 	init: function() {
 		this.createProfile = $('createProfile');
+		this.loadProfiles = $('loadProfiles');
+		this.loadProfilesDiv = $('loadProfilesDiv');
 		this.packageTypeSelect = $('packageType');
 		this.plugin = $('plugin');
 		this.pluginSelect = $('pluginSelect');
@@ -54,6 +45,7 @@ var ProfileBuilder = Class.create({
 				this.pluginSelect.hide();
 			}
 			else {
+				this.loadProfilesDiv.hide();
 				this.standaloneSelect.hide();
 				this.pluginSelect.hide();
 			}
@@ -176,8 +168,13 @@ var ProfileBuilder = Class.create({
 		if (packageName == '') {
 			this.version.childElements().each(function(childElement) { childElement.remove(); });
 			this.versionSelect.hide();
+			this.loadProfilesDiv.hide();
+			
 			return;
 		}
+		
+		// display button
+		this.loadProfilesDiv.show();
 		
 		var cache = this.packageCache.get(packageName);
 		if (cache) {
