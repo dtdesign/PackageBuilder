@@ -37,8 +37,6 @@ class PreferredPackageForm extends AbstractForm {
 	public $preSelection = array();
 	public $source = null;
 	public $sourceID = 0;
-	
-	public $profiles = array();
 
 	/**
 	 * @see	Form::readFormParameters()
@@ -150,9 +148,6 @@ class PreferredPackageForm extends AbstractForm {
 		$this->packages[$packageName]['directories'][$cachedPackage['directory']] = array('directoryShown' => $directoryShown, 'version' => $cachedPackage['version']);
 
 		$this->fetchDependencies($packageHash);
-		
-		// read profiles
-		$this->profiles = $this->getCache('build-profiles', 'BuildProfiles');
 	}
 	
 	/**
@@ -249,7 +244,6 @@ class PreferredPackageForm extends AbstractForm {
 			'filename' => $this->filename,
 			'packages' => $this->packages,
 			'preSelection' => $this->preSelection,
-			'profiles' => $this->profiles,
 			'saveSelection' => $this->saveSelection,
 			'source' => $this->source
 		));

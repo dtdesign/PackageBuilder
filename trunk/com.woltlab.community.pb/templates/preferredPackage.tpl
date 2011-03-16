@@ -3,14 +3,6 @@
 	<title>{lang}pb.build.title{/lang} - {PAGE_TITLE}</title>
 
 	{include file='headInclude' sandbox=false}
-	
-	<script type="text/javascript" src="{@RELATIVE_PB_DIR}js/ProfileLoader.class.js"></script>
-	<script type="text/javascript">
-		//<![CDATA[
-		var profileLoader = new ProfileLoader();
-		var profiles = $H();
-		//]]>
-	</script>
 </head>
 <body>
 {include file='header' sandbox=false}
@@ -26,43 +18,6 @@
 {if $userMessages|isset}{@$userMessages}{/if}
 
 <form method="post" action="index.php?action=BuildPackage" class="yform columnar">
-	<fieldset id="profileContainer">
-		<legend>{lang}pb.build.profile{/lang}</legend>
-		
-		{if $profiles|count > 0}
-			<div class="type-select">
-				<label for="profiles">{lang}pb.build.profile.availableProfiles{/lang}</label>
-				<select id="profiles">
-					<option></option>
-					{foreach from=$profiles item=profile}
-						<option value="{$profile.profileName}">{$profile.profileName}</option>
-					{/foreach}
-				</select>
-			</div>
-			
-			<script type="text/javascript">
-				//<![CDATA[
-				{foreach from=$profiles item=profile}
-					profiles.set('{$profile.profileName}', $H({
-						packages: $H({
-							{implode from=$profile.packages key=packageHash item=directory}'{$packageHash}': '{$directory}'{/implode}
-						}),
-						resource: '{$profile.resource}'
-					}));
-				{/foreach}
-				//]]>
-			</script>
-		{/if}
-		
-		<div class="type-text">
-			<label for="profileName">{lang}pb.build.profile.profileName{/lang}</label>
-			<input type="text" id="profileName" value="" />
-		</div>
-		<div class="type-button">
-			<input type="button" id="saveProfile" value="{lang}pb.build.profile.saveProfile{/lang}" />
-		</div>
-	</fieldset>
-	
 	<fieldset>
 		<legend>
 			{lang}pb.build.packageSelection{/lang}
