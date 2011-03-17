@@ -56,6 +56,9 @@ CREATE TABLE pb1_1_user_preference (
 
 CREATE TABLE pb1_1_build_profile (
 	packages TEXT NOT NULL,
+	packageHash CHAR(40) NOT NULL DEFAULT '',
+	packageName VARCHAR(255) NOT NULL DEFAULT '',
+	profileHash CHAR(40) NOT NULL DEFAULT '',
 	profileName VARCHAR(255) NOT NULL DEFAULT '',
 	resource TEXT NOT NULL,
 	UNIQUE KEY profileName (profileName)

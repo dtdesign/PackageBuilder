@@ -131,8 +131,8 @@ class SourceViewPage extends AbstractPage {
 				$this->builds[] = array(
 					'link' => $link.$file,
 					'filename' => $file,
-					'name' => $data['name'],
-					'version' => $data['version']
+					'name' => (isset($data['name']) ? $data['name'] : ''),
+					'version' => (isset($data['version']) ? $data['version'] : '')
 				);
 			}
 		}

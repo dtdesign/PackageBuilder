@@ -19,12 +19,15 @@ class CacheBuilderBuildProfiles implements CacheBuilder {
 	public function getData($cacheResource) {
 		$data = array();
 		
-		$sql = "SELECT	*
+		$sql = "SELECT	packageName, profileName, profileHash
 			FROM	pb".PB_N."_build_profile";
 		$result = WCF::getDB()->sendQuery($sql);
 		while ($row = WCF::getDB()->fetchArray($result)) {
-			$row['packages'] = unserialize($row['packages']);
-			$data[] = $row;
+			if (!isset($data[$row['packageName']])) {
+				$data[$row['packageName']] = array();
+			}
+			
+			$data[$row['packageName']][] = $row;
 		}
 		
 		return $data;

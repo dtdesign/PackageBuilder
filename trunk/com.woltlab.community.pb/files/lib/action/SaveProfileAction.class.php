@@ -4,6 +4,8 @@ require_once(WCF_DIR.'lib/action/AbstractSecureAction.class.php');
 
 class SaveProfileAction extends AbstractSecureAction {
 	public $packages = array();
+	public $packageHash = '';
+	public $packageName = '';
 	public $profileName = '';
 	public $resource = '';
 	
@@ -19,6 +21,8 @@ class SaveProfileAction extends AbstractSecureAction {
 			
 			$this->packages = $packages;
 		}
+		if (isset($_POST['packageHash'])) $this->packageHash = StringUtil::trim($_POST['packageHash']);
+		if (isset($_POST['packageName'])) $this->packageName = StringUtil::trim($_POST['packageName']);
 		if (isset($_POST['profileName'])) {
 			$this->profileName = StringUtil::trim($_POST['profileName']);
 			if (empty($this->profileName)) $this->sendResponse('wcf.global.error.empty', true);
@@ -43,8 +47,11 @@ class SaveProfileAction extends AbstractSecureAction {
 		if ($row['count'] == 0) {
 			// create new profile
 			$sql = "INSERT INTO	pb".PB_N."_build_profile
-						(packages, profileName, resource)
+						(packages, packageHash, packageName, profileHash, profileName, resource)
 				VALUES		('".escapeString(serialize($this->packages))."',
+						'".escapeString($this->packageHash)."',
+						'".escapeString($this->packageName)."',
+						'".escapeString(StringUtil::getRandomID())."',
 						'".escapeString($this->profileName)."',
 						'".escapeString($this->resource)."')";
 			WCF::getDB()->sendQuery($sql);

@@ -128,13 +128,7 @@ class PackageBuilder {
 			$minVersion = (isset($package['minversion'])) ? $package['minversion'] : null;
 
 			// search within cached packages
-			try {
-				$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
-			}
-			catch(SystemException $e) {
-				// catch Exception to get a better one later
-				$location = null;
-			}
+			$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
 
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);

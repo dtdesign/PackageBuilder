@@ -33,6 +33,8 @@ class CacheBuilderPackages implements CacheBuilder {
 		// assign data ordered by package name
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			$hash = PackageHelper::getHash($sourceID, $row['packageName'], $row['directory']);
+			$row['sourceID'] = $sourceID;
+			
 			$data['packages'][$hash] = $row;
 			$data['hashes'][$row['packageName']][] = $hash;
 		}

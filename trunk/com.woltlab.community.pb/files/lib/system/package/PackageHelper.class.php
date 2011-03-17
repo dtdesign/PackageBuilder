@@ -27,6 +27,20 @@ abstract class PackageHelper {
 	 * @var	array
 	 */
 	public static $cachedPackages = array();
+	
+	/**
+	 * Stores source-wide package cache
+	 * 
+	 * @var	array
+	 */
+	public static $packageCache = null;
+	
+	/**
+	 * Stores package pre-selection used by build profiles
+	 * 
+	 * @var	array
+	 */
+	public static $packageSelection = array();
 
 	/**
 	 * User defined package resources
@@ -48,6 +62,13 @@ abstract class PackageHelper {
 	 * @var	object
 	 */
 	public static $source = null;
+	
+	/**
+	 * list of accessible sources
+	 * 
+	 * @var	array<Source>
+	 */
+	public static $sources = array();
 
 	/**
 	 * Stores temporary created files
@@ -322,14 +343,19 @@ abstract class PackageHelper {
 	public static function searchCachedPackage($sourceID, $name, $minVersion = null) {
 		$highestVersion = $minVersion;
 		$location = null;
-
+		
+		// try to find package within preselection
+		if (isset(self::$packageSelection[$name])) {
+			return self::resolveDirectory($sourceID, $name, self::$packageSelection[$name]);
+		}
+		
 		// read cache on first request
 		if (!isset(self::$cachedPackages[$sourceID])) self::getCachedPackages($sourceID);
-
+		
 		// user choosen directory resource overrides everything
   		$location = self::getPackageResource($name);
   		if ($location !== null) return $location;
-
+		
 		// search for package name
 		foreach (self::$cachedPackages[$sourceID] as $package) {
 			// break if package name does not match
@@ -458,6 +484,74 @@ abstract class PackageHelper {
 		if (!array_key_exists($packageName, self::$packageResources)) return null;
 
 		return self::$packageResources[$packageName]['directory'];
+	}
+	
+	/**
+	 * Registers a package selection used with build profiles.
+	 * 
+	 * @param	array	$packageSelection
+	 */
+	public static function registerPackageSelection(array $packageSelection) {
+		self::$packageSelection = $packageSelection;
+	}
+	
+	protected static function resolveDirectory($sourceID, $packageName, $hash) {
+		if (self::$packageCache === null) {
+			self::readPackageCache();
+		}
+		
+		if (!isset(self::$packageCache['hashes'][$packageName])) {
+			die('x');
+			throw new SystemException("Unable to find package data for package '".$packageName."', removed or insufficient permissions.");
+		}
+		
+		if (!in_array($hash, self::$packageCache['hashes'][$packageName])) {
+			die('y');
+			throw new SystemException("Package '".$packageName."' identified by '".$hash."' not found, removed or insufficient permissions.");
+		}
+		
+		return self::getRelativePath($sourceID, self::$packageCache['packages'][$hash]['sourceID'], self::$packageCache['packages'][$hash]['directory']);
+	}
+	
+	protected static function readPackageCache() {
+		self::$packageCache = array(
+			'hashes' => array(),
+			'packages' => array()
+		);
+		
+		// read accessible sources
+		require_once(PB_DIR.'lib/data/source/SourceList.class.php');
+		$sourceList = new SourceList();
+		$sourceList->sqlLimit = 0;
+		$sourceList->hasAccessCheck = true;
+		$sourceList->readObjects();
+		$sources = $sourceList->getObjects();
+		
+		foreach ($sources as $source) {
+			self::$sources[$source->sourceID] = $source;
+		}
+		
+		foreach (WCF::getUser()->getAccessibleSourceIDs() as $sourceID) {
+			$cacheName = 'packages-' . $sourceID;
+			WCF::getCache()->addResource(
+				$cacheName,
+				PB_DIR . 'cache/cache.' . $cacheName . '.php',
+				PB_DIR . 'lib/system/cache/CacheBuilderPackages.class.php'
+			);
+			
+			$cache = WCF::getCache()->get($cacheName);
+			
+			self::$packageCache['hashes'] = array_merge(self::$packageCache['hashes'], $cache['hashes']);
+			self::$packageCache['packages'] = array_merge(self::$packageCache['packages'], $cache['packages']);
+		}
+	}
+	
+	protected static function getRelativePath($baseSourceID, $targetSourceID, $path) {
+		$basePath = self::$sources[$baseSourceID]->sourceDirectory;
+		$targetPath = FileUtil::getRealPath(FileUtil::addTrailingSlash(self::$sources[$targetSourceID]->sourceDirectory) . $path);
+		$relativePath = FileUtil::getRelativePath($basePath, $targetPath);
+		
+		return FileUtil::getRealPath($relativePath);
 	}
 }
 ?>

@@ -18,13 +18,15 @@ var ProfileBuilder = Class.create({
 	 */
 	init: function() {
 		this.createProfile = $('createProfile');
-		this.loadProfiles = $('loadProfiles');
+		this.loadProfilesButton = $('loadProfiles');
 		this.loadProfilesDiv = $('loadProfilesDiv');
 		this.packageTypeSelect = $('packageType');
 		this.plugin = $('plugin');
 		this.pluginSelect = $('pluginSelect');
 		this.profileBuilder = $('profileBuilder');
 		this.profileBuilderContent = $('profileBuilderContent');
+		this.profileList = $('profileList');
+		this.profileListContent = $('profileListContent');
 		this.saveProfileButton = $('saveProfile');
 		this.standalone = $('standalone');
 		this.standaloneSelect = $('standaloneSelect');
@@ -67,6 +69,8 @@ var ProfileBuilder = Class.create({
 				$('createProfileDiv').show();
 			}
 		}.bind(this));
+		
+		this.loadProfilesButton.observe('click', this.loadProfiles.bind(this));
 	},
 	/**
 	 * Loads data for profile selection form.
@@ -127,14 +131,19 @@ var ProfileBuilder = Class.create({
 			}
 		}
 		
-		this.profileBuilder.show();
+		new Effect.Parallel([
+			new Effect.Appear('profileBuilder', { sync: true }),
+			new Effect.BlindDown('profileBuilder', { sync: true })
+		]);
 	},
 	/**
 	 * Saves or updates a profile.
 	 */
 	saveProfile: function() {
+		var packageName = this.getPackageName();
 		var profileName = $('profileName').getValue().strip();
 		var resource = $('resource').getValue().strip();
+		var packageHash = this.version.getValue().strip();
 		
 		if (profileName == '') {
 			alert('profileName is empty!');
@@ -149,7 +158,13 @@ var ProfileBuilder = Class.create({
 		
 		new Ajax.Request('index.php?action=SaveProfile&t=' + SECURITY_TOKEN + SID_ARG_2ND, {
 			method: 'post',
-			parameters: { packages: packages.toJSON(), profileName: profileName, resource: resource },
+			parameters: {
+				packages: packages.toJSON(),
+				packageHash: packageHash,
+				packageName: packageName,
+				profileName: profileName,
+				resource: resource
+			},
 			onSuccess: function(transport) {
 				alert(transport.responseText);
 				
@@ -228,5 +243,57 @@ var ProfileBuilder = Class.create({
 	 */
 	loading: function(selectField) {
 		$(selectField.identify() + 'Loading').toggle();
+	},
+	loadProfiles: function() {
+		var packageName = this.getPackageName();
+		
+		if (packageName == '') {
+			alert('packageName is empty');
+			return; 
+		}
+		
+		new Ajax.Request('index.php?action=LoadProfiles&t=' + SECURITY_TOKEN + SID_ARG_2ND, {
+			method: 'post',
+			parameters: { packageName: packageName },
+			onSuccess: function(transport) {
+				var profiles = transport.responseText.evalJSON(true);
+				this.showProfileList(profiles);
+			}.bind(this),
+			onFailure: function(transport) {
+				alert(transport.responseText);
+			}
+		});
+	},
+	showProfileList: function(profiles) {
+		for (var i = 0, size = profiles.length; i < size; i++) {
+			var profile = profiles[i];
+			
+			var div = new Element('div').addClassName('type-check');
+			var input = new Element('input', {
+				type: 'radio',
+				name: 'profile',
+				value: profile.profileHash,
+				id: profile.profileHash 
+			}).addClassName('profileSelection');
+			var label = new Element('label', { 'for': profile.profileHash }).update(profile.profileName);
+			
+			this.profileListContent.insert(div);
+			div.insert(input).insert(label);
+			
+			input.observe('click', function() { $('buildProfile').disabled = ''; }.bind(this));
+		}
+		
+		new Effect.Parallel([
+			new Effect.Appear('profileList', { sync: true }),
+			new Effect.BlindDown('profileList', { sync: true })
+		]);
+	},
+	getPackageName: function() {
+		if (this.pluginSelect.visible()) {
+			return this.plugin.getValue().strip();
+		}
+		else {
+			return this.standalone.getValue().strip();
+		}
 	}
 });

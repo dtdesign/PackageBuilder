@@ -71,6 +71,20 @@
 		</div>
 	</fieldset>
 	
+	<form method="post" action="index.php?action=BuildProfile">
+		<fieldset style="display: none;" id="profileList">
+			<legend>{lang}pb.profile.list.title{/lang}</legend>
+			
+			<div id="profileListContent"></div>
+			
+			<div class="type-button">
+				<input type="submit" id="buildProfile" value="{lang}pb.profile.buildProfile{/lang}" disabled="disabled" />
+				{@SID_INPUT_TAG}
+				{@SECURITY_TOKEN_INPUT_TAG}
+			</div>
+		</fieldset>
+	</form>
+	
 	<fieldset style="display: none;" id="profileBuilder">
 		<legend>{lang}pb.profile.builder.title{/lang}</legend>
 		

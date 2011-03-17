@@ -1,7 +1,4 @@
 <?php
-// pb imports
-require_once(PB_DIR.'lib/system/package/StandalonePackageHelper.class.php');
-
 // wcf imports
 require_once(WCF_DIR.'lib/system/io/TarWriter.class.php');
 require_once(WCF_DIR.'lib/system/io/ZipWriter.class.php');
@@ -72,6 +69,7 @@ class StandalonePackageBuilder {
 		// populate install directory
 		$this->cloneDirectory($buildDirectory, 'install/files');
 		$this->cloneDirectory($buildDirectory, 'install/lang');
+		$this->cloneDirectory($buildDirectory, 'install/packages');
 		
 		// populate setup directory
 		$this->cloneDirectory($buildDirectory, 'setup/db');
@@ -90,9 +88,14 @@ class StandalonePackageBuilder {
 		
 		// create wcf setup
 		$wcfSetup = new TarWriter($outputDirectory . 'WCFSetup.tar.gz', true); 
-		$wcfSetup->add(array($buildDirectory . 'install', $buildDirectory . 'install'), '', $buildDirectory);
+		$wcfSetup->add(array($buildDirectory . 'install', $buildDirectory . 'setup'), '', $buildDirectory);
 		$wcfSetup->create();
 		
+		// remove temoprarily directory
+		$this->deleteDirectory($buildDirectory);
+		@rmdir($buildDirectory);
+		
+		// set path
 		$this->path = $outputDirectory . 'WCFSetup.tar.gz';
 	}
 	
@@ -103,6 +106,8 @@ class StandalonePackageBuilder {
 	 * @param	string		$path
 	 */
 	protected function cloneDirectory($buildDirectory, $path) {
+		$path = FileUtil::addTrailingSlash($path);
+		
 		// ensure source directory exists
 		if (!is_dir($this->resourceDirectory . $path)) {
 			throw new SystemException("Required path '".$path."' within resource directory is not available.");
@@ -117,8 +122,16 @@ class StandalonePackageBuilder {
 		$it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($this->resourceDirectory . $path));
 		while ($it->valid()) {
 			if (!$it->isDot()) {
-				if (!is_dir($buildDirectory . $path . $it->getSubPath())) {
-					FileUtil::makePath($buildDirectory . $path . $it->getSubPath());
+				// ignore .svn directories
+				$tmp = explode('/', FileUtil::unifyDirSeperator($it->getSubPath()));
+				if (in_array('.svn', $tmp)) {
+					$it->next();
+					continue;
+				}
+				
+				$subPath = FileUtil::addTrailingSlash($it->getSubPath());
+				if (!is_dir($buildDirectory . $path . $subPath)) {
+					FileUtil::makePath($buildDirectory . $path . $subPath);
 				}
 				
 				copy ($it->key(), $buildDirectory . $path . $it->getSubPathName());
@@ -136,5 +149,31 @@ class StandalonePackageBuilder {
 	public function getArchiveLocation() {
 		return $this->path;
 	}
+	
+	/**
+	 * Recursively deletes a directory.
+	 * 
+	 * @param	string		$directory
+	 */
+	protected function deleteDirectory($directory) {
+		if ($dir = opendir($directory)) {
+			while (($file = readdir($dir)) !== false) {
+				if ($file == '.' || $file == '..') continue;
+				
+				$file = FileUtil::addTrailingSlash($directory) . $file;
+				
+				if (is_dir($file)) {
+					$this->deleteDirectory($file);
+					
+					rmdir($file);
+				}
+				else {
+					unlink($file);
+				}
+			}
+			
+			closedir($dir);
+		}
+}
 }
 ?>
