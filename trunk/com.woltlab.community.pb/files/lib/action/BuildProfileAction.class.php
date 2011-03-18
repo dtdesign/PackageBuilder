@@ -39,6 +39,13 @@ class BuildProfileAction extends AbstractSecureAction {
 	public $profile = '';
 	
 	/**
+	 * Current build profile name
+	 * 
+	 * @var	string
+	 */
+	public $profileName = '';
+	
+	/**
 	 * WCFSetup resource
 	 * 
 	 * @var	string
@@ -54,7 +61,7 @@ class BuildProfileAction extends AbstractSecureAction {
 		if (isset($_POST['profile'])) $this->profile = StringUtil::trim($_POST['profile']);
 		
 		// read build profile
-		$sql = "SELECT	packages, packageHash, packageName, resource
+		$sql = "SELECT	packages, packageHash, packageName, resource, profileName
 			FROM	pb".PB_N."_build_profile
 			WHERE	profileHash = '".escapeString($this->profile)."'";
 		$row = WCF::getDB()->getFirstRow($sql);
@@ -67,6 +74,7 @@ class BuildProfileAction extends AbstractSecureAction {
 		$this->packages = unserialize($row['packages']);
 		$this->packageHash = $row['packageHash'];
 		$this->packageName = $row['packageName'];
+		$this->profileName = $row['profileName'];
 		$this->resource = $row['resource'];
 	}
 	
@@ -98,7 +106,7 @@ class BuildProfileAction extends AbstractSecureAction {
 			$pb = new PackageBuilder($source, $pr, $row['directory'], 'pn');
 			
 			// build wcf setup
-			$spb = new StandalonePackageBuilder($source, $this->resource);
+			$spb = new StandalonePackageBuilder($source, $this->resource, $this->profileName);
 			$spb->createWcfSetup(array($pb->getArchiveLocation()));
 		}
 		// do cleanup

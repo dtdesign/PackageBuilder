@@ -29,54 +29,63 @@
 {if $userMessages|isset}{@$userMessages}{/if}
 
 {if $builds|count > 0}
-<div class="yform">
-	<fieldset>
-		<legend>
-			{lang}pb.build.existingArchives{/lang}
-		</legend>
-
-		<div id="existingArchivesScroll">
-			<table class="full">
-				<thead>
-					<tr>
-						<th>
-							{lang}pb.build.filename{/lang}
-						</th>
-						<th>
-							{lang}pb.build.packageName{/lang}
-						</th>
-						<th>
-							{lang}pb.build.packageVersion{/lang}
-						</th>
-						<th>
-							{lang}pb.global.action{/lang}
-						</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{foreach from=$builds item=build}
-					<tr class="deletable">
-						{assign var=filenameEncoded value=$build.filename|urlencode}
-						<td>
-							<a href="index.php?page=DownloadPackage&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}">{$build.filename}</a>
-						</td>
-						<td>
-							{$build.name}
-						</td>
-						<td>
-							{$build.version}
-						</td>
-						<td class="sourceGo">
-							<a href="index.php?action=DeleteArchive&amp;sourceID={$source->sourceID}&amp;filename={$filenameEncoded}{@SID_ARG_2ND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang itemName=$build.name}pb.global.action.delete.sure{/lang}" title="{lang itemName=$build.name}pb.global.action.delete.sure{/lang}" longdesc="{lang itemName=$build.name}pb.global.action.delete.sure{/lang}" /></a>
-						</td>
-					</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		</div>
-	</fieldset>
-</div>
+	<div class="yform">
+		<fieldset>
+			<legend>
+				{lang}pb.build.existingArchives{/lang}
+			</legend>
+	
+			<div id="existingArchivesScroll">
+				<table class="full">
+					<thead>
+						<tr>
+							<th>
+								{lang}pb.build.filename{/lang}
+							</th>
+							<th>
+								{lang}pb.build.packageName{/lang}
+							</th>
+							<th>
+								{lang}pb.build.packageVersion{/lang}
+							</th>
+							<th>
+								{lang}pb.build.fileDate{/lang}
+							</th>
+							<th>
+								{lang}pb.global.action{/lang}
+							</th>
+						</tr>
+					</thead>
+	
+					<tbody>
+						{foreach from=$builds item=build}
+						<tr class="deletable">
+							<td>
+								<a href="index.php?action=DownloadFile&amp;fileID={@$build->fileID}&amp;t={@SECURITY_TOKEN}{@SID_ARG_2ND}">{$build->filename}</a>
+							</td>
+							<td>
+								{if $build->fileType == 'wcfsetup'}
+									{$build->profileName}
+								{else}
+									{$build->packageName}
+								{/if}
+							</td>
+							<td>
+								{$build->fileVersion}
+							</td>
+							<td>
+								{@$build->fileDate|shorttime}
+							</td>
+							<td class="sourceGo">
+								<a href="index.php?action=DeleteFile&amp;sourceID={$source->sourceID}&amp;fileID={@$build->fileID}&amp;t={@SECURITY_TOKEN}{@SID_ARG_2ND}" class="deleteButton"><img src="{@RELATIVE_WCF_DIR}icon/deleteS.png" alt="{lang itemName=$build->filename}pb.global.action.delete.sure{/lang}" title="{lang itemName=$build->filename}pb.global.action.delete.sure{/lang}" longdesc="{lang itemName=$build->filename}pb.global.action.delete.sure{/lang}" /></a>
+							</td>
+						</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		</fieldset>
+	</div>
 {/if}
 
 <form method="post" action="index.php?action=SetBuildOptions" class="yform columnar">

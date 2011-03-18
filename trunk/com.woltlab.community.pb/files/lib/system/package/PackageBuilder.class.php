@@ -90,7 +90,13 @@ class PackageBuilder {
 		$this->verifyPackages('optionalpackage', $directory);
 
 		// intialize archive
-		$this->location = $this->createArchive($directory, $this->filename, $removeAfter);
+		$location = $this->createArchive($directory, $this->filename, $removeAfter);
+		
+		// register file
+		require_once(PB_DIR.'lib/data/source/file/SourceFileEditor.class.php');
+		$sourceFile = SourceFileEditor::create($this->source->sourceID, $location, 'package');
+		
+		$this->location = $sourceFile->getPath();
 	}
 
 	/**

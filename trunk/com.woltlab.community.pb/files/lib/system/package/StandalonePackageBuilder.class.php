@@ -19,31 +19,40 @@ class StandalonePackageBuilder {
 	 * 
 	 * @var	string
 	 */
-	protected $path = '';
+	public $path = '';
+	
+	/**
+	 * build profile name
+	 * 
+	 * @var	string
+	 */
+	public $profileName = '';
 	
 	/**
 	 * resource directory containing complete data for a WCFSetup
 	 * 
 	 * @var	string
 	 */
-	protected $resourceDirectory = '';
+	public $resourceDirectory = '';
 	
 	/**
 	 * Source object
 	 * 
 	 * @var	Source
 	 */
-	protected $source = null;
+	public $source = null;
 	
 	/**
 	 * Initializes a new WCFSetup-build
 	 *
 	 * @param	Source	$source
 	 * @param	string	$resourceDirectory
+	 * @param	string	$profileName
 	 */
-	public function __construct(Source $source, $resourceDirectory) {
+	public function __construct(Source $source, $resourceDirectory, $profileName) {
 		$this->source = $source;
 		$this->resourceDirectory = FileUtil::addTrailingSlash($resourceDirectory);
+		$this->profileName = $profileName;
 	}
 	
 	/**
@@ -96,7 +105,11 @@ class StandalonePackageBuilder {
 		@rmdir($buildDirectory);
 		
 		// set path
-		$this->path = $outputDirectory . 'WCFSetup.tar.gz';
+		$path = $outputDirectory . 'WCFSetup.tar.gz';
+		require_once(PB_DIR.'lib/data/source/file/SourceFileEditor.class.php');
+		$sourceFile = SourceFileEditor::create($this->source->sourceID, $path, 'wcfsetup', $this->profileName);
+		
+		$this->path = $sourceFile->getPath();
 	}
 	
 	/**
@@ -140,7 +153,7 @@ class StandalonePackageBuilder {
 			$it->next();
 		}
 	}
-
+	
 	/**
 	 * Returns the archive location
 	 *
