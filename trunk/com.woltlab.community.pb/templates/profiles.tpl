@@ -32,8 +32,8 @@
 			<label for="packageType">{lang}pb.profile.package.packageType{/lang}</label>
 			<select id="packageType">
 				<option></option>
-				<option value="plugin">{lang}pb.profile.package.type.plugin{/lang}</option>
-				<option value="standalone">{lang}pb.profile.package.type.standalone{/lang}</option>
+				<option value="plugin">{lang}pb.profile.package.packageType.plugin{/lang}</option>
+				<option value="standalone">{lang}pb.profile.package.packageType.standalone{/lang}</option>
 			</select>
 		</div>
 		
