@@ -24,7 +24,7 @@ class CacheBuilderPackages implements CacheBuilder {
 		$data = array('packages' => array(), 'hashes' => array());
 		
 		// get associated packages
-		$sql = "SELECT		packageName, version,directory
+		$sql = "SELECT		packageName, version, directory, packageType
 			FROM		pb".PB_N."_source_package
 			WHERE		sourceID = ".intval($sourceID)."
 			ORDER BY	packageName ASC";
@@ -33,6 +33,8 @@ class CacheBuilderPackages implements CacheBuilder {
 		// assign data ordered by package name
 		while ($row = WCF::getDB()->fetchArray($result)) {
 			$hash = PackageHelper::getHash($sourceID, $row['packageName'], $row['directory']);
+			$row['sourceID'] = $sourceID;
+			
 			$data['packages'][$hash] = $row;
 			$data['hashes'][$row['packageName']][] = $hash;
 		}

@@ -90,7 +90,13 @@ class PackageBuilder {
 		$this->verifyPackages('optionalpackage', $directory);
 
 		// intialize archive
-		$this->location = $this->createArchive($directory, $this->filename, $removeAfter);
+		$location = $this->createArchive($directory, $this->filename, $removeAfter);
+		
+		// register file
+		require_once(PB_DIR.'lib/data/source/file/SourceFileEditor.class.php');
+		$sourceFile = SourceFileEditor::create($this->source->sourceID, $location, 'package');
+		
+		$this->location = $sourceFile->getPath();
 	}
 
 	/**
@@ -128,13 +134,7 @@ class PackageBuilder {
 			$minVersion = (isset($package['minversion'])) ? $package['minversion'] : null;
 
 			// search within cached packages
-			try {
-				$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
-			}
-			catch(SystemException $e) {
-				// catch Exception to get a better one later
-				$location = null;
-			}
+			$location = PackageHelper::searchCachedPackage($this->source->sourceID, $packageName, $minVersion);
 
 			if (!is_null($location)) {
 				$packageData = new PackageReader($this->source, $location);
@@ -202,7 +202,7 @@ class PackageBuilder {
 			$this->excludeFiles[] = self::LANGUAGE_DIR;
 			$files = DirectoryUtil::getInstance($directory.self::LANGUAGE_DIR.'/', false)->getFilesObj(SORT_DESC);
 			foreach ($files as $filename => $obj) {
-				if ($obj->isDir()) continue;
+				if ($filename == '.svn') continue;# $obj->isDir()) continue;
 
 				copy($directory.self::LANGUAGE_DIR.'/'.$filename, $directory.$filename);
 				// register them for removing

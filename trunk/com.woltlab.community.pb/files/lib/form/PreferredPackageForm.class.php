@@ -43,9 +43,9 @@ class PreferredPackageForm extends AbstractForm {
 	 */
 	public function readFormParameters() {
 		parent::readFormParameters();
-
+		
 		if (isset($_POST['filename'])) $this->filename = StringUtil::trim($_POST['filename']);
-		if (isset($_POST['otherSources'])) $this->otherSources = (bool) $_POST['otherSources'];
+		if (isset($_POST['otherSources'])) $this->otherSources = true;
 		if (isset($_POST['sourceID'])) $this->sourceID = intval($_POST['sourceID']);
 		if (isset($_POST['saveSelection'])) $this->saveSelection = true;
 		
@@ -67,6 +67,9 @@ class PreferredPackageForm extends AbstractForm {
 
   		// get all dependent packages
   		$this->packageDependencies = $this->getCache('package-dependency-'.$this->source->sourceID, 'PackageDependency');
+  		
+  		// get all available wcf setup resources
+  		$setupResources = $this->getCache('wcfsetup-resources', 'WcfSetupResource');
 
   		foreach($this->sources as $source) {
   			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $source->sourceDirectory);
@@ -136,7 +139,7 @@ class PreferredPackageForm extends AbstractForm {
 		$this->packages[$packageName]['hash'] = $packageHash;
 		if (isset($cachedPackage['source'])) {
 			$directory = FileUtil::getRelativePath($this->source->sourceDirectory, $cachedPackage['source']->sourceDirectory);
-			$directoryShown = $cachedPackage['source']->name.'::'.str_replace($directory, '', $cachedPackage['directory']);
+			$directoryShown = $cachedPackage['source']->name . ' :: ' . str_replace($directory, '', $cachedPackage['directory']);
 		}
 		else {
 			$directoryShown = $this->source->name.'::'.$cachedPackage['directory'];
@@ -165,7 +168,7 @@ class PreferredPackageForm extends AbstractForm {
 			}
 		}
 	}
-
+	
 	/**
 	 * Reads a given cache
 	 *
@@ -182,7 +185,7 @@ class PreferredPackageForm extends AbstractForm {
 
 		return WCF::getCache()->get($cacheName);
 	}
-
+	
 	/**
 	 * gets the name and the hash of the requested package
 	 *

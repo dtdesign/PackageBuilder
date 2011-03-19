@@ -1,7 +1,7 @@
 <?php
 // pb imports
+require_once(PB_DIR.'lib/data/source/file/SourceFileList.class.php');
 require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
-require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
@@ -32,6 +32,8 @@ class SourceViewPage extends AbstractPage {
 	public $filenames = array();
 	public $latestRevision = '';
 	public $packages = array();
+	
+	public $sourceFileList = null;
 	
 	/**
 	 * instance of Source
@@ -121,23 +123,10 @@ class SourceViewPage extends AbstractPage {
 		}
 		
 		// read current builds
-		$files = DirectoryUtil::getInstance($this->source->buildDirectory, false)->getFiles();
-		foreach($files as $file) {
-			if (strrpos($file, '.tar.gz') !== false) {
-				$package = new PackageReader($this->source->sourceID, $this->source->buildDirectory.$file, true);
-				$data = $package->getPackageData();
-				$link = StringUtil::replace(FileUtil::unifyDirSeperator(PB_DIR), '', $this->source->buildDirectory);
-
-				$this->builds[] = array(
-					'link' => $link.$file,
-					'filename' => $file,
-					'name' => $data['name'],
-					'version' => $data['version']
-				);
-			}
-		}
-		
-		asort($this->builds);
+		$this->sourceFileList = new SourceFileList();
+		$this->sourceFileList->sqlConditions = 'source_file.sourceID = '.$this->source->sourceID;
+		$this->sourceFileList->sqlLimit = 0;
+		$this->sourceFileList->readObjects();
 	}
 
 	/**
@@ -162,7 +151,7 @@ class SourceViewPage extends AbstractPage {
 		WCF::getTPL()->assign(array(
 			'allowSpidersToIndexThisPage' => false,
 			'buildDirectory' => $this->buildDirectory,
-			'builds' => $this->builds,
+			'builds' => $this->sourceFileList->getObjects(),
 			'currentDirectory' => $this->currentDirectory,
 			'currentFilename' => $this->currentFilename,
 			'currentPackageName' => $this->currentPackageName,

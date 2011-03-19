@@ -1,6 +1,7 @@
 <?php
 // pb imports
 require_once(PB_DIR.'lib/system/session/PBSession.class.php');
+require_once(PB_DIR.'lib/system/session/PBUserSession.class.php');
 
 // wcf imports
 require_once(WCF_DIR.'lib/system/session/CookieSessionFactory.class.php');
@@ -14,9 +15,10 @@ require_once(WCF_DIR.'lib/system/session/CookieSessionFactory.class.php');
  * @package	com.woltlab.community.pb
  * @subpackage	session
  * @category 	PackageBuilder
- * @deprecated  This is not needed anymore when PBSession is deprecated
  */
 class PBSessionFactory extends CookieSessionFactory {
+	protected $guestClassName = 'PBUserSession';
 	protected $sessionClassName = 'PBSession';
+	protected $userClassName = 'PBUserSession';
 }
 ?>

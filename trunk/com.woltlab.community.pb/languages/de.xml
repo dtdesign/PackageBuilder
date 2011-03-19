@@ -2,8 +2,10 @@
 <language languagecode="de" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
 	<!-- build related -->
 	<category name="pb.build">
+		<item name="pb.build.do"><![CDATA[Paket erzeugen]]></item>
 		<item name="pb.build.existingArchives"><![CDATA[Erzeugte Pakete]]></item>
 		<item name="pb.build.filename"><![CDATA[Archivname]]></item>
+		<item name="pb.build.fileDate"><![CDATA[Erzeugungsdatum]]></item>
 		<item name="pb.build.packageName"><![CDATA[Paketbezeichner]]></item>
 		<item name="pb.build.packageVersion"><![CDATA[Paketversion]]></item>
 		<item name="pb.build.option.title"><![CDATA[Einstellungen]]></item>
@@ -14,11 +16,12 @@
 		<item name="pb.build.option.directories"><![CDATA[Verfügbare Pakete]]></item>
 		<item name="pb.build.option.change"><![CDATA[Einstellungen übernehmen]]></item>
 		<item name="pb.build.option.otherSources"><![CDATA[Alle Quellen scannen]]></item>
-		<item name="pb.build.title"><![CDATA[Paket erzeugen]]></item>
 		<item name="pb.build.option.filename"><![CDATA[Archivname]]></item>
-		<item name="pb.build.do"><![CDATA[Paket erzeugen]]></item>
 		<item name="pb.build.packageSelection"><![CDATA[Abhängigkeiten auswählen]]></item>
 		<item name="pb.build.packageSelection.save"><![CDATA[Auswahl speichern]]></item>
+		<item name="pb.build.saveSelection"><![CDATA[Auswahl speichern]]></item>
+		<item name="pb.build.selectDirectories"><![CDATA[Bitte wählen Sie die gewünschten Versionen aus.]]></item>
+		<item name="pb.build.title"><![CDATA[Paket erzeugen]]></item>
 	</category>
 
 	<!-- global -->
@@ -34,12 +37,33 @@
 	<!-- header menu -->
 	<category name="pb.header">
 		<item name="pb.header.menu.index"><![CDATA[Paketquellen]]></item>
+		<uten name="pb.header.menu.profiles"><![CDATA[Build-Profile]]></uten>
 		<item name="pb.header.userMenu.acp"><![CDATA[Administration]]></item>
 		<item name="pb.header.userMenu.register"><![CDATA[Registrierung]]></item>
+	</category>
+	
+	<!-- build profiles -->
+	<category name="pb.profile">
+		<item name="pb.profile.buildProfile"><![CDATA[Profil erzeugen]]></item>
+		<item name="pb.profile.builder.profileName"><![CDATA[Profilname]]></item>
+		<item name="pb.profile.builder.saveProfile"><![CDATA[Profil speichern]]></item>
+		<item name="pb.profile.builder.title"><![CDATA[Profilkonfiguration]]></item>
+		<item name="pb.profile.builder.wcfSetupResource"><![CDATA[WCFSetup Quelle]]></item>
+		<item name="pb.profile.createProfile"><![CDATA[Neues Profil erstellen]]></item>
+		<item name="pb.profile.loadProfiles"><![CDATA[Profile laden]]></item>
+		<item name="pb.profile.list.title"><![CDATA[Verfügbare Profile]]></item>
+		<item name="pb.profile.package.packageName"><![CDATA[Paketbezeichner]]></item>
+		<item name="pb.profile.package.packageType"><![CDATA[Pakettyp]]></item>
+		<item name="pb.profile.package.packageType.plugin"><![CDATA[Plugin]]></item>
+		<item name="pb.profile.package.packageType.standalone"><![CDATA[Endanwendung]]></item>
+		<item name="pb.profile.package.title"><![CDATA[Paketauswahl]]></item>
+		<item name="pb.profile.package.version"><![CDATA[Paketversion]]></item>
 	</category>
 
 	<!-- source related -->
 	<category name="pb.source">
+		<item name="pb.source.build"><![CDATA[Paket erzeugen]]></item>
+		<item name="pb.source.checkoutRepository"><![CDATA[Abgleichen mit entferntem Repository]]></item>
 		<item name="pb.source.name"><![CDATA[Bezeichnung]]></item>
 		<item name="pb.source.sourceDirectory"><![CDATA[Lokales Repository]]></item>
 		<item name="pb.source.scm"><![CDATA[Versionsverwaltung]]></item>

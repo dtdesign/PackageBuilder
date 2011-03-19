@@ -37,9 +37,9 @@
 					<label for="{$packageData.hash}">{$packageName}</label>
 					<input type="hidden" name="packages[]" value="{$packageData.hash}-{$packageName}" />
 
-					<select name="{$packageData.hash}" id="{$packageData.hash}">
+					<select name="{$packageData.hash}" id="{$packageData.hash}" class="packageSelection">
 						{foreach from=$packageData.directories key=directory item=data}
-							<option value="{$directory}"{if $preSelection[$packageName] == $directory} selected="selected"{/if}>{$data.version} - {$data.directoryShown}</option>
+							<option value="{$directory}"{if $preSelection[$packageName]|isset && $preSelection[$packageName] == $directory} selected="selected"{/if}>{$data.version} - {$data.directoryShown}</option>
 						{/foreach}
 					</select>
 				</div>
