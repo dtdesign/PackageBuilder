@@ -2,11 +2,50 @@
 // wcf imports
 require_once(WCF_DIR.'lib/action/AbstractSecureAction.class.php');
 
+/**
+ * Creates a new build profile.
+ * 
+ * @author	Alexander Ebert
+ * @copyright	2009-2011 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	action
+ * @category 	PackageBuilder
+ */
 class SaveProfileAction extends AbstractSecureAction {
+	/**
+	 * list of associated packages
+	 * 
+	 * @var	array
+	 */
 	public $packages = array();
+	
+	/**
+	 * target package hash
+	 * 
+	 * @var	string
+	 */
 	public $packageHash = '';
+	
+	/**
+	 * target package name
+	 * 
+	 * @var	string
+	 */
 	public $packageName = '';
+	
+	/**
+	 * profile name
+	 * 
+	 * @var	string
+	 */
 	public $profileName = '';
+	
+	/**
+	 * WCFSetup resource
+	 * 
+	 * @var	string
+	 */
 	public $resource = '';
 	
 	/**
@@ -14,6 +53,10 @@ class SaveProfileAction extends AbstractSecureAction {
 	 */
 	public function readParameters() {
 		parent::readParameters();
+		
+		if (!WCF::getUser()->getPermission('user.source.profiles.canManageProfiles')) {
+			throw new PermissionDeniedException();
+		}
 		
 		if (isset($_POST['packages'])) {
 			$packages = JSON::decode($_POST['packages']);

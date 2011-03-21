@@ -5,11 +5,33 @@ require_once(WCF_DIR.'lib/page/AbstractPage.class.php');
 // pb imports
 require_once(PB_DIR.'lib/data/source/SourceList.class.php');
 
+/**
+ * Shows the build profile page.
+ * 
+ * @author	Alexander Ebert
+ * @copyright	2009-2011 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	page
+ * @category 	PackageBuilder
+ */
 class ProfilesPage extends AbstractPage {
 	// system
 	public $templateName = 'profiles';
+	public $neededPermissions = 'user.source.profiles.canUseProfiles';
 	
+	/**
+	 * list of accessible sources
+	 * 
+	 * @var	array<integer>
+	 */
 	public $accessibleSources = array();
+	
+	/**
+	 * available packages
+	 * 
+	 * @var	array<array>
+	 */
 	public $packages = array(
 		'plugin' => array(),
 		'standalone' => array()

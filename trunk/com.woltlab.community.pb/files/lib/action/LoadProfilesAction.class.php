@@ -33,6 +33,10 @@ class LoadProfilesAction extends AbstractSecureAction {
 	public function readParameters() {
 		parent::readParameters();
 		
+		if (!WCF::getUser()->getPermission('user.source.profiles.canUseProfiles')) {
+			throw new PermissionDeniedException();
+		}
+		
 		if (isset($_POST['packageHash'])) $this->packageHash = StringUtil::trim($_POST['packageHash']);
 		if (isset($_POST['packageName'])) $this->packageName = StringUtil::trim($_POST['packageName']);
 	}

@@ -9,6 +9,16 @@ require_once(PB_DIR.'lib/system/package/PackageHelper.class.php');
 require_once(PB_DIR.'lib/system/package/PackageReader.class.php');
 require_once(PB_DIR.'lib/system/package/StandalonePackageBuilder.class.php');
 
+/**
+ * Builds a package using a previously defined profile.
+ * 
+ * @author	Alexander Ebert
+ * @copyright	2009-2011 WoltLab Community
+ * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
+ * @package	com.woltlab.community.pb
+ * @subpackage	action
+ * @category 	PackageBuilder
+ */
 class BuildProfileAction extends AbstractSecureAction {
 	/**
 	 * list of packages
@@ -57,6 +67,10 @@ class BuildProfileAction extends AbstractSecureAction {
 	 */
 	public function readParameters() {
 		parent::readParameters();
+		
+		if (!WCF::getUser()->getPermission('user.source.profiles.canUseProfiles')) {
+			throw new PermissionDeniedException();
+		}
 		
 		if (isset($_POST['profile'])) $this->profile = StringUtil::trim($_POST['profile']);
 		

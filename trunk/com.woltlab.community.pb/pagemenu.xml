@@ -11,6 +11,7 @@
 			<position>header</position>
 			<link>index.php?page=Profiles</link>
 			<showorder>2</showorder>
+			<permissions>user.source.profiles.canUseProfiles</permissions>
 		</pagemenuitem>
 	</import>
 </data>

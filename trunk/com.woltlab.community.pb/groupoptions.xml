@@ -5,20 +5,24 @@
 			<category name="admin.source">
 				<parent>admin</parent>
 			</category>
-
+			
 			<category name="user.source">
 				<parent>user</parent>
 			</category>
-
-			<category name="user.source.general">
-				<parent>user.source</parent>
-			</category>
-
+			
 			<category name="user.source.dynamic">
 				<parent>user.source</parent>
 			</category>
+			
+			<category name="user.source.general">
+				<parent>user.source</parent>
+			</category>
+			
+			<category name="user.source.profiles">
+				<parent>user.source</parent>
+			</category>
 		</categories>
-
+		
 		<options>
 			<!-- admin.general -->
 			<option name="admin.general.canViewPBOffline">
@@ -59,14 +63,20 @@
 				<defaultvalue>0</defaultvalue>
 			</option>
 			<!-- /user.source.general -->
+			
+			<!-- user.source.profiles -->
+			<option name="user.source.profiles.canUseProfiles">
+				<categoryname>user.source.profiles</categoryname>
+				<optiontype>boolean</optiontype>
+				<defaultvalue>0</defaultvalue>
+			</option>
+			
+			<option name="user.source.profiles.canManageProfiles">
+				<categoryname>user.source.profiles</categoryname>
+				<optiontype>boolean</optiontype>
+				<defaultvalue>0</defaultvalue>
+			</option>
+			<!-- /user.source.profiles -->
 		</options>
 	</import>
-
-	<delete>
-		<optioncategory name="admin.pb" />
-		<option name="admin.pb.canViewPBOffline" />
-		<option name="admin.pb.canViewSources" />
-		<option name="admin.pb.canAddSources" />
-		<option name="admin.pb.canEditSources" />
-	</delete>
 </data>
