@@ -126,7 +126,7 @@ class Subversion implements SCM {
 	/**
 	 * Validates if the subversion path is correctly set
 	 */
-	private static function validateSubversionPath() {
+	protected static function validateSubversionPath() {
 		// check wether path is given
 		if (!defined('SUBVERSION_PATH') || SUBVERSION_PATH == '') {
 			throw new SubversionException('Subversion path not set.');
