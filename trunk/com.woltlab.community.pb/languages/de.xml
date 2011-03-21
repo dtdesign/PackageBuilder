@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <language languagecode="de" xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/language.xsd">
+	<!-- acp general -->
+	<category name="pb.acp">
+		<item name="pb.acp.jumpToPage"><![CDATA[Zum PackageBuilder]]></item>
+	</category>
+	
+	<!-- acp source management -->
+	<category name="pb.acp.source">
+		<item name="pb.acp.source.add"><![CDATA[Paketquelle hinzufügen]]></item>
+		<item name="pb.acp.source.buildDirectory"><![CDATA[Buildverzeichnis]]></item>
+		<item name="pb.acp.source.buildDirectory.description"><![CDATA[Geben Sie hier den Pfad zum Buildverzeichnis an, dieser wird zur Paketerzeugung verwendet. Sollte der Pfad noch nicht existieren, wird versucht diesen zu erzeugen.]]></item>
+		<item name="pb.acp.source.data"><![CDATA[Allgemein]]></item>
+		<item name="pb.acp.source.data.general"><![CDATA[Eigenschaften]]></item>
+		<item name="pb.acp.source.delete"><![CDATA[Paketquelle löschen]]></item>
+		<item name="pb.acp.source.delete.sure"><![CDATA[Möchten Sie die Paketquelle wirklich löschen?]]></item>
+		<item name="pb.acp.source.edit"><![CDATA[Paketquelle bearbeiten]]></item>
+		<item name="pb.acp.source.list"><![CDATA[Paketquellen]]></item>
+		<item name="pb.acp.source.listsources"><![CDATA[Paketquellen auflisten]]></item>
+		<item name="pb.acp.source.name"><![CDATA[Bezeichnung]]></item>
+		<item name="pb.acp.source.name.description"><![CDATA[Geben Sie hier die Bezeichnung der Paketquelle an.]]></item>
+		<item name="pb.acp.source.password"><![CDATA[Passwort]]></item>
+		<item name="pb.acp.source.password.description"><![CDATA[Geben Sie hier optional ein Passwort an.]]></item>
+		<item name="pb.acp.source.scm"><![CDATA[Versionsverwaltung]]></item>
+		<item name="pb.acp.source.scm.general"><![CDATA[Typ]]></item>
+		<item name="pb.acp.source.scm.git"><![CDATA[Git]]></item>
+		<item name="pb.acp.source.scm.none"><![CDATA[Keine]]></item>
+		<item name="pb.acp.source.scm.settings"><![CDATA[Einstellungen]]></item>
+		<item name="pb.acp.source.scm.subversion"><![CDATA[Subversion]]></item>
+		<item name="pb.acp.source.sourceDirectory"><![CDATA[Quellverzeichnis]]></item>
+		<item name="pb.acp.source.sourceDirectory.description"><![CDATA[Geben Sie hier den Pfad zum Quellverzeichnis an, dieser beinhaltet eine Arbeitskopie des gewählten Repositories. Sollte der Pfad noch nicht existieren, wird versucht diesen zu erzeugen.]]></item>
+		<item name="pb.acp.source.trustServerCert"><![CDATA[Serverzertifikat vertrauen]]></item>
+		<item name="pb.acp.source.trustServerCert.description"><![CDATA[Deaktiviert die Überprüfung des Serverzertifikates (nur SSL).]]></item>
+		<item name="pb.acp.source.url"><![CDATA[Repository-URL]]></item>
+		<item name="pb.acp.source.url.description"><![CDATA[Geben Sie hier die vollständige Adresse zum entfernten Repository an.]]></item>
+		<item name="pb.acp.source.username"><![CDATA[Benutzername]]></item>
+		<item name="pb.acp.source.username.description"><![CDATA[Geben Sie hier den Benutzernamen an.]]></item>
+	</category>
+	
 	<!-- build related -->
 	<category name="pb.build">
 		<item name="pb.build.do"><![CDATA[Paket erzeugen]]></item>
@@ -107,8 +144,26 @@
 
 	<!-- ACP group options -->
 	<category name="wcf.acp.group">
-		<item name="wcf.acp.group.option.user.source.dynamic"><![CDATA[Zugriffsrechte]]></item>
-		<item name="wcf.acp.group.option.user.source.dynamic.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.admin.general.canViewPBOffline"><![CDATA[Kann PackageBuilder im Offline-Modus sehen]]></item>
+		<item name="wcf.acp.group.option.admin.general.canViewPBOffline.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen den PackageBuilder auch im Offline-Modus verwenden.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canAddSources"><![CDATA[Kann Paketquellen hinzufügen]]></item>
+		<item name="wcf.acp.group.option.admin.source.canAddSources.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen Paketquellen hinzufügen.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canDeleteSources"><![CDATA[Kann Paketquellen löschen]]></item>
+		<item name="wcf.acp.group.option.admin.source.canDeleteSources.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen Paketquellen löschen.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canEditSources"><![CDATA[Kann Paketquellen bearbeiten]]></item>
+		<item name="wcf.acp.group.option.admin.source.canEditSources.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen Paketquellen bearbeiten.]]></item>
+		<item name="wcf.acp.group.option.admin.source.canViewSources"><![CDATA[Kann Paketquellen auflisten]]></item>
+		<item name="wcf.acp.group.option.admin.source.canViewSources.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Paketquellen auflisten.]]></item>
+		<item name="wcf.acp.group.option.category.admin.source"><![CDATA[Paketquellen]]></item>
+		<item name="wcf.acp.group.option.category.admin.source.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.category.user.source"><![CDATA[Paketquellen]]></item>
+		<item name="wcf.acp.group.option.category.user.source.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.category.user.source.general"><![CDATA[Allgemein]]></item>
+		<item name="wcf.acp.group.option.category.user.source.general.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.user.source.general.canViewSources"><![CDATA[Kann die Quellenübersicht benutzen]]></item>
+		<item name="wcf.acp.group.option.user.source.general.canViewSources.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.category.user.source.dynamic"><![CDATA[Zugriffsrechte]]></item>
+		<item name="wcf.acp.group.option.category.user.source.dynamic.description"><![CDATA[]]></item>
 		<item name="wcf.acp.group.option.user.source.dynamic.default"><![CDATA[Kann "#sourceName#" benutzen]]></item>
 		<item name="wcf.acp.group.option.user.source.dynamic.default.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Paketquelle "#sourceName#" benutzen.]]></item>
 	</category>
