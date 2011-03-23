@@ -72,7 +72,7 @@ class SetBuildOptionsAction extends AbstractAction {
 		)));
 		
 		// write to user preferences
-		$sql = "INSERT IGNORE INTO	pb".PB_N."_user_preferences
+		$sql = "INSERT IGNORE INTO	pb".PB_N."_user_preference
 						(sourceID, userID, packageName, directory)
 			VALUES			(".$this->sourceID.",
 						".WCF::getUser()->userID.",
