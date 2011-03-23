@@ -439,6 +439,16 @@ abstract class PackageHelper {
 		// clear cache
 		self::$temporaryFiles = array();
 	}
+	
+	/**
+	 * Returns true if given file is temporarily created and will be deleted afterwards.
+	 * 
+	 * @param	string		$filename
+	 * @return	boolean
+	 */
+	public static function isTemporaryFile($filename) {
+		return in_array($filename, self::$temporaryFiles);
+	}
 
 	/**
 	 * Build filenames on a given pattern

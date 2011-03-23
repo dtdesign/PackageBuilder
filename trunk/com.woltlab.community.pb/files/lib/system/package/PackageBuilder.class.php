@@ -81,7 +81,7 @@ class PackageBuilder {
 		$this->filename = PackageHelper::getArchiveName($filename, $data);
 
 		// mark package as built
-		$buildDirectory = $this->source->buildDirectory.'/';
+		$buildDirectory = FileUtil::addTrailingSlash($this->source->buildDirectory);
 		$location = $buildDirectory.$this->filename;
 		PackageHelper::addPackageData($this->package['name'], $location);
 
@@ -91,6 +91,12 @@ class PackageBuilder {
 
 		// intialize archive
 		$location = $this->createArchive($directory, $this->filename, $removeAfter);
+		
+		// do not move files created on-the-fly
+		if (PackageHelper::isTemporaryFile($location)) {
+			$this->location = $location;
+			return;
+		}
 		
 		// register file
 		require_once(PB_DIR.'lib/data/source/file/SourceFileEditor.class.php');
@@ -120,6 +126,10 @@ class PackageBuilder {
 			// look for previously built packages
 			$location = PackageHelper::searchPackage($packageName);
 			if (!is_null($location)) {
+				if (!file_exists($location)) {
+					die('fu file');
+				}
+				die($location . '<hr />' . $directory . $package['file']);
 				if (!@copy($location, $directory.$package['file'])) {
 					throw new SystemException('Unable to copy archive ('.$package['file'].'), check permissions for directory '.$directory);
 				}
@@ -168,13 +178,13 @@ class PackageBuilder {
 	public function createArchive($directory, $filename, $removeAfter) {
 		$buildDirectory = '';
 		$directories = array('acptemplates', 'files', 'pip', 'templates');
-		$directory = $this->source->sourceDirectory.$directory.'/';
+		$directory = FileUtil::addTrailingSlash($this->source->sourceDirectory.$directory);
 		$location = '';
 
 		// skip if no directory was given
 		if (!is_dir($directory)) throw new SystemException('Given directory "'.$directory.'" is not valid.');
 
-		$buildDirectory = $this->source->buildDirectory.'/';
+		$buildDirectory = FileUtil::addTrailingSlash($this->source->buildDirectory);
 		$location = $buildDirectory.$filename;
 		$package = new TarWriter($location, true);
 
