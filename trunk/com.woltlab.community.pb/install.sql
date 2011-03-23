@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS pb1_1_source;
 CREATE TABLE pb1_1_source (
 	sourceID INT(10) NOT NULL AUTO_INCREMENT,
 	name VARCHAR(80) NOT NULL DEFAULT '',
-	sourceDirectory TEXT NOT NULL DEFAULT '',
-	buildDirectory TEXT NOT NULL DEFAULT '',
+	sourceDirectory TEXT NOT NULL,
+	buildDirectory TEXT NOT NULL,
 	position SMALLINT(5) NOT NULL DEFAULT '0',
 	scm VARCHAR (255) NOT NULL DEFAULT 'none',
 	url TEXT NULL,
