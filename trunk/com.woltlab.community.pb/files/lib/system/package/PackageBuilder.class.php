@@ -126,10 +126,6 @@ class PackageBuilder {
 			// look for previously built packages
 			$location = PackageHelper::searchPackage($packageName);
 			if (!is_null($location)) {
-				if (!file_exists($location)) {
-					die('fu file');
-				}
-				die($location . '<hr />' . $directory . $package['file']);
 				if (!@copy($location, $directory.$package['file'])) {
 					throw new SystemException('Unable to copy archive ('.$package['file'].'), check permissions for directory '.$directory);
 				}
