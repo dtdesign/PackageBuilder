@@ -102,7 +102,7 @@ class SourceViewPage extends AbstractPage {
 		}
 		else {
 			$sql = "SELECT	directory, packageName
-				FROM	pb".PB_N."_user_preferences
+				FROM	pb".PB_N."_user_preference
 				WHERE 	userID = ".WCF::getUser()->userID."
 					AND sourceID = ".$this->source->sourceID;
 			$row = WCF::getDB()->getFirstRow($sql);
