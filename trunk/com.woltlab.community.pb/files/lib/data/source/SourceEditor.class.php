@@ -21,18 +21,19 @@ class SourceEditor extends Source {
 	/**
 	 * Creates a new source.
 	 *
-	 * @param 	string	$name			The name of the source
-	 * @param	string	$sourceDirectory	Source directory used for files
-	 * @param	string	$buildDirectory		Build directory contains all archives
-	 * @param	string	$scm			Defines used SCM, may be 'git', 'none' and 'subversion'
-	 * @param	string	$url			URL for accessing subversion
-	 * @param	string	$username		Username neccessary if subversion repository is protected
-	 * @param	string	$password		Password neccessary if subversion repository is protected
-	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
-	 * @param	integer	$position		Position used to order sources
+	 * @param 	string		$name			The name of the source
+	 * @param	string		$sourceDirectory	Source directory used for files
+	 * @param	string		$buildDirectory		Build directory contains all archives
+	 * @param	string		$scm			Defines used SCM, may be 'git', 'none' and 'subversion'
+	 * @param	string		$url			URL for accessing subversion
+	 * @param	string		$username		Username neccessary if subversion repository is protected
+	 * @param	string		$password		Password neccessary if subversion repository is protected
+	 * @param	boolean		$trustServerCert	Automaticly trust server certificate
+	 * @param	boolean		$enableCheckout		Enables checkout ability
+	 * @param	integer		$position		Position used to order sources
 	 * @return 	SourceEditor
 	 */
-	public static function create($name, $sourceDirectory, $buildDirectory, $scm, $url, $username, $password, $trustServerCert, $position) {
+	public static function create($name, $sourceDirectory, $buildDirectory, $scm, $url, $username, $password, $trustServerCert, $enableCheckout, $position) {
 		// handle dir seperators
 		$sourceDirectory = FileUtil::unifyDirSeperator($sourceDirectory);
 		$buildDirectory = FileUtil::unifyDirSeperator($buildDirectory);
@@ -48,7 +49,8 @@ class SourceEditor extends Source {
 			'url' => $url,
 			'username' => $username,
 			'password' => $password,
-			'trustServerCert' => $trustServerCert
+			'trustServerCert' => $trustServerCert,
+			'enableCheckout' => $enableCheckout
 		));
 
 		// get source
@@ -322,18 +324,19 @@ class SourceEditor extends Source {
 	/**
 	 * Updates the data of a source.
 	 *
-	 * @param 	string	$name			The name of the source
-	 * @param	string	$sourceDirectory	Source directory used for files
-	 * @param	string	$buildDirectory		Build directory contains all archives
-	 * @param	string	$scm			Defines used SCM, may be 'git', 'none' and 'subversion'
-	 * @param	string	$url			URL for accessing subversion
-	 * @param	string	$username		Username neccessary if subversion repository is protected
-	 * @param	string	$password		Password neccessary if subversion repository is protected
-	 * @param	string	$revision		Currently used revision
-	 * @param	boolean	$trustServerCert	Automaticly trust server certificate
-	 * @param	integer	$position		Position used to order sources
+	 * @param 	string		$name			The name of the source
+	 * @param	string		$sourceDirectory	Source directory used for files
+	 * @param	string		$buildDirectory		Build directory contains all archives
+	 * @param	string		$scm			Defines used SCM, may be 'git', 'none' and 'subversion'
+	 * @param	string		$url			URL for accessing subversion
+	 * @param	string		$username		Username neccessary if subversion repository is protected
+	 * @param	string		$password		Password neccessary if subversion repository is protected
+	 * @param	string		$revision		Currently used revision
+	 * @param	boolean		$trustServerCert	Automaticly trust server certificate
+	 * @param	boolean		$enableCheckout		Enables checkout ability
+	 * @param	integer		$position		Position used to order sources
 	 */
-	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $scm = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null, $position = null) {
+	public function update($name = null, $sourceDirectory = null, $buildDirectory = null, $scm = null, $url = null, $username = null, $password = null, $revision = null, $trustServerCert = null, $enableCheckout = null, $position = null) {
 		$fields = array();
 		if ($name !== null) $fields['name'] = $name;
 		if ($sourceDirectory !== null) $fields['sourceDirectory'] = $sourceDirectory;
@@ -344,6 +347,7 @@ class SourceEditor extends Source {
 		if ($password !== null) $fields['password'] = $password;
 		if ($revision !== null) $fields['revision'] = $revision;
 		if ($trustServerCert !== null) $fields['trustServerCert'] = intval($trustServerCert);
+		if ($enableCheckout !== null) $fields['enableCheckout'] = intval($enableCheckout);
 		if ($position !== null) $fields['position'] = intval($position);
 
 		$this->updateData($fields);

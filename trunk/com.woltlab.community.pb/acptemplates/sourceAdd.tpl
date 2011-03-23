@@ -132,10 +132,24 @@
 
 			<fieldset id="scmSettingsFieldset">
 				<legend>{lang}pb.acp.source.scm.settings{/lang}</legend>
-
+				
+				<div class="formElement" id="enableCheckoutDiv">
+					<div class="formField">
+						<label id="enableCheckout"><input type="checkbox" name="enableCheckout" value="1"{if $enableCheckout} checked="checked"{/if} /> {lang}pb.acp.source.enableCheckout{/lang}</label>
+					</div>
+					<div class="formFieldDesc hidden" id="enableCheckoutHelpMessage">
+						<p>{lang}pb.acp.source.enableCheckout.description{/lang}</p>
+					</div>
+				</div>
+				<script type="text/javascript">
+					//<![CDATA[
+					inlineHelp.register('enableCheckout');
+					//]]>
+				</script>
+				
 				<div class="formElement" id="trustServerCertDiv">
 					<div class="formField">
-						<label id="trustServerCert"><input type="checkbox" name="trustServerCert" value="1" {if $trustServerCert}checked="checked" {/if}/> {lang}pb.acp.source.trustServerCert{/lang}</label>
+						<label id="trustServerCert"><input type="checkbox" name="trustServerCert" value="1"{if $trustServerCert} checked="checked"{/if} /> {lang}pb.acp.source.trustServerCert{/lang}</label>
 					</div>
 					<div class="formFieldDesc hidden" id="trustServerCertHelpMessage">
 						<p>{lang}pb.acp.source.trustServerCert.description{/lang}</p>

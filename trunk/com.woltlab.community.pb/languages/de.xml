@@ -15,6 +15,8 @@
 		<item name="pb.acp.source.delete"><![CDATA[Paketquelle löschen]]></item>
 		<item name="pb.acp.source.delete.sure"><![CDATA[Möchten Sie die Paketquelle wirklich löschen?]]></item>
 		<item name="pb.acp.source.edit"><![CDATA[Paketquelle bearbeiten]]></item>
+		<item name="pb.acp.source.enableCheckout"><![CDATA[Erlaube Abgleich mit entferntem Repository]]></item>
+		<item name="pb.acp.source.enableCheckout.description"><![CDATA[Deaktivieren Sie diese Einstellung, wenn Sie keine Versionsverwaltung einsetzen oder die Quelle durch ein externes Programm aktualisieren möchten.]]></item>
 		<item name="pb.acp.source.list"><![CDATA[Paketquellen]]></item>
 		<item name="pb.acp.source.listsources"><![CDATA[Paketquellen auflisten]]></item>
 		<item name="pb.acp.source.name"><![CDATA[Bezeichnung]]></item>

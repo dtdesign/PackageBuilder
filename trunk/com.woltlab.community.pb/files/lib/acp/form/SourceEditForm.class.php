@@ -46,6 +46,7 @@ class SourceEditForm extends SourceAddForm {
 		$this->username = $this->source->username;
 		$this->password = $this->source->password;
 		$this->trustServerCert = $this->source->trustServerCert;
+		$this->enableCheckout = $this->source->enableCheckout;
 	}
 
 	/**
@@ -63,7 +64,8 @@ class SourceEditForm extends SourceAddForm {
   			$this->username,
   			$this->password,
   			null,
-  			$this->trustServerCert
+  			$this->trustServerCert,
+  			$this->enableCheckout
 		);
 
 		// call saved event

@@ -68,7 +68,7 @@ class CheckoutAction extends AbstractAction {
 		// call execute event
 		parent::execute();
 		
-		if ($this->checkoutRepository) {
+		if ($this->source->enableCheckout && $this->checkoutRepository) {
 			// load scm driver
 			$className = ucfirst(Source::validateSCM($this->source->scm));
 			

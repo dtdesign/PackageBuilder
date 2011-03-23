@@ -10,7 +10,7 @@ require_once(WCF_DIR.'lib/system/scm/SCMHelper.class.php');
  * A form to create new sources.
  *
  * @author	Tim Düsterhus, Alexander Ebert
- * @copyright	2009-2010 WoltLab Community
+ * @copyright	2009-2011 WoltLab Community
  * @license	GNU Lesser General Public License <http://opensource.org/licenses/lgpl-license.php>
  * @package	com.woltlab.community.pb
  * @subpackage	acp.form
@@ -34,6 +34,7 @@ class SourceAddForm extends ACPForm {
 	public $username = '';
 	public $password = '';
 	public $trustServerCert = 0;
+	public $enableCheckout = 1;
 
 	/**
 	 * @see Form::readFormParameters()
@@ -53,6 +54,7 @@ class SourceAddForm extends ACPForm {
 		if (isset($_POST['username'])) $this->username = StringUtil::trim($_POST['username']);
 		if (isset($_POST['password'])) $this->password = StringUtil::trim($_POST['password']);
 		if (isset($_POST['trustServerCert'])) $this->trustServerCert = intval($_POST['trustServerCert']);
+		if (isset($_POST['enableCheckout'])) $this->enableCheckout = intval($_POST['enableCheckout']);
 	}
 
 	/**
@@ -111,7 +113,7 @@ class SourceAddForm extends ACPForm {
 			case 'none':
 				// reset input if no SCM is active
 				$this->username = $this->password = '';
-				$this->trustServerCert = 0;
+				$this->trustServerCert = $this->enableCheckout = 0;
 			break;
 
 			default:
@@ -138,6 +140,7 @@ class SourceAddForm extends ACPForm {
 			'url' => $this->url,
 			'username' => $this->username,
 			'trustServerCert' => $this->trustServerCert,
+			'enableCheckout' => $this->enableCheckout,
 			'availableSCM' => $this->availableSCM
 		));
 	}
@@ -152,8 +155,8 @@ class SourceAddForm extends ACPForm {
 		if (empty($this->position)) $this->position = null;
 
 		// create source
-		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert, $this->position);
-
+		SourceEditor::create($this->name, $this->sourceDirectory, $this->buildDirectory, $this->scm, $this->url, $this->username, $this->password, $this->trustServerCert, $this->enableCheckout, $this->position);
+		
 		// call saved event
 		$this->saved();
 
@@ -162,6 +165,7 @@ class SourceAddForm extends ACPForm {
 		$this->buildDirectory = Source::getRandomDirectory('build');
 		$this->name = $this->scm = $this->url = $this->username = $this->password = '';
 		$this->trustServerCert = 0;
+		$this->enableCheckout = 1;
 		$this->scm = 'none';
 		WCF::getTPL()->assign('success', true);
 	}
