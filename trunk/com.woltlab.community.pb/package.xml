@@ -7,10 +7,10 @@
 		<packagedescription languagecode="de"><![CDATA[Automatische Paketerzeugung]]></packagedescription>
 		<packagedescription languagecode="de-informal"><![CDATA[Automatische Paketerzeugung]]></packagedescription>
 		<packagedescription languagecode="en"><![CDATA[Automatic package-building]]></packagedescription>
-		<version>2.0.0 Alpha 15</version> <!-- Codename Prometheus -->
+		<version>2.0.0 Beta 1</version> <!-- Codename Prometheus -->
 		<isunique>0</isunique>
 		<standalone>1</standalone>
-		<date>2010-05-13</date>
+		<date>2011-03-23</date>
 	</packageinformation>
 
 	<authorinformation>
