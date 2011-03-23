@@ -160,13 +160,19 @@
 		<item name="wcf.acp.group.option.category.admin.source.description"><![CDATA[]]></item>
 		<item name="wcf.acp.group.option.category.user.source"><![CDATA[Paketquellen]]></item>
 		<item name="wcf.acp.group.option.category.user.source.description"><![CDATA[]]></item>
-		<item name="wcf.acp.group.option.category.user.source.general"><![CDATA[Allgemein]]></item>
-		<item name="wcf.acp.group.option.category.user.source.general.description"><![CDATA[]]></item>
-		<item name="wcf.acp.group.option.user.source.general.canViewSources"><![CDATA[Kann die Quellenübersicht benutzen]]></item>
-		<item name="wcf.acp.group.option.user.source.general.canViewSources.description"><![CDATA[]]></item>
 		<item name="wcf.acp.group.option.category.user.source.dynamic"><![CDATA[Zugriffsrechte]]></item>
 		<item name="wcf.acp.group.option.category.user.source.dynamic.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.category.user.source.general"><![CDATA[Allgemein]]></item>
+		<item name="wcf.acp.group.option.category.user.source.general.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.category.user.source.profiles"><![CDATA[Build-Profile]]></item>
+		<item name="wcf.acp.group.option.category.user.source.profiles.description"><![CDATA[]]></item>
 		<item name="wcf.acp.group.option.user.source.dynamic.default"><![CDATA[Kann "#sourceName#" benutzen]]></item>
 		<item name="wcf.acp.group.option.user.source.dynamic.default.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen die Paketquelle "#sourceName#" benutzen.]]></item>
+		<item name="wcf.acp.group.option.user.source.general.canViewSources"><![CDATA[Kann die Quellenübersicht benutzen]]></item>
+		<item name="wcf.acp.group.option.user.source.general.canViewSources.description"><![CDATA[]]></item>
+		<item name="wcf.acp.group.option.user.source.profiles.canUseProfiles"><![CDATA[Kann Build-Profile benutzen]]></item>
+		<item name="wcf.acp.group.option.user.source.profiles.canUseProfiles.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen Build-Profile benutzen.]]></item>
+		<item name="wcf.acp.group.option.user.source.profiles.canManageProfiles"><![CDATA[Kann Build-Profile verwalten]]></item>
+		<item name="wcf.acp.group.option.user.source.profiles.canManageProfiles.description"><![CDATA[Mitglieder dieser Benutzergruppe dürfen Build-Profile verwalten.]]></item>
 	</category>
 </language>
