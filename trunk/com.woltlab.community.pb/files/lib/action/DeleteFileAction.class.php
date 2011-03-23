@@ -37,13 +37,13 @@ class DeleteFileAction extends AbstractSecureAction {
 		parent::readParameters();
 		
 		if (isset($_GET['fileID'])) $this->fileID = intval($_GET['fileID']);
-		$this->sourceFile = new SourceFile($this->fileID);
+		$this->sourceFileEditor = new SourceFileEditor($this->fileID);
 		
-		if (!$this->sourceFile->fileID) {
+		if (!$this->sourceFileEditor->fileID) {
 			throw new IllegalLinkException();
 		}
 		
-		if (!$this->sourceFile->canDownload()) {
+		if (!$this->sourceFileEditor->canDownload()) {
 			throw new PermissionDeniedException();
 		} 
 	}
