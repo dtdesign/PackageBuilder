@@ -62,7 +62,10 @@ class PrepareBuilderAction extends AbstractSecureAction {
 	 */
 	protected function getResources() {
 		$cache = $this->getCache('wcfSetupResource', 'WcfSetupResource');
-		$resources = array();
+		$resources = array(array(
+			'label' => '',
+			'path' => ''
+		));
 		
 		$sourceList = new SourceList();
 		$sourceList->sqlConditions = "source.sourceID IN (".implode(',', WCF::getUser()->getAccessibleSourceIDs()).")";
