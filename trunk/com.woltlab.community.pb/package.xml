@@ -30,27 +30,27 @@
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.image.captcha</requiredpackage>
 		<requiredpackage minversion="1.0.1">com.woltlab.wcf.imageViewer</requiredpackage>
 		<requiredpackage minversion="1.1.1">com.woltlab.wcf.data.help</requiredpackage>
-
+		
 		<!-- page system -->
 		<requiredpackage minversion="1.1.1">com.woltlab.wcf.data.page.headerMenu</requiredpackage>
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.system.style</requiredpackage>
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.page</requiredpackage>
-
+		
 		<!-- message system -->
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.message</requiredpackage>
 		<requiredpackage minversion="1.1.0">com.woltlab.wcf.data.message.bbcode</requiredpackage>
 		<requiredpackage minversion="1.1.1">com.woltlab.wcf.form.message.wysiwyg</requiredpackage>
-
+		
 		<!-- user system -->
 		<requiredpackage minversion="1.1.1">com.woltlab.wcf.form.user</requiredpackage>
 		<requiredpackage minversion="1.1.1 pl 1">com.woltlab.wcf.page.user.profile</requiredpackage>
-
-		<!-- scm system -->
-		<requiredpackage minversion="1.0.0 Beta 1" file="requirements/com.woltlab.community.scm.tar.gz">com.woltlab.community.scm</requiredpackage>
-
+		
 		<!-- additional packages -->
 		<requiredpackage minversion="1.0.0 pl 1" file="requirements/com.woltlab.community.wcf.util.package.tar.gz">com.woltlab.community.wcf.util.package</requiredpackage>
 		<requiredpackage minversion="1.0.0 Beta 1" file="requirements/com.woltlab.community.util.directory.tar.gz">com.woltlab.community.util.directory</requiredpackage>
+		
+		<!-- scm system -->
+		<requiredpackage minversion="1.0.0 Beta 1" file="requirements/com.woltlab.community.scm.tar.gz">com.woltlab.community.scm</requiredpackage>
 	</requiredpackages>
 
 	<excludepackages>
