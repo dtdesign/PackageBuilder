@@ -7,7 +7,10 @@
 	<script type="text/javascript" src="{@RELATIVE_PB_DIR}js/ProfileBuilder.class.js"></script>
 	<script type="text/javascript">
 		//<![CDATA[
-		var profileBuilder = new ProfileBuilder();
+		var profileBuilder = new ProfileBuilder(languages);
+		var languages = $H({
+			'pb.profile.builder.wcfSetupResource': '{lang}pb.profile.builder.wcfSetupResource{/lang}'
+		});
 		//]]>
 	</script>
 </head>

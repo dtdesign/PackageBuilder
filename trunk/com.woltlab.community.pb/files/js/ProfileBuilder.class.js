@@ -96,7 +96,7 @@ var ProfileBuilder = Class.create({
 	buildSelection: function(data) {
 		// insert WCFSetup resources
 		var div = new Element('div').addClassName('type-select').setStyle({ marginBottom: '2em' });
-		var label = new Element('label', { 'for': 'resource' }).update('LANG_RESOURCE');
+		var label = new Element('label', { 'for': 'resource' }).update(languages.get('pb.profile.builder.wcfSetupResource'));
 		var select = new Element('select', { id: 'resource' });
 		
 		this.profileBuilderContent.insert(div);
@@ -166,6 +166,7 @@ var ProfileBuilder = Class.create({
 				resource: resource
 			},
 			onSuccess: function(transport) {
+				// TODO: Eval response
 				alert(transport.responseText);
 				
 				this.profileBuilderContent.childElements().each(function(childElement) { childElement.remove(); });
@@ -244,6 +245,9 @@ var ProfileBuilder = Class.create({
 	loading: function(selectField) {
 		$(selectField.identify() + 'Loading').toggle();
 	},
+	/**
+	 * Loads available profiles.
+	 */
 	loadProfiles: function() {
 		var packageName = this.getPackageName();
 		
@@ -257,14 +261,14 @@ var ProfileBuilder = Class.create({
 			parameters: { packageName: packageName },
 			onSuccess: function(transport) {
 				var profiles = transport.responseText.evalJSON(true);
-				this.showProfileList(profiles);
-			}.bind(this),
-			onFailure: function(transport) {
-				alert(transport.responseText);
-			}
+				this.renderProfileList(profiles);
+			}.bind(this)
 		});
 	},
-	showProfileList: function(profiles) {
+	/**
+	 * Renders profile list.
+	 */
+	renderProfileList: function(profiles) {
 		for (var i = 0, size = profiles.length; i < size; i++) {
 			var profile = profiles[i];
 			
@@ -278,7 +282,7 @@ var ProfileBuilder = Class.create({
 			var label = new Element('label', { 'for': profile.profileHash }).update(profile.profileName);
 			
 			this.profileListContent.insert(div);
-			div.insert(input).insert(label);
+			div.insert(input).insert(' ').insert(label);
 			
 			input.observe('click', function() { $('buildProfile').disabled = ''; }.bind(this));
 		}
@@ -288,6 +292,9 @@ var ProfileBuilder = Class.create({
 			new Effect.BlindDown('profileList', { sync: true })
 		]);
 	},
+	/**
+	 * Returns selected package name independent from package type.
+	 */
 	getPackageName: function() {
 		if (this.pluginSelect.visible()) {
 			return this.plugin.getValue().strip();
