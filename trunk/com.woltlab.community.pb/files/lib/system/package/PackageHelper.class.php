@@ -141,7 +141,8 @@ abstract class PackageHelper {
 			$sql = "INSERT INTO		pb".PB_N."_source_package
 							(sourceID, hash, packageName, version, directory, packageType)
 				VALUES			".$sql."
-				ON DUPLICATE KEY UPDATE	version = VALUES(version)";
+				ON DUPLICATE KEY UPDATE	version = VALUES(version),
+							packageType = VALUES(packageType)";
 			// update data
 			WCF::getDB()->sendQuery($sql);
 

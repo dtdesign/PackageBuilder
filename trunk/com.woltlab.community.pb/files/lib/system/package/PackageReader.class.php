@@ -137,7 +137,9 @@ class PackageReader {
 					break;
 					
 					case 'standalone':
-						$this->package['packageType'] = 'standalone';
+						if ($this->xml->getCDATA($child) == 1) {
+							$this->package['packageType'] = 'standalone';
+						}
 					break;
 					
 					case 'version':
