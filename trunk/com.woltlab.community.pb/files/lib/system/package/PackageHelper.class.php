@@ -237,9 +237,28 @@ abstract class PackageHelper {
 	protected static function readDirectories($directory, $maxDimension = 3) {
 		// scan current dir for package.xml
 		if (file_exists($directory.'package.xml')) {
-			$directory = str_replace(self::$source->sourceDirectory, '', $directory);
-			$pr = new PackageReader(self::$source, $directory);
-			self::$packages[$directory] = $pr->getPackageData();
+			$relativeDirectory = str_replace(self::$source->sourceDirectory, '', $directory);
+			$pr = new PackageReader(self::$source, $relativeDirectory);
+			$packageData = $pr->getPackageData();
+			
+			// remove optional or required packages shipped within the package
+			// source, preventing dependency issues if using build profiles
+			foreach ($packageData as $type => $data) {
+				if ($type == 'optionalpackage' || $type == 'requiredpackage') {
+					if (!is_array($data)) continue;
+					
+					foreach ($data as $packageName => $packageAttributes) {
+						if (empty($packageAttributes['file'])) continue;
+						
+						$path = $directory . $packageAttributes['file'];
+						if (file_exists($path)) {
+							unset($packageData[$type][$packageName]);
+						}
+					}
+				}
+			}
+			
+			self::$packages[$relativeDirectory] = $packageData;
 		}
 		else {
 			// look for WCFSetup resources
