@@ -4,6 +4,7 @@
 		<categories>
 			<category name="scm.subversion">
 				<parent>scm</parent>
+				<permissions>admin.system.scm.canEdit</permissions>
 			</category>
 		</categories>
 		<options>

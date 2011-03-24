@@ -2,9 +2,7 @@
 <data xmlns="http://www.woltlab.com" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.woltlab.com/XSD/options.xsd">
 	<import>
 		<categories>
-			<category name="scm">
-				<permissions>admin.system.scm.canEdit</permissions>
-			</category>
+			<category name="scm"></category>
 		</categories>
 	</import>
 </data>
