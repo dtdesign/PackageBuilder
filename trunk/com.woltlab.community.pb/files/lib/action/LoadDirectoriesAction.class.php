@@ -56,12 +56,49 @@ class LoadDirectoriesAction extends AbstractAction {
 			);
 		}
 		
+		usort($directories, array('self', 'compareVersion'));
+		$directories = array_reverse($directories);
+		
 		$json = JSON::encode($directories);
 		
 		// send JSON response
 		header('Content-type: application/json');
 		echo $json;
 		exit;
+	}
+	
+	/**
+	 * Sorts versions.
+	 * 
+	 * @param	array		$versionObj1
+	 * @param	array		$versionObj2
+	 * @return	integer
+	 */
+	public static function compareVersion($versionObj1, $versionObj2) {
+		$version1 = self::formatVersionForCompare($versionObj1['version']);
+		$version2 = self::formatVersionForCompare($versionObj2['version']);
+		
+		return version_compare($version1, $version2, '>');
+	}
+	
+	/**
+	 * Formats version case.
+	 * 
+	 * @param	string		$version
+	 * @return	string
+	 */
+	private static function formatVersionForCompare($version) {
+		// remove spaces
+		$version = str_replace(' ', '', $version);
+		
+		// correct special version strings
+		$version = str_ireplace('dev', 'dev', $version);
+		$version = str_ireplace('alpha', 'alpha', $version);
+		$version = str_ireplace('beta', 'beta', $version);
+		$version = str_ireplace('RC', 'RC', $version);
+		$version = str_ireplace('pl', 'pl', $version);
+		
+		return $version;
 	}
 }
 ?>
