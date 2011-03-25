@@ -120,8 +120,10 @@ class BuildProfileAction extends AbstractSecureAction {
 			$pb = new PackageBuilder($source, $pr, $row['directory'], 'pn');
 			
 			// build wcf setup
-			$spb = new StandalonePackageBuilder($source, $this->resource, $this->profileName);
-			$spb->createWcfSetup(array($pb->getArchiveLocation()));
+			if (!empty($this->resource)) {
+				$spb = new StandalonePackageBuilder($source, $this->resource, $this->profileName);
+				$spb->createWcfSetup(array($pb->getArchiveLocation()));
+			}
 		}
 		// do cleanup
 		catch (SystemException $e) {
